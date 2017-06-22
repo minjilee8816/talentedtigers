@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/TalentedTigers/Help-Reactor/issues"
   },
-  "homepage": "https://github.com/TalentedTigers/Help-Reactor#readme"
+  "homepage": "https://github.com/TalentedTigers/Help-Reactor#readme",
+  "dependencies": {
+    "webpack": "^3.0.0"
+  }
 }
