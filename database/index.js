@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const db = new Sequelize('helpReactor', 'student', 'student', {
+const db = new Sequelize('helpReactor', '', '', {
   host: 'localhost',
   dialect: 'postgres'
 });
