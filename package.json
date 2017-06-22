@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "react-dev": "webpack -d --watch",
-    "server-dev": "nodemon server/index.js"
+    "server-dev": "nodemon server/index.js",
+    "db-start": "pg_ctl -D db -l logfile start"
   },
   "repository": {
     "type": "git",
@@ -18,10 +19,10 @@
   },
   "homepage": "https://github.com/TalentedTigers/talentedtigers#readme",
   "dependencies": {
+    "create-react-class": "^15.6.0",
     "express": "^4.15.3",
     "jquery": "^3.2.1",
     "pg": "^6.4.0",
-    "pg-hstore": "^2.3.2",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "sequelize": "^4.2.0",
