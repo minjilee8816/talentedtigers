@@ -1,26 +1,17 @@
 const Sequelize = require('sequelize');
+const fakeData = require('./fakeData');
 const db = new Sequelize('helpReactor', '', '', {
   host: 'localhost',
   dialect: 'postgres'
 });
 
-db
-  .authenticate()
-  .then(() => {
-    console.log('Connection has been established successfully.');
-  })
-  .catch(err => {
-    console.error('Unable to connect to the database:', err);
-  });
-
 const Ticket = db.define('ticket', {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
-    autoIncrement: true
+    autoIncrement: true,
+    allowNull: false
   },
-  userId: Sequelize.INTEGER,
-  openedAt: Sequelize.DATE,
   claimedAt: Sequelize.DATE,
   closedAt: Sequelize.DATE,
   description: Sequelize.STRING,
@@ -33,29 +24,28 @@ const User = db.define('user', {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
-    autoIncrement: true
+    autoIncrement: true,
+    allowNull: false
   },
   firstName: Sequelize.STRING,
   lastName: Sequelize.STRING,
-  username: { type: Sequelize.STRING, notNull: true },
-  password: { type: Sequelize.STRING, notNull: true },
-  role: { type: Sequelize.ENUM('student', 'mentor', 'admin'), notNull: true }
+  username: { type: Sequelize.STRING, allowNull: false },
+  password: { type: Sequelize.STRING },
+  role: { type: Sequelize.ENUM('student', 'mentor', 'admin'), allowNull: false }
 });
 
-Ticket.belongsTo(User, {
-  foreignKey: 'id',
-  constraints: false
-});
+Ticket.belongsTo(User);
 
 User.hasMany(Ticket, {
   foreignKey: 'userId',
   constraints: false
 });
 
-Ticket.sync();
-User.sync();
+db.sync({ force: true });
 
-exports = {
+User.bulkCreate(fakeData.fakeUsers);
+
+module.exports = {
   Ticket: Ticket,
   User: User
 };
