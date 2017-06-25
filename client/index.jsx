@@ -9,7 +9,7 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      ticketList: [{name: 'Test'}, {name: 'Test2'}, {name: 'Test3'}],
+      ticketList: [],
       ticketOptionList: ['React', 'Socket.IO', 'Recursion', 'Postgres']
     };
   }
@@ -28,6 +28,7 @@ class App extends React.Component {
       data: ticket,
       success: (response) => {
         console.log(`Successfully sent ${ticket} to apt/tickets via POST`);
+        this.setState({ ticketList: response });
       },
       error: () => {
         console.log('Error submitting ticket to api/tickets via POST');
