@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import TicketList from './components/ticketList.jsx';
 import TicketSubmission from './components/ticketSubmission.jsx';
+import Login from './components/login.jsx';
 // import Nav from './components/nav.jsx';
 
 class App extends React.Component {
@@ -10,7 +11,8 @@ class App extends React.Component {
     super();
     this.state = {
       ticketList: [],
-      ticketOptionList: ['React', 'Socket.IO', 'Recursion', 'Postgres']
+      ticketOptionList: ['React', 'Socket.IO', 'Recursion', 'Postgres'],
+      role: null
     };
   }
 
@@ -37,10 +39,20 @@ class App extends React.Component {
   }
 
   render() {
+    let render = null;
+    if (!this.state.role) {
+      render = <Login />;
+    } else if (this.state.role === 'student') {
+      render = <TicketSubmission handleTicketSubmission={this.handleTicketSubmission.bind(this)} ticketOptionList={this.state.ticketOptionList}/>;
+    } else if (this.state.role === 'mentor') {
+      // render HIR view
+    } else if (this.state.role === 'admin') {
+      // render admin view
+    }
     return (
       <div className="col-md-8">
         {/* <Nav />*/}
-        <TicketSubmission handleTicketSubmission={this.handleTicketSubmission.bind(this)} ticketOptionList={this.state.ticketOptionList}/>
+        {render}
         <TicketList ticketList={this.state.ticketList}/>
       </div>
     );
