@@ -72,6 +72,11 @@ app.get('/api/tickets/:id', (req, res) => {
     });
 });
 
+app.get('/api/logout', (req, res) => {
+  req.logout();
+  res.redirect('/');
+});
+
 app.post('/api/tickets', (req, res) => {
   db.Ticket.create(req.body)
     .then(result => {
