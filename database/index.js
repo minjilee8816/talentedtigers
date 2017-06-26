@@ -29,8 +29,7 @@ const User = db.define('user', {
   },
   firstName: Sequelize.STRING,
   lastName: Sequelize.STRING,
-  username: { type: Sequelize.STRING, allowNull: false },
-  password: { type: Sequelize.STRING },
+  username: { type: Sequelize.STRING, allowNull: false, unique: true },
   role: { type: Sequelize.ENUM('student', 'mentor', 'admin'), allowNull: false }
 });
 
@@ -44,10 +43,8 @@ User.hasMany(Ticket, {
 // db.sync({ force: true });
 // User.sync({ force: true });
 // Ticket.sync({ force: true });
-
-User.bulkCreate(fakeData.fakeUsers).then(result => {
-  console.log('created users: ', fakeData.fakeUsers);
-});
+//
+// User.bulkCreate(fakeData.fakeUsers);
 
 module.exports = {
   Ticket: Ticket,

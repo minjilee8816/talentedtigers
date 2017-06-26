@@ -4,33 +4,35 @@ const session = require('express-session');
 const passport = require('passport');
 const Strategy = require('passport-github').Strategy;
 const auth = require('./auth');
-const db = require ('../database/');
 const github = require('../config/github.js').GITHUB_API_KEY;
-
-passport.serializeUser((user, callback) => {
-  // console.log('serializeUser: ', user);
-  callback(null, user.username);
-});
-
-passport.deserializeUser((username, callback) => {
-  console.log('deserializeUser: ', username);
-  db.User.findAll({
-    where: { username: username }
-  }).then(result => {
-    console.log('deserializeUser result: ', result);
-    callback(null, result);
-  });
-});
+const db = require ('../database/');
 
 passport.use(new Strategy({
   clientID: github.clientID,
   clientSecret: github.clientSecret,
   callbackURL: 'http://127.0.0.1:3000/api/auth/github/callback'
 }, (accessToken, refreshToken, profile, callback) => {
-  // console.log('accessToken: ', accessToken);
-  // console.log('profile: ', profile);
-  return callback(null, profile);
+  db.User.find({
+    where: { username: profile.username }
+  }).then(user => {
+    if (!user) { return callback('Can\'t find user in database'); }
+    return callback(null, user.dataValues);
+  });
 }));
+
+passport.serializeUser((user, callback) => {
+  callback(null, user);
+});
+
+passport.deserializeUser((user, callback) => {
+  db.User.find({
+    where: { username: user.username }
+  }).then(user => {
+    if (!user) { return callback('failed'); }
+    callback(null, user.dataValues);
+  });
+});
+
 
 const app = express();
 
@@ -41,19 +43,14 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(__dirname + '/../client/'));
 
-// app.get('/', (req, res) => {
-//   console.log(github.clientID, github.clientSecrect);
-//   // res.locals.user = req.user;
-//   res.render()
-// });
-
-app.get('/api/login', (req, res) => {
-
+app.get('/api/users/:id', (req, res) => {
+  res.send(req.session.passport);
 });
 
 app.get('/api/auth/github', passport.authenticate('github', { scope: [ 'user:email' ] }));
 
 app.get('/api/auth/github/callback', passport.authenticate('github', { failureRedirect: '/api/login' }), (req, res) => {
+  console.log('/github/callback: ', req.session.passport);
   res.redirect('/');
 });
 

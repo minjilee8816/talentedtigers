@@ -16,14 +16,15 @@ class App extends React.Component {
     };
   }
 
-  componentDidMount() {
+  componentWillMount() {
     // should send a get request to server for user role information
     $.ajax({
-      url: '/',
+      url: '/api/users/:id',
       type: 'GET',
-      success: (user) => {
-        console.log('componentDidMount: ', user);
-        // this.setState({ role: user.role });
+      async: false,
+      success: (response) => {
+        console.log('componentWillMount: ', response);
+        return response ? this.setState({ role: response.user.role }) : null;
       },
       error: () => {
         console.log('failed');
