@@ -41,7 +41,7 @@ module.exports.fakeUsers = [
     role: 'mentor',
     firstName: 'David',
     lastName: 'Vassett',
-    username: 'dvidvassett'
+    username: 'davidvassett@david.com.au'
   },
   {
     role: 'admin',
@@ -53,6 +53,6 @@ module.exports.fakeUsers = [
     role: 'student',
     firstName: 'David',
     lastName: 'Gould',
-    username: 'davidgould112'
+    username: 'david.gould112@gmail.com'
   }
 ];

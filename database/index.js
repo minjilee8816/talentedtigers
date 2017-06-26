@@ -41,9 +41,13 @@ User.hasMany(Ticket, {
   constraints: false
 });
 
-db.sync({ force: true });
+// db.sync({ force: true });
+// User.sync({ force: true });
+// Ticket.sync({ force: true });
 
-User.bulkCreate(fakeData.fakeUsers);
+User.bulkCreate(fakeData.fakeUsers).then(result => {
+  console.log('created users: ', fakeData.fakeUsers);
+});
 
 module.exports = {
   Ticket: Ticket,

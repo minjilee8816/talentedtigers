@@ -16,6 +16,21 @@ class App extends React.Component {
     };
   }
 
+  componentDidMount() {
+    // should send a get request to server for user role information
+    $.ajax({
+      url: '/',
+      type: 'GET',
+      success: (user) => {
+        console.log('componentDidMount: ', user);
+        // this.setState({ role: user.role });
+      },
+      error: () => {
+        console.log('failed');
+      }
+    });
+  }
+
   handleTicketSubmission(e) {
     e.preventDefault();
     let ticket = {
