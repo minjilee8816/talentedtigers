@@ -6,7 +6,8 @@
   "scripts": {
     "react-dev": "webpack -d --watch",
     "server-dev": "nodemon server/index.js",
-    "db-start": "pg_ctl -D db -l logfile start"
+    "start": "node server/index.js",
+    "postinstall": "webpack -d"
   },
   "repository": {
     "type": "git",
