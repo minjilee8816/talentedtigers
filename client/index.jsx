@@ -12,19 +12,18 @@ class App extends React.Component {
     this.state = {
       ticketList: [],
       ticketOptionList: ['React', 'Socket.IO', 'Recursion', 'Postgres'],
-      role: null
+      user: null
     };
   }
 
   componentWillMount() {
-    // should send a get request to server for user role information
     $.ajax({
       url: '/api/users/:id',
       type: 'GET',
       async: false,
       success: (response) => {
         console.log('componentWillMount: ', response);
-        return response ? this.setState({ role: response.user.role }) : null;
+        return response ? this.setState({ user: response.user }) : null;
       },
       error: () => {
         console.log('failed');
@@ -35,6 +34,7 @@ class App extends React.Component {
   handleTicketSubmission(e) {
     e.preventDefault();
     let ticket = {
+      userId: this.state.user.id,
       description: document.getElementById('ticket_submission_description').value,
       category: document.getElementById('ticket_option_dropdown').value,
       status: 'Opened'
@@ -55,14 +55,15 @@ class App extends React.Component {
   }
 
   render() {
+    let user = this.state.user;
     let render = null;
-    if (!this.state.role) {
+    if (!user) {
       render = <Login />;
-    } else if (this.state.role === 'student') {
+    } else if (user.role === 'student') {
       render = <TicketSubmission handleTicketSubmission={this.handleTicketSubmission.bind(this)} ticketOptionList={this.state.ticketOptionList}/>;
-    } else if (this.state.role === 'mentor') {
+    } else if (user.role === 'mentor') {
       // render HIR view
-    } else if (this.state.role === 'admin') {
+    } else if (user.role === 'admin') {
       // render admin view
     }
     return (
