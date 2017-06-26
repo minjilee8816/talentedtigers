@@ -4,7 +4,7 @@ import $ from 'jquery';
 import TicketList from './components/ticketList.jsx';
 import TicketSubmission from './components/ticketSubmission.jsx';
 import Login from './components/login.jsx';
-// import Nav from './components/nav.jsx';
+import Nav from './components/nav.jsx';
 
 class App extends React.Component {
   constructor() {
@@ -67,8 +67,8 @@ class App extends React.Component {
       // render admin view
     }
     return (
-      <div className="col-md-8">
-        {/* <Nav />*/}
+      <div>
+        <Nav />
         {render}
         <TicketList ticketList={this.state.ticketList}/>
       </div>

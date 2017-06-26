@@ -1,13 +1,48 @@
+/* Bootstrap Override */
+
+body {
+  background-color: #f5f5f5;
+}
+
+.navbar-inverse {
+  background-color: #2b3d51;
+  border: 0;
+  border-radius: 0;
+}
+
+.navbar-inverse .navbar-brand {
+  color: #fff;
+}
+
+.navbar-brand {
+  height: 70px;
+  padding: 25px 15px;
+}
+
+.dropdown-menu {
+  margin-top: -10px;
+}
+
+.navbar-right .dropdown-menu {
+  right: 15px;
+}
+
+/* Custom */
+
+.navbar-profile {
+  padding: 15px;
+}
+
+.navbar-profile:hover {
+  cursor: pointer;
+}
+
 .login_area {
   margin-top: 10px;
 }
 
 .octicon {
   margin-right: 5px;
-}
-
-.signin {
-
 }
 
 #ticket_submission_description {
