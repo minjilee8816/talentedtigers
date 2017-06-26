@@ -12,6 +12,7 @@ const Ticket = db.define('ticket', {
     autoIncrement: true,
     allowNull: false
   },
+  createdAt: { type: Sequelize.DATE, indexes: true },
   claimedAt: Sequelize.DATE,
   closedAt: Sequelize.DATE,
   description: Sequelize.STRING,
