@@ -4,7 +4,6 @@ const session = require('express-session');
 const passport = require('passport');
 const Strategy = require('passport-github').Strategy;
 const auth = require('./auth');
-// const github = require('../config/github.js').GITHUB_API_KEY;
 const db = require ('../database/');
 require('dotenv').config();
 
