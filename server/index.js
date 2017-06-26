@@ -10,7 +10,7 @@ require('dotenv').config();
 passport.use(new Strategy({
   clientID: process.env.GITHUB_CLIENTID,
   clientSecret: process.env.GITHUB_CLIENTSECRET,
-  callbackURL: 'http://127.0.0.1:3000/api/auth/github/callback'
+  callbackURL: `${process.env.URL}/api/auth/github/callback`
 }, (accessToken, refreshToken, profile, callback) => {
   db.User.find({
     where: { username: profile.username }
@@ -92,4 +92,4 @@ app.post('/api/tickets', (req, res) => {
     });
 });
 
-app.listen(3000, () => console.log('listening on port 3000'));
+app.listen(process.env.PORT, () => console.log('listening on port 3000'));
