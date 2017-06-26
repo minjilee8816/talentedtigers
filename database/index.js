@@ -46,6 +46,7 @@ User.hasMany(Ticket, {
 // Ticket.sync({ force: true });
 //
 // User.bulkCreate(fakeData.fakeUsers);
+// Ticket.bulkCreate(fakeData.ticketGenerator(20));
 
 module.exports = {
   Ticket: Ticket,

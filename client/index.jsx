@@ -31,6 +31,21 @@ class App extends React.Component {
     });
   }
 
+  componentDidMount () {
+    if (this.state.user) {
+      $.ajax({
+        url: `/api/tickets/${this.state.user.id}`,
+        type: 'GET',
+        success: (tickets) => {
+          this.setState({ ticketList: tickets });
+        },
+        error: () => {
+          console.log('err');
+        }
+      });
+    }
+  }
+
   handleTicketSubmission(e) {
     e.preventDefault();
     let ticket = {

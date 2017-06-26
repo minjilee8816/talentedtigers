@@ -7,12 +7,13 @@ module.exports.ticketGenerator = (num, res) => {
   if (num === 0) { return res; }
   let category = randomStuffs(['Datastructure', 'React', 'Recursion', 'Angular', 'mySQL', 'Mongo', 'Binarysearch', 'Others']);
   let ticket = {
+    userId: 4,
     category: category,
     description: `Need help with ${category}`,
     status: 'Opened'
   };
   res.push(ticket);
-  return ticketGenerator(num - 1, res);
+  return this.ticketGenerator(num - 1, res);
 };
 
 module.exports.userGenerator = (num, res) => {
@@ -27,12 +28,12 @@ module.exports.userGenerator = (num, res) => {
     username: `${firstName[0].toLowerCase()}_${lastName.toLowerCase()}`
   };
   res.push(user);
-  return userGenerator(num - 1, res);
+  return this.userGenerator(num - 1, res);
 };
 
 module.exports.fakeUsers = [
   {
-    role: 'student',
+    role: 'mentor',
     firstName: 'Eric',
     lastName: 'Mai',
     username: 'enmai1988'
