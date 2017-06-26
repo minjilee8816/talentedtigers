@@ -43,15 +43,33 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(__dirname + '/../client/'));
 
+
+app.get('/api/auth/github', passport.authenticate('github', { scope: [ 'user:email' ] }));
+
+app.get('/api/auth/github/callback', passport.authenticate('github', { failureRedirect: '/' }), (req, res) => {
+  console.log('/github/callback: ', req.session.passport);
+  res.redirect('/');
+});
+
 app.get('/api/users/:id', (req, res) => {
   res.send(req.session.passport);
 });
 
-app.get('/api/auth/github', passport.authenticate('github', { scope: [ 'user:email' ] }));
-
-app.get('/api/auth/github/callback', passport.authenticate('github', { failureRedirect: '/api/login' }), (req, res) => {
-  console.log('/github/callback: ', req.session.passport);
-  res.redirect('/');
+app.get('/api/tickets/:id', (req, res) => {
+  console.log(req.params);
+  db.User.find({ where: { id: req.params.id } })
+    .then(user => {
+      if (user.role === 'student') {
+        return db.Ticket.findAll({ where: { userId: user.id } });
+      } else if (user.role === 'mentor') {
+        return db.Ticket.findAll({ where: { status: 'Opened' } });
+      } else if (user.role === 'admin') {
+        return db.Ticket.findAll();
+      }
+    })
+    .then(result => {
+      res.send(result);
+    });
 });
 
 app.post('/api/tickets', (req, res) => {
