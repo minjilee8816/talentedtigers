@@ -10,7 +10,19 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      ticketList: [],
+      ticketList: [
+        {
+          id: 1,
+          userId: 1,
+          claimedById: 2,
+          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras ac dolor venenatis, finibus sapien in, vestibulum purus. Sed ornare finibus diam, ut pellentesque tortor. Vestibulum tempor ligula non facilisis dignissim.',
+          category: 'Node',
+          status: 'Opened',
+          createdAt: '2017-06-01 14:00:00',
+          claimedAt: '',
+          closedAt: ''
+        }
+      ],
       ticketOptionList: ['React', 'Socket.IO', 'Recursion', 'Postgres'],
       user: null
     };
@@ -84,8 +96,10 @@ class App extends React.Component {
     return (
       <div>
         <Nav />
-        {render}
-        <TicketList ticketList={this.state.ticketList}/>
+        <div className="col-md-8">
+          {render}
+          <TicketList ticketList={this.state.ticketList} />
+        </div>
       </div>
     );
   }

@@ -27,7 +27,21 @@ body {
   right: 15px;
 }
 
+.media-left {
+  padding-right: 20px;
+}
+
 /* Custom */
+
+* {
+  box-sizing: border-box;
+}
+
+.clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
+}
 
 .navbar-profile {
   padding: 15px;
@@ -71,4 +85,63 @@ body {
 #ticket_option_dropdown {
   float: left;
   width: 100px;
+}
+
+.ticket_list_entry {
+  background-color: #fff;
+  border: 1px solid #eee;
+  border-left: 5px solid #333;
+  border-radius: 3px;
+  margin: 0 0 20px 0;
+  padding: 20px;
+}
+
+.ticket_list_entry.category_Angular {
+  border-left-color: #b52e31;
+}
+
+.ticket_list_entry.category_Backbone {
+  border-left-color: #4162a8;
+}
+
+.ticket_list_entry.category_Express {
+  border-left-color: #259dff;
+}
+
+.ticket_list_entry.category_Node {
+  border-left-color: #6cc24a;
+}
+
+.ticket_list_entry.category_React {
+  border-left-color: #00d8ff;
+}
+
+.ticket_list_entry_thumbnail img {
+  border-radius: 80px;
+}
+
+.ticket_list_entry_owner {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 0 5px 0;
+}
+
+.ticket_list_entry_owner .status_Opened {
+  background-color: #5cb85c;
+}
+
+.ticket_list_entry_owner .status_Claimed {
+  background-color: #337ab7;
+}
+
+.ticket_list_entry_owner .status_Closed {
+  background-color: #d9534f;
+}
+
+.ticket_list_entry_meta {
+  margin: 0 0 5px 0;
+}
+
+.ticket_list_entry_description {
+  margin: 0 0 10px 0;
 }
