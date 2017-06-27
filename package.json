@@ -7,7 +7,10 @@
     "react-dev": "webpack -d --watch",
     "server-dev": "nodemon server/index.js",
     "start": "node ./server/index.js",
-    "heroku-postbuild": "webpack -p --config ./webpack.config.js --progress"
+    "heroku-postbuild": "webpack -p --config ./webpack.config.js --progress",
+    "db-create": "initdb database/db",
+    "db-start": "pg_ctl -D database/db -l logfile start",
+    "db-migrate": "node database/migrate.js"
   },
   "repository": {
     "type": "git",

@@ -1,6 +1,5 @@
 const Sequelize = require('sequelize');
-const fakeData = require('./fakeData');
-require('dotenv').config();
+const dotenv = require('dotenv').config();
 
 let db = null;
 
@@ -17,13 +16,14 @@ const Ticket = db.define('ticket', {
     autoIncrement: true,
     allowNull: false
   },
-  createdAt: { type: Sequelize.DATE, indexes: true },
-  claimedAt: Sequelize.DATE,
-  closedAt: Sequelize.DATE,
   description: Sequelize.STRING,
   category: Sequelize.STRING,
   status: Sequelize.STRING,
-  claimedBy: Sequelize.INTEGER
+  location: Sequelize.STRING,
+  claimedBy: Sequelize.INTEGER,
+  createdAt: { type: Sequelize.DATE, indexes: true },
+  claimedAt: Sequelize.DATE,
+  closedAt: Sequelize.DATE
 });
 
 const User = db.define('user', {
@@ -46,14 +46,8 @@ User.hasMany(Ticket, {
   constraints: false
 });
 
-db.sync();
-User.sync();
-Ticket.sync();
-//
-User.bulkCreate(fakeData.fakeUsers);
-Ticket.bulkCreate(fakeData.ticketGenerator(20));
-
 module.exports = {
+  db: db,
   Ticket: Ticket,
   User: User
 };
