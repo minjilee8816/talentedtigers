@@ -9,7 +9,6 @@ const TicketEntry = (props) => (
     <div className="media-body">
       <div className="ticket_list_entry_owner">
         David Vassett <span className={`label label-success status_${props.ticket.status}`}>{props.ticket.status}</span>
-
       </div>
       <div className="ticket_list_entry_meta">
         <span className="location"><strong>Created: </strong>16 mins ago</span>&nbsp;&nbsp;

@@ -1,9 +1,14 @@
 const Sequelize = require('sequelize');
 const fakeData = require('./fakeData');
-const db = new Sequelize('helpReactor', process.env.DB_USER, process.env.DB_PASS, {
-  host: process.env.DB_HOST,
-  dialect: 'postgres'
-});
+require('dotenv').config();
+
+let db = null;
+
+if (process.env.DATABASE_URL) {
+  db = new Sequelize(process.env.DATABASE_URL);
+} else {
+  db = new Sequelize('postgres:///helpReactor');
+}
 
 const Ticket = db.define('ticket', {
   id: {
@@ -41,12 +46,12 @@ User.hasMany(Ticket, {
   constraints: false
 });
 
-// db.sync({ force: true });
-// User.sync({ force: true });
-// Ticket.sync({ force: true });
+db.sync();
+User.sync();
+Ticket.sync();
 //
-// User.bulkCreate(fakeData.fakeUsers);
-// Ticket.bulkCreate(fakeData.ticketGenerator(20));
+User.bulkCreate(fakeData.fakeUsers);
+Ticket.bulkCreate(fakeData.ticketGenerator(20));
 
 module.exports = {
   Ticket: Ticket,
