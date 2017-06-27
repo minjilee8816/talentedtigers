@@ -2,10 +2,13 @@ const Sequelize = require('sequelize');
 const fakeData = require('./fakeData');
 require('dotenv').config();
 
-const db = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, {
-  host: process.env.DB_HOST,
-  dialect: 'postgres'
-});
+let db = null;
+
+if (process.env.DATABASE_URL) {
+  db = new Sequelize(process.env.DATABASE_URL);
+} else {
+  db = new Sequelize('postgres:///helpReactor');
+}
 
 const Ticket = db.define('ticket', {
   id: {
@@ -47,8 +50,8 @@ db.sync();
 User.sync();
 Ticket.sync();
 //
-// User.bulkCreate(fakeData.fakeUsers);
-// Ticket.bulkCreate(fakeData.ticketGenerator(20));
+User.bulkCreate(fakeData.fakeUsers);
+Ticket.bulkCreate(fakeData.ticketGenerator(20));
 
 module.exports = {
   Ticket: Ticket,
