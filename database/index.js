@@ -1,6 +1,8 @@
 const Sequelize = require('sequelize');
 const fakeData = require('./fakeData');
-const db = new Sequelize('helpReactor', process.env.DB_USER, process.env.DB_PASS, {
+require('dotenv').config();
+
+const db = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, {
   host: process.env.DB_HOST,
   dialect: 'postgres'
 });
@@ -41,9 +43,9 @@ User.hasMany(Ticket, {
   constraints: false
 });
 
-// db.sync({ force: true });
-// User.sync({ force: true });
-// Ticket.sync({ force: true });
+db.sync();
+User.sync();
+Ticket.sync();
 //
 // User.bulkCreate(fakeData.fakeUsers);
 // Ticket.bulkCreate(fakeData.ticketGenerator(20));
