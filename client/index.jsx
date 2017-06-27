@@ -10,19 +10,7 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      ticketList: [
-        {
-          id: 1,
-          userId: 1,
-          claimedById: 2,
-          description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras ac dolor venenatis, finibus sapien in, vestibulum purus. Sed ornare finibus diam, ut pellentesque tortor. Vestibulum tempor ligula non facilisis dignissim.',
-          category: 'Node',
-          status: 'Opened',
-          createdAt: '2017-06-01 14:00:00',
-          claimedAt: '',
-          closedAt: ''
-        }
-      ],
+      ticketList: [],
       ticketOptionList: ['React', 'Socket.IO', 'Recursion', 'Postgres'],
       user: null
     };
