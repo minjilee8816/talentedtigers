@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import $ from 'jquery';
 import TicketList from './components/ticketList.jsx';
 import TicketSubmission from './components/ticketSubmission.jsx';
 import Login from './components/login.jsx';
@@ -96,7 +95,7 @@ class App extends React.Component {
     }
     return (
       <div>
-        <Nav />
+        <Nav user={this.state.user}/>
         <div className="col-md-8">
           {render}
           <TicketList user={this.state.user} ticketList={this.state.ticketList} handleTicketUpdate={this.handleTicketUpdate.bind(this)} />

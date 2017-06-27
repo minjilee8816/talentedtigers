@@ -35,6 +35,8 @@ passport.deserializeUser((user, callback) => {
 
 
 const app = express();
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -43,11 +45,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(__dirname + '/../client/'));
 
-
 app.get('/api/auth/github', passport.authenticate('github', { scope: [ 'user:email' ] }));
 
 app.get('/api/auth/github/callback', passport.authenticate('github', { failureRedirect: '/' }), (req, res) => {
-  console.log('/github/callback: ', req.session.passport);
+  // console.log('/github/callback: ', req.session.passport);
   res.redirect('/');
 });
 
@@ -56,7 +57,6 @@ app.get('/api/users/:id', (req, res) => {
 });
 
 app.get('/api/tickets/:id', (req, res) => {
-  console.log(req.params);
   db.User.find({ where: { id: req.params.id } })
     .then(user => {
       if (user.role === 'student') {
@@ -105,4 +105,12 @@ app.put('/api/tickets/:id', (req, res) => {
     });
 });
 
-app.listen(process.env.PORT, () => console.log('listening on port 3000'));
+
+server.listen(process.env.PORT, () => console.log('listening on port 3000'));
+
+io.on('connection', socket => {
+  socket.emit('connected');
+  socket.on('user', data => {
+    console.log(data);
+  });
+});
