@@ -91,4 +91,14 @@ app.post('/api/tickets', (req, res) => {
     });
 });
 
+app.put('/api/tickets/:id', (req, res) => {
+  db.Ticket.update(req.body, { where: { id: req.params.id } })
+    .then(ticket => {
+      res.sendStatus(200);
+    })
+    .catch(err => {
+      res.sendStatus(500);
+    });
+});
+
 app.listen(process.env.PORT, () => console.log('listening on port 3000'));
