@@ -7,7 +7,7 @@ const Nav = ({user}) => (
     <div className="container-fluid">
       <a className="navbar-brand" href="#">Help Reactor</a>
 
-      <WaitTime user={user}/>
+      {user ? <WaitTime user={user}/> : null}
 
       <div className="dropdown navbar-right">
         <div className="dropdown-toggle navbar-profile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">

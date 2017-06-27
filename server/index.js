@@ -4,7 +4,11 @@ const session = require('express-session');
 const passport = require('passport');
 const Strategy = require('passport-github').Strategy;
 const db = require ('../database/');
+<<<<<<< HEAD
 const util = require('./helpers/util');
+=======
+const helper = require('./helper');
+>>>>>>> working on socket connections
 require('dotenv').config();
 
 passport.use(new Strategy({
@@ -105,12 +109,20 @@ app.put('/api/tickets/:id', (req, res) => {
     });
 });
 
-
 server.listen(process.env.PORT, () => console.log('listening on port 3000'));
+
+let students = [];
+let mentors = [];
 
 io.on('connection', socket => {
   socket.emit('connected');
-  socket.on('user', data => {
-    console.log(data);
+  socket.on('user', user => {
+    if (user.role === 'student') {
+      students.push(user);
+    } else if (user.role === 'mentor') {
+      mentors.push(user);
+    }
+    console.log(`there are ${students.length} students and ${mentors.length} mentors connected`);
+    helper.generateWaitTime();
   });
 });
