@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const githubAuth = require('./auth');
 const util = require('../helpers/util');
 const db = require ('../../database/');
+const { isAuthenticated, githubAuth } = require('./auth');
 
 router.use(githubAuth.initialize());
 router.use(githubAuth.session());
@@ -13,6 +13,8 @@ router.get('/api/auth/github', githubAuth.authenticate('github', { scope: [ 'use
 router.get('/api/auth/github/callback', githubAuth.authenticate('github', { failureRedirect: '/' }), (req, res) => {
   res.redirect('/');
 });
+
+router.use(isAuthenticated);
 
 router.get('/api/users/:id', (req, res) => {
   res.send(req.session.passport);

@@ -29,4 +29,15 @@ passport.deserializeUser((user, callback) => {
   });
 });
 
-module.exports = passport;
+const isAuthenticated = function(req, res, next) {
+  if (req.isAuthenticated()) {
+    next();
+  } else {
+    res.redirect('/api/auth/github');
+  }
+}
+
+module.exports = {
+  isAuthenticated: isAuthenticated,
+  githubAuth: passport
+};
