@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import util from '../helpers/util';
 
 const TicketEntry = ({user, ticket, updateTickets}) => (
   <div className={`ticket_list_entry category_${ticket.category} clearfix`}>
@@ -8,12 +9,12 @@ const TicketEntry = ({user, ticket, updateTickets}) => (
     </div>
     <div className="media-body">
       <div className="ticket_list_entry_owner">
-        David Vassett <span className={`label label-success status_${ticket.status}`}>{ticket.status}</span>
+        {ticket.user.firstName} {ticket.user.lastName} <span className={`label label-success status_${ticket.status}`}>{ticket.status}</span>
       </div>
       <div className="ticket_list_entry_meta">
-        <span className="location"><strong>Created: </strong>16 mins ago</span>&nbsp;&nbsp;
+        <span className="location"><strong>Created: </strong>{util.timeToNow(ticket.createdAt)}</span>&nbsp;&nbsp;
         <span className="category"><strong>Category: </strong>{ticket.category}</span>&nbsp;&nbsp;
-        <span className="time"><strong>Location: </strong>080A</span>
+        <span className="time"><strong>Location: </strong>{ticket.location}</span>
       </div>
       <div className="ticket_list_entry_description">
         {ticket.description}

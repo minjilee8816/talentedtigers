@@ -15,7 +15,9 @@ router.get('/api/auth/github/callback', githubAuth.authenticate('github', { fail
   res.redirect('/');
 });
 
-router.use(isAuthenticated);
+if (process.env.URL !== 'http://127.0.0.1:3000') {
+  router.use(isAuthenticated);
+}
 
 router.get('/api/users/:id', (req, res) => {
   res.send(req.session.passport);
@@ -26,11 +28,19 @@ router.get('/api/tickets/:id', (req, res) => {
     .then(user => {
       switch (user.role) {
       case 'student':
-        return db.Ticket.findAll({ where: { userId: user.id } });
+        return db.Ticket.findAll({
+          where: { userId: user.id },
+          include: [ { model: db.User } ]
+        });
       case 'mentor':
-        return db.Ticket.findAll({ where: { status: 'Opened' } });
+        return db.Ticket.findAll({
+          where: { status: 'Opened' },
+          include: [ { model: db.User } ]
+        });
       case 'admin':
-        return db.Ticket.findAll();
+        return db.Ticket.findAll({
+          include: [ { model: db.User } ]
+        });
       default:
         throw user;
       }
