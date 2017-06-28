@@ -78,6 +78,5 @@ const selectAll = () => {
 module.exports = {
   db: db,
   Ticket: Ticket,
-  User: User,
-  select: select
+  User: User
 };
