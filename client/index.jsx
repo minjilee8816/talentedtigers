@@ -5,6 +5,9 @@ import TicketList from './components/ticketList.jsx';
 import TicketSubmission from './components/ticketSubmission.jsx';
 import Login from './components/login.jsx';
 import Nav from './components/nav.jsx';
+import AddUser from './components/addUser.jsx';
+import AdminDashboard from './components/adminDashboard.jsx';
+import AdminFilter from './components/adminFilter.jsx';
 
 class App extends React.Component {
   constructor() {
@@ -101,6 +104,59 @@ class App extends React.Component {
       }
     });
   }
+  
+  handleUserSubmission(e) {
+    e.preventDefault();
+    let user = {
+      firstName: document.getElementById('first-name').value,
+      lastName: document.getElementById('last-name').value,
+      userName: document.getElementById('user-name').value,
+      cohort: document.getElementById('cohort-name').value,
+      role: document.getElementById('role-dropdown').value
+    }
+    console.log(`Sending new user ${user.userName} to api/users via POST`);
+    $.ajax({
+      url: 'api/users',
+      type: 'POST',
+      data: user,
+      success: (response) => {
+        console.log(`Successfully sent ${user} to api/users via POST`);
+      },
+      error: () => {
+        console.log('Error submitting ticket to api/users via POST')
+      }
+    });
+  }
+  
+  handleFilter (e) {
+    e.preventDefault();
+    var timeStorage = {
+      'Today': 86400000,
+      'Last Week': 604800000,
+      'Last Month': 2592000000,
+      'Last Year': 31536000000,
+      'All': Date.now()
+    };
+    let dateStart = Date.now() - timeStorage[document.getElementById('time-window').value];
+
+    let filterObj = {
+      category: document.getElementById('select-category').value,
+      status: document.getElementById('ticket-status').value,
+      dateStart: new Date(dateStart)
+    }
+    $.ajax({
+      url: 'api/tickets',
+      type: 'GET',
+      data: filterObj,
+      success: (tickets) => {
+        console.log('Recieved filtered ticket list ', tickets);
+        this.setState({ticketList: tickets});
+      },
+      error: () => {
+        console.log('Error filtering tickets')
+      }
+    });
+  }
 
   render() {
     let user = this.state.user;
@@ -112,7 +168,12 @@ class App extends React.Component {
     } else if (user.role === 'mentor') {
       // render HIR view
     } else if (user.role === 'admin') {
-      // render admin view
+      render =
+        <div>
+          <AddUser handleUserSubmission={this.handleUserSubmission.bind(this)}/>
+          <AdminDashboard />
+          <AdminFilter ticketOptionList={this.state.ticketOptionList} handleFilter={this.handleFilter.bind(this)}/>
+        </div>
     }
     return (
       <div>

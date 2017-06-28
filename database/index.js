@@ -46,8 +46,42 @@ User.hasMany(Ticket, {
   constraints: false
 });
 
+const select = (category, status, dateStart) => {
+  Ticket.findAll({
+    where:
+      {
+       category: category, 
+       status: status,
+        createdAt: {
+          gt: dateStart
+        }
+      }
+    })
+  .then(ticket => {
+    return ticket;
+  });
+};
+
+const selectAll = () => {
+  //this function is called when only tickets of a given category want to be viewed
+  Ticket.findAll()
+  .then(ticket => {
+    // Array.isArray(ticket) ? ticket.forEach((ticketEntry) => console.log('this is an indiv ticket ', ticketEntry.dataValues)) : console.log('this is the only ticket!: ', ticket.dataValues);
+    return ticket;
+  });
+};
+
+// db.sync({ force: true });
+// User.sync({ force: true });
+// Ticket.sync({ force: true });
+
+// User.bulkCreate(fakeData.fakeUsers);
+// Ticket.bulkCreate(fakeData.ticketGenerator(20));
+// selectAll();
+// select('Recursion', 'Opened');
 module.exports = {
   db: db,
   Ticket: Ticket,
-  User: User
+  User: User,
+  select: select
 };
