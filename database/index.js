@@ -63,10 +63,8 @@ const select = (category, status, dateStart) => {
 };
 
 const selectAll = () => {
-  //this function is called when only tickets of a given category want to be viewed
   Ticket.findAll()
   .then(ticket => {
-    // Array.isArray(ticket) ? ticket.forEach((ticketEntry) => console.log('this is an indiv ticket ', ticketEntry.dataValues)) : console.log('this is the only ticket!: ', ticket.dataValues);
     return ticket;
   });
 };
@@ -77,8 +75,6 @@ const selectAll = () => {
 
 // User.bulkCreate(fakeData.fakeUsers);
 // Ticket.bulkCreate(fakeData.ticketGenerator(20));
-// selectAll();
-// select('Recursion', 'Opened');
 module.exports = {
   db: db,
   Ticket: Ticket,

@@ -3,6 +3,7 @@ const router = express.Router();
 const util = require('../helpers/util');
 const db = require ('../../database/');
 const { isAuthenticated, githubAuth } = require('./auth');
+const pad = require('../helpers/util.js').pad;
 
 router.use(githubAuth.initialize());
 router.use(githubAuth.session());
@@ -81,11 +82,6 @@ router.post('/api/users', (req, res) => {
       res.sendStatus(500);
     });
 });
-
-const pad = function(number, length) {
-  number = number + '';
-  return number.length >= length ? number : new Array(length - number.length + 1).join('0') + number;
-}
 
 router.get('/api/tickets', (req, res) => {
   let dateStart = new Date(req.query.dateStart);
