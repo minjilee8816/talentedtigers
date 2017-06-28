@@ -19,7 +19,7 @@ const TicketEntry = (props) => (
         {props.ticket.description}
       </div>
       <button onClick={() => props.updateTickets({ id: props.ticket.id, status: 'Claimed' })} type="button" className="btn btn-xs btn-primary">Claim</button>&nbsp;&nbsp;
-      <button type="button" className="btn btn-xs btn-danger">Close</button>
+      <button onClick={() => props.updateTickets({ id: props.ticket.id, status: 'Closed' })} type="button" className="btn btn-xs btn-danger">Close</button>
     </div>
   </div>
 );
