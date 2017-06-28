@@ -69,6 +69,19 @@ class App extends React.Component {
     });
   }
 
+  handleTicketUpdate(data) {
+    if (data.status === 'Claimed') {
+      data.claimedBy = this.state.user.id;
+    }
+    $.ajax({
+      url: `api/tickets/${data.id}`,
+      type: 'PUT',
+      data: data,
+      success: (response) => {},
+      error: (err) => {}
+    });
+  }
+
   render() {
     let user = this.state.user;
     let render = null;
@@ -86,7 +99,7 @@ class App extends React.Component {
         <Nav />
         <div className="col-md-8">
           {render}
-          <TicketList ticketList={this.state.ticketList} />
+          <TicketList user={this.state.user} ticketList={this.state.ticketList} handleTicketUpdate={this.handleTicketUpdate.bind(this)} />
         </div>
       </div>
     );

@@ -4,6 +4,7 @@ const session = require('express-session');
 const passport = require('passport');
 const Strategy = require('passport-github').Strategy;
 const db = require ('../database/');
+const util = require('./helpers/util');
 require('dotenv').config();
 
 passport.use(new Strategy({
@@ -92,6 +93,9 @@ app.post('/api/tickets', (req, res) => {
 });
 
 app.put('/api/tickets/:id', (req, res) => {
+  if (req.body.status === 'Claimed') {
+    req.body.claimedAt = util.getCurrentTime();
+  }
   db.Ticket.update(req.body, { where: { id: req.params.id } })
     .then(ticket => {
       res.sendStatus(200);
