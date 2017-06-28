@@ -21,7 +21,6 @@ class App extends React.Component {
       type: 'GET',
       async: false,
       success: (response) => {
-        console.log('componentWillMount: ', response);
         return response ? this.setState({ user: response.user }) : null;
       },
       error: () => {
@@ -39,7 +38,6 @@ class App extends React.Component {
       url: `/api/tickets/${this.state.user.id}`,
       type: 'GET',
       success: (tickets) => {
-        console.log(tickets);
         this.setState({ ticketList: tickets });
       },
       error: () => {

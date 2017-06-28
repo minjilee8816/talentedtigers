@@ -2,10 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const githubAuth = require('./auth');
-const Strategy = require('passport-github').Strategy;
 const db = require ('../database/');
 const util = require('./helpers/util');
-const helper = require('./helper');
 require('dotenv').config();
 
 const app = express();
@@ -22,7 +20,6 @@ app.use(express.static(__dirname + '/../client/'));
 app.get('/api/auth/github', githubAuth.authenticate('github', { scope: [ 'user:email' ] }));
 
 app.get('/api/auth/github/callback', githubAuth.authenticate('github', { failureRedirect: '/' }), (req, res) => {
-  // console.log('/github/callback: ', req.session.passport);
   res.redirect('/');
 });
 
@@ -77,27 +74,25 @@ app.put('/api/tickets/:id', (req, res) => {
 
 server.listen(process.env.PORT, () => console.log('listening on port 3000'));
 
-let students = [];
-let mentors = [];
+let students = {};
+let mentors = {};
 
-io.on('connection', socket => {
+io.sockets.on('connection', socket => {
   let userId = socket.handshake.headers['user_id'];
   let userRole = socket.handshake.headers['user_role'];
-  socket.on('connect', () => {
-    if (userRole === 'student') {
-      students.push(socket);
-    } else if (userRole === 'mentor') {
-      mentors.push(socket);
-    }
-  });
+  if (userRole === 'student') {
+    students[userId] = socket;
+  } else if (userRole === 'mentor') {
+    mentors[userId] = socket;
+  }
+  console.log(`there are ${Object.keys(students).length} students and ${mentors.length} mentors connected`);
 
   socket.on('disconnect', () => {
     if (userRole === 'student') {
-      students.splice(students.indexOf(socket), 1);
+      delete students[userId];
     } else if (userRole === 'mentor') {
-      mentors.splice(mentors.indexOf(socket), 1);
+      delete mentors[userId];
     }
+    console.log(`Disconnected, there are ${students.length} students and ${mentors.length} mentors connected`);
   });
-
-  console.log(`there are ${students.length} students and ${mentors.length} mentors connected`);
 });
