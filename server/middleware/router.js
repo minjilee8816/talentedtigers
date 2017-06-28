@@ -95,11 +95,11 @@ router.post('/api/users', (req, res) => {
 
 router.get('/api/tickets', (req, res) => {
   let dateStart = new Date(req.query.dateStart);
-  let dateObj = dateStart.getFullYear() + '-' +  pad(dateStart.getUTCMonth(), 2) + '-' +  pad(dateStart.getUTCDate(), 2) + 'T' + pad(dateStart.getUTCHours(), 2) + ':' + pad(dateStart.getUTCMinutes(), 2) + ':' + pad(dateStart.getUTCSeconds(), 2) + '.' + pad(dateStart.getUTCMilliseconds(), 3) + 'Z'; 
+  let dateObj = dateStart.getFullYear() + '-' + pad(dateStart.getUTCMonth(), 2) + '-' + pad(dateStart.getUTCDate(), 2) + 'T' + pad(dateStart.getUTCHours(), 2) + ':' + pad(dateStart.getUTCMinutes(), 2) + ':' + pad(dateStart.getUTCSeconds(), 2) + '.' + pad(dateStart.getUTCMilliseconds(), 3) + 'Z';
   db.select(req.query.category, req.query.status, dateStart)
-  .then(results => {
-    res.send(results);
-  });
-})
+    .then(results => {
+      res.send(results);
+    });
+});
 
 module.exports = router;
