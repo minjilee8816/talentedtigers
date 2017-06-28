@@ -1,3 +1,5 @@
+const db = require ('../../database/');
+
 module.exports = server => {
   const io = require('socket.io')(server, { cookie: true });
 
@@ -5,19 +7,24 @@ module.exports = server => {
   let mentors = {};
 
   io.sockets.on('connection', socket => {
-    socket.on('userInfo', data => {
-      let cookie = socket.request.headers;
-      console.log(cookie);
-    });
-    console.log(`there are ${students.length} students and ${mentors.length} mentors connected`);
+    let id = socket.handshake.query.id;
+    let role = socket.handshake.query.role;
+    if (role === 'student') {
+      !students[id] ? students[id] = [socket] : students[id].push(socket);
+    } else if (role === 'mentor') {
+      !mentors[id] ? mentors[id] = [socket] : mentors[id].push(socket);
+    }
+    console.log(`${Object.keys(students).length} connected`);
+    console.log(`${Object.keys(mentors).length} connected`);
 
-    // socket.on('disconnect', () => {
-    //   if (userRole === 'student') {
-    //     delete students[userId];
-    //   } else if (userRole === 'mentor') {
-    //     delete mentors[userId];
-    //   }
-    //   console.log(`Disconnected, there are ${students.length} students and ${mentors.length} mentors connected`);
-    // });
+    socket.on('disconnect', data => {
+      if (role === 'student') {
+        students[id].length <= 1 ? delete students[id] : students[id].splice(students[id].indexOf(socket), 1);
+      } else if (role === 'mentor') {
+        mentors[id].length <= 1 ? delete mentors[id] : mentors[id].splice(mentors[id].indexOf(socket), 1);
+      }
+      console.log(`Disconnected, now ${Object.keys(students).length} connected`);
+      console.log(`Disconnected, now ${Object.keys(mentors).length} connected`);
+    });
   });
 };
