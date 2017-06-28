@@ -39,8 +39,13 @@ class App extends React.Component {
   }
 
   broadcastMsg() {
-    let socket = io('/');
-    socket.emit('userInfo', { userInfo: this.state.user });
+    let socket = io({
+      query: {
+        id: this.state.user.id,
+        role: this.state.user.role
+      }
+    });
+    // socket.emit('userInfo', { userInfo: this.state.user });
   }
 
   getTickets() {

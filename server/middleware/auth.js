@@ -35,7 +35,7 @@ const isAuthenticated = function(req, res, next) {
   } else {
     res.redirect('/api/auth/github');
   }
-}
+};
 
 module.exports = {
   isAuthenticated: isAuthenticated,
