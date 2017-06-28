@@ -3,6 +3,7 @@ const router = express.Router();
 const util = require('../helpers/util');
 const db = require ('../../database/');
 const { isAuthenticated, githubAuth } = require('./auth');
+const pad = require('../helpers/util.js').pad;
 
 router.use(githubAuth.initialize());
 router.use(githubAuth.session());
@@ -70,5 +71,25 @@ router.put('/api/tickets/:id', (req, res) => {
       res.sendStatus(500);
     });
 });
+
+router.post('/api/users', (req, res) => {
+  db.User.create(req.body)
+    .then(result => {
+      if (!result) { throw result; }
+      res.sendStatus(200);
+    })
+    .catch(() => {
+      res.sendStatus(500);
+    });
+});
+
+router.get('/api/tickets', (req, res) => {
+  let dateStart = new Date(req.query.dateStart);
+  let dateObj = dateStart.getFullYear() + '-' +  pad(dateStart.getUTCMonth(), 2) + '-' +  pad(dateStart.getUTCDate(), 2) + 'T' + pad(dateStart.getUTCHours(), 2) + ':' + pad(dateStart.getUTCMinutes(), 2) + ':' + pad(dateStart.getUTCSeconds(), 2) + '.' + pad(dateStart.getUTCMilliseconds(), 3) + 'Z'; 
+  db.select(req.query.category, req.query.status, dateStart)
+  .then(results => {
+    res.send(results);
+  });
+})
 
 module.exports = router;

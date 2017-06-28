@@ -46,6 +46,35 @@ User.hasMany(Ticket, {
   constraints: false
 });
 
+const select = (category, status, dateStart) => {
+  Ticket.findAll({
+    where:
+      {
+       category: category, 
+       status: status,
+        createdAt: {
+          gt: dateStart
+        }
+      }
+    })
+  .then(ticket => {
+    return ticket;
+  });
+};
+
+const selectAll = () => {
+  Ticket.findAll()
+  .then(ticket => {
+    return ticket;
+  });
+};
+
+// db.sync({ force: true });
+// User.sync({ force: true });
+// Ticket.sync({ force: true });
+
+// User.bulkCreate(fakeData.fakeUsers);
+// Ticket.bulkCreate(fakeData.ticketGenerator(20));
 module.exports = {
   db: db,
   Ticket: Ticket,
