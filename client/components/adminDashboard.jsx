@@ -7,6 +7,6 @@ const AdminDashboard = (props) => (
     <h4>{props.mentorCount} + MentorCount Placeholder</h4>
     <h4>{props.avgWaitTime} + Average Wait Placeholder</h4>
   </div>
-)
+);
 
 export default AdminDashboard;

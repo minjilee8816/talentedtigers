@@ -49,24 +49,24 @@ User.hasMany(Ticket, {
 const select = (category, status, dateStart) => {
   Ticket.findAll({
     where:
-      {
-       category: category, 
-       status: status,
-        createdAt: {
-          gt: dateStart
-        }
+    {
+      category: category,
+      status: status,
+      createdAt: {
+        gt: dateStart
       }
-    })
-  .then(ticket => {
-    return ticket;
-  });
+    }
+  })
+    .then(ticket => {
+      return ticket;
+    });
 };
 
 const selectAll = () => {
   Ticket.findAll()
-  .then(ticket => {
-    return ticket;
-  });
+    .then(ticket => {
+      return ticket;
+    });
 };
 
 // db.sync({ force: true });

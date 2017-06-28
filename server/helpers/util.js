@@ -19,8 +19,15 @@ const getCurrentTime = function() {
   return `${year}-${month}-${day} ${hour}:${min}:${sec}`;
 };
 
+const computeAvgWaitTime = (tickets) => {
+  return tickets.reduce((acc, curr) => {
+    return acc + (Date.parse(curr.claimedAt) - Date.parse(curr.createdAt));
+  }, 0) / tickets.length;
+};
+
 module.exports = {
   getCurrentTime: getCurrentTime,
   addLeadingZero: addLeadingZero,
-  pad: pad
+  pad: pad,
+  computeAvgWaitTime: computeAvgWaitTime
 };

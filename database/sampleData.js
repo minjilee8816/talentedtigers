@@ -3,7 +3,7 @@ module.exports.users = [
     firstName: 'Eric',
     lastName: 'Mai',
     username: 'enmai1988',
-    role: 'mentor'
+    role: 'admin'
   }, {
     firstName: 'David',
     lastName: 'Vassett',

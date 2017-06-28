@@ -105,6 +105,10 @@ class App extends React.Component {
     });
   }
 
+  filterTickets() {
+
+  }
+
   render() {
     let user = this.state.user;
     let render = null;
@@ -115,7 +119,12 @@ class App extends React.Component {
     } else if (user.role === 'mentor') {
       // render HIR view
     } else if (user.role === 'admin') {
-      // render admin view
+      render =
+      <div id="admin-view">
+        <AdminDashboard />
+        <AddUser />
+        <AdminFilter filterTickets={this.filterTickets.bind(this)} ticketOptionList={this.state.ticketOptionList}/>
+      </div>;
     }
     return (
       <div>
