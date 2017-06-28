@@ -51,9 +51,11 @@ router.post('/api/tickets', (req, res) => {
 });
 
 router.put('/api/tickets/:id', (req, res) => {
-  console.log(req.body);
   if (req.body.status === 'Claimed') {
     req.body.claimedAt = util.getCurrentTime();
+  }
+  if (req.body.status === 'Closed') {
+    req.body.closedAt = util.getCurrentTime();
   }
   db.Ticket.update(req.body, { where: { id: req.params.id } })
     .then(ticket => {
