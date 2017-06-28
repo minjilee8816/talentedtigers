@@ -70,7 +70,8 @@ class App extends React.Component {
     });
   }
 
-  handleTicketUpdate(data) {
+  updateTickets(data) {
+    console.log(data);
     if (data.status === 'Claimed') {
       data.claimedBy = this.state.user.id;
     }
@@ -78,8 +79,12 @@ class App extends React.Component {
       url: `api/tickets/${data.id}`,
       type: 'PUT',
       data: data,
-      success: (response) => {},
-      error: (err) => {}
+      success: (response) => {
+        this.getTickets();
+      },
+      error: (err) => {
+        console.log('failed to update ticket');
+      }
     });
   }
 
@@ -100,7 +105,7 @@ class App extends React.Component {
         <Nav user={this.state.user}/>
         <div className="col-md-8">
           {render}
-          <TicketList user={this.state.user} ticketList={this.state.ticketList} handleTicketUpdate={this.handleTicketUpdate.bind(this)} />
+          <TicketList user={this.state.user} ticketList={this.state.ticketList} updateTickets={this.updateTickets.bind(this)} />
         </div>
       </div>
     );
