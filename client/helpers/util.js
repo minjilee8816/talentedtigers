@@ -1,9 +1,9 @@
 const moment = require('moment');
 
-const timeToNow = function(timestamp) {
-  return moment(timestamp).toNow();
+const timefromNow = function(timestamp) {
+  return moment(timestamp).fromNow();
 };
 
 module.exports = {
-  timeToNow: timeToNow
+  timefromNow: timefromNow
 };

@@ -7,7 +7,7 @@ const TicketEntry = ({user, ticket, updateTickets}) => {
   let claimButton = null;
   let closeButton = null;
 
-  if (ticket.status === 'Opened') {
+  if (ticket.status === 'Opened' && ticket.userId !== user.id) {
     claimButton = <button onClick={() => updateTickets({ id: ticket.id, status: 'Claimed' })} type="button" className="btn btn-xs btn-primary">Claim</button>;
   }
 
@@ -25,7 +25,7 @@ const TicketEntry = ({user, ticket, updateTickets}) => {
           {ticket.user.firstName} {ticket.user.lastName} <span className={`label label-success status_${ticket.status}`}>{ticket.status}</span>
         </div>
         <div className="ticket_list_entry_meta">
-          <span className="location"><strong>Created: </strong>{util.timeToNow(ticket.createdAt)}</span>&nbsp;&nbsp;
+          <span className="location"><strong>Created: </strong>{util.timefromNow(ticket.createdAt)}</span>&nbsp;&nbsp;
           <span className="category"><strong>Category: </strong>{ticket.category}</span>&nbsp;&nbsp;
           <span className="time"><strong>Location: </strong>{ticket.location}</span>
         </div>
