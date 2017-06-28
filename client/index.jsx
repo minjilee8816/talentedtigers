@@ -39,16 +39,8 @@ class App extends React.Component {
   }
 
   broadcastMsg() {
-    let socket = io('/', {
-      transportOptions: {
-        polling: {
-          extraHeaders: {
-            'user_id': this.state.user.id,
-            'user_role': this.state.user.role
-          }
-        }
-      }
-    });
+    let socket = io('/');
+    socket.emit('userInfo', { userInfo: this.state.user });
   }
 
   getTickets() {
@@ -89,7 +81,6 @@ class App extends React.Component {
   }
 
   updateTickets(data) {
-    console.log(data);
     if (data.status === 'Claimed') {
       data.claimedBy = this.state.user.id;
     }

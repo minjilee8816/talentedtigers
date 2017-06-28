@@ -20,7 +20,6 @@ const TicketEntry = ({user, ticket, updateTickets}) => (
       </div>
       <button onClick={() => updateTickets({ id: ticket.id, status: 'Claimed' })} type="button" className="btn btn-xs btn-primary">Claim</button>&nbsp;&nbsp;
       <button onClick={() => updateTickets({ id: ticket.id, status: 'Closed' })} type="button" className="btn btn-xs btn-danger">Close</button>
-      <button type="button" className="btn btn-xs btn-danger">Close</button>
     </div>
   </div>
 );
