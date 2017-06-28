@@ -1,6 +1,6 @@
 const passport = require('passport');
 const Strategy = require('passport-github').Strategy;
-const db = require ('../database/');
+const db = require ('../../database/');
 require('dotenv').config();
 
 passport.use(new Strategy({

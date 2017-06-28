@@ -1,9 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
-const githubAuth = require('./auth');
-const db = require ('../database/');
+const githubAuth = require('./helpers/auth');
 const util = require('./helpers/util');
+const db = require ('../database/');
 require('dotenv').config();
 
 const app = express();
