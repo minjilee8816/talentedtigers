@@ -10,7 +10,7 @@ const TicketSubmission = (props) => (
           <select className="form-control" id="ticket_option_dropdown">
             {props.ticketOptionList.map((option, index) => <option key={index}>{option}</option>)}
           </select>
-          <button onClick={props.handleTicketSubmission} type="submit" id="ticket_submission_button" className="btn btn-default">Submit Ticket</button>
+          <button onClick={props.submitTickets} type="submit" id="ticket_submission_button" className="btn btn-default">Submit Ticket</button>
         </div>
       </div>
     </form>

@@ -1,53 +1,25 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
-const passport = require('passport');
-const Strategy = require('passport-github').Strategy;
-const db = require ('../database/');
+const githubAuth = require('./helpers/auth');
 const util = require('./helpers/util');
+const db = require ('../database/');
 require('dotenv').config();
 
-passport.use(new Strategy({
-  clientID: process.env.GITHUB_CLIENTID,
-  clientSecret: process.env.GITHUB_CLIENTSECRET,
-  callbackURL: `${process.env.URL}/api/auth/github/callback`
-}, (accessToken, refreshToken, profile, callback) => {
-  db.User.find({
-    where: { username: profile.username }
-  }).then(user => {
-    if (!user) { return callback('Can\'t find user in database'); }
-    return callback(null, user.dataValues);
-  });
-}));
-
-passport.serializeUser((user, callback) => {
-  callback(null, user);
-});
-
-passport.deserializeUser((user, callback) => {
-  db.User.find({
-    where: { username: user.username }
-  }).then(user => {
-    if (!user) { return callback('failed'); }
-    callback(null, user.dataValues);
-  });
-});
-
-
 const app = express();
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({ secret: 'secret', resave: true, saveUninitialized: true }));
-app.use(passport.initialize());
-app.use(passport.session());
+app.use(githubAuth.initialize());
+app.use(githubAuth.session());
 app.use(express.static(__dirname + '/../client/'));
 
+app.get('/api/auth/github', githubAuth.authenticate('github', { scope: [ 'user:email' ] }));
 
-app.get('/api/auth/github', passport.authenticate('github', { scope: [ 'user:email' ] }));
-
-app.get('/api/auth/github/callback', passport.authenticate('github', { failureRedirect: '/' }), (req, res) => {
-  console.log('/github/callback: ', req.session.passport);
+app.get('/api/auth/github/callback', githubAuth.authenticate('github', { failureRedirect: '/' }), (req, res) => {
   res.redirect('/');
 });
 
@@ -56,7 +28,6 @@ app.get('/api/users/:id', (req, res) => {
 });
 
 app.get('/api/tickets/:id', (req, res) => {
-  console.log(req.params);
   db.User.find({ where: { id: req.params.id } })
     .then(user => {
       if (user.role === 'student') {
@@ -81,11 +52,7 @@ app.post('/api/tickets', (req, res) => {
   db.Ticket.create(req.body)
     .then(result => {
       if (!result) { throw result; }
-      return db.Ticket.findAll();
-    })
-    .then(tickets => {
-      if (!tickets) { throw tickets; }
-      res.send(tickets);
+      res.sendStatus(201);
     })
     .catch(() => {
       res.sendStatus(500);
@@ -105,4 +72,27 @@ app.put('/api/tickets/:id', (req, res) => {
     });
 });
 
-app.listen(process.env.PORT, () => console.log('listening on port 3000'));
+server.listen(process.env.PORT, () => console.log('listening on port 3000'));
+
+let students = {};
+let mentors = {};
+
+io.sockets.on('connection', socket => {
+  let userId = socket.handshake.headers['user_id'];
+  let userRole = socket.handshake.headers['user_role'];
+  if (userRole === 'student') {
+    students[userId] = socket;
+  } else if (userRole === 'mentor') {
+    mentors[userId] = socket;
+  }
+  console.log(`there are ${Object.keys(students).length} students and ${mentors.length} mentors connected`);
+
+  socket.on('disconnect', () => {
+    if (userRole === 'student') {
+      delete students[userId];
+    } else if (userRole === 'mentor') {
+      delete mentors[userId];
+    }
+    console.log(`Disconnected, there are ${students.length} students and ${mentors.length} mentors connected`);
+  });
+});

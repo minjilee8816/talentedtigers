@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import $ from 'jquery';
 import TicketList from './components/ticketList.jsx';
 import TicketSubmission from './components/ticketSubmission.jsx';
 import Login from './components/login.jsx';
@@ -22,7 +21,6 @@ class App extends React.Component {
       type: 'GET',
       async: false,
       success: (response) => {
-        console.log('componentWillMount: ', response);
         return response ? this.setState({ user: response.user }) : null;
       },
       error: () => {
@@ -32,21 +30,23 @@ class App extends React.Component {
   }
 
   componentDidMount () {
-    if (this.state.user) {
-      $.ajax({
-        url: `/api/tickets/${this.state.user.id}`,
-        type: 'GET',
-        success: (tickets) => {
-          this.setState({ ticketList: tickets });
-        },
-        error: () => {
-          console.log('err');
-        }
-      });
-    }
+    this.state.user ? this.getTickets() : null;
   }
 
-  handleTicketSubmission(e) {
+  getTickets() {
+    $.ajax({
+      url: `/api/tickets/${this.state.user.id}`,
+      type: 'GET',
+      success: (tickets) => {
+        this.setState({ ticketList: tickets });
+      },
+      error: () => {
+        console.log('err');
+      }
+    });
+  }
+
+  submitTickets(e) {
     e.preventDefault();
     let ticket = {
       userId: this.state.user.id,
@@ -61,7 +61,8 @@ class App extends React.Component {
       data: ticket,
       success: (response) => {
         console.log(`Successfully sent ${ticket} to apt/tickets via POST`);
-        this.setState({ ticketList: response });
+        this.getTickets();
+        document.getElementById('ticket_submission_description').value = '';
       },
       error: () => {
         console.log('Error submitting ticket to api/tickets via POST');
@@ -88,7 +89,7 @@ class App extends React.Component {
     if (!user) {
       render = <Login />;
     } else if (user.role === 'student') {
-      render = <TicketSubmission handleTicketSubmission={this.handleTicketSubmission.bind(this)} ticketOptionList={this.state.ticketOptionList}/>;
+      render = <TicketSubmission submitTickets={this.submitTickets.bind(this)} ticketOptionList={this.state.ticketOptionList}/>;
     } else if (user.role === 'mentor') {
       // render HIR view
     } else if (user.role === 'admin') {
@@ -96,7 +97,7 @@ class App extends React.Component {
     }
     return (
       <div>
-        <Nav />
+        <Nav user={this.state.user}/>
         <div className="col-md-8">
           {render}
           <TicketList user={this.state.user} ticketList={this.state.ticketList} handleTicketUpdate={this.handleTicketUpdate.bind(this)} />

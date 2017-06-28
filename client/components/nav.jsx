@@ -1,10 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import WaitTime from './waitTime.jsx';
 
-const Nav = (props) => (
+const Nav = ({user}) => (
   <nav className="navbar navbar-default navbar-inverse">
     <div className="container-fluid">
       <a className="navbar-brand" href="#">Help Reactor</a>
+
+      {user ? <WaitTime user={user}/> : null}
 
       <div className="dropdown navbar-right">
         <div className="dropdown-toggle navbar-profile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
