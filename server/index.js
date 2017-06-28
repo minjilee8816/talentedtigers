@@ -1,42 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
-const passport = require('passport');
+const githubAuth = require('./auth');
 const Strategy = require('passport-github').Strategy;
 const db = require ('../database/');
-<<<<<<< HEAD
 const util = require('./helpers/util');
-=======
 const helper = require('./helper');
->>>>>>> working on socket connections
 require('dotenv').config();
-
-passport.use(new Strategy({
-  clientID: process.env.GITHUB_CLIENTID,
-  clientSecret: process.env.GITHUB_CLIENTSECRET,
-  callbackURL: `${process.env.URL}/api/auth/github/callback`
-}, (accessToken, refreshToken, profile, callback) => {
-  db.User.find({
-    where: { username: profile.username }
-  }).then(user => {
-    if (!user) { return callback('Can\'t find user in database'); }
-    return callback(null, user.dataValues);
-  });
-}));
-
-passport.serializeUser((user, callback) => {
-  callback(null, user);
-});
-
-passport.deserializeUser((user, callback) => {
-  db.User.find({
-    where: { username: user.username }
-  }).then(user => {
-    if (!user) { return callback('failed'); }
-    callback(null, user.dataValues);
-  });
-});
-
 
 const app = express();
 const server = require('http').createServer(app);
@@ -45,13 +15,13 @@ const io = require('socket.io')(server);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({ secret: 'secret', resave: true, saveUninitialized: true }));
-app.use(passport.initialize());
-app.use(passport.session());
+app.use(githubAuth.initialize());
+app.use(githubAuth.session());
 app.use(express.static(__dirname + '/../client/'));
 
-app.get('/api/auth/github', passport.authenticate('github', { scope: [ 'user:email' ] }));
+app.get('/api/auth/github', githubAuth.authenticate('github', { scope: [ 'user:email' ] }));
 
-app.get('/api/auth/github/callback', passport.authenticate('github', { failureRedirect: '/' }), (req, res) => {
+app.get('/api/auth/github/callback', githubAuth.authenticate('github', { failureRedirect: '/' }), (req, res) => {
   // console.log('/github/callback: ', req.session.passport);
   res.redirect('/');
 });
@@ -85,11 +55,7 @@ app.post('/api/tickets', (req, res) => {
   db.Ticket.create(req.body)
     .then(result => {
       if (!result) { throw result; }
-      return db.Ticket.findAll();
-    })
-    .then(tickets => {
-      if (!tickets) { throw tickets; }
-      res.send(tickets);
+      res.sendStatus(201);
     })
     .catch(() => {
       res.sendStatus(500);
@@ -115,14 +81,23 @@ let students = [];
 let mentors = [];
 
 io.on('connection', socket => {
-  socket.emit('connected');
-  socket.on('user', user => {
-    if (user.role === 'student') {
-      students.push(user);
-    } else if (user.role === 'mentor') {
-      mentors.push(user);
+  let userId = socket.handshake.headers['user_id'];
+  let userRole = socket.handshake.headers['user_role'];
+  socket.on('connect', () => {
+    if (userRole === 'student') {
+      students.push(socket);
+    } else if (userRole === 'mentor') {
+      mentors.push(socket);
     }
-    console.log(`there are ${students.length} students and ${mentors.length} mentors connected`);
-    helper.generateWaitTime();
   });
+
+  socket.on('disconnect', () => {
+    if (userRole === 'student') {
+      students.splice(students.indexOf(socket), 1);
+    } else if (userRole === 'mentor') {
+      mentors.splice(mentors.indexOf(socket), 1);
+    }
+  });
+
+  console.log(`there are ${students.length} students and ${mentors.length} mentors connected`);
 });
