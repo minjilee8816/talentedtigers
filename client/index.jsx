@@ -5,6 +5,9 @@ import TicketList from './components/ticketList.jsx';
 import TicketSubmission from './components/ticketSubmission.jsx';
 import Login from './components/login.jsx';
 import Nav from './components/nav.jsx';
+import AddUser from './components/addUser.jsx';
+import AdminDashboard from './components/adminDashboard.jsx';
+import AdminFilter from './components/adminFilter.jsx';
 
 class App extends React.Component {
   constructor() {
