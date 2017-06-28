@@ -71,29 +71,4 @@ router.put('/api/tickets/:id', (req, res) => {
     });
 });
 
-router.post('/api/users', (req, res) => {
-  db.User.create(req.body)
-    .then(result => {
-      if (!result) { throw result; }
-      res.sendStatus(200);
-    })
-    .catch(() => {
-      res.sendStatus(500);
-    });
-});
-
-const pad = function(number, length) {
-  number = number + '';
-  return number.length >= length ? number : new Array(length - number.length + 1).join('0') + number;
-}
-
-router.get('/api/tickets', (req, res) => {
-  let dateStart = new Date(req.query.dateStart);
-  let dateObj = dateStart.getFullYear() + '-' +  pad(dateStart.getUTCMonth(), 2) + '-' +  pad(dateStart.getUTCDate(), 2) + 'T' + pad(dateStart.getUTCHours(), 2) + ':' + pad(dateStart.getUTCMinutes(), 2) + ':' + pad(dateStart.getUTCSeconds(), 2) + '.' + pad(dateStart.getUTCMilliseconds(), 3) + 'Z'; 
-  db.select(req.query.category, req.query.status, dateStart)
-  .then(results => {
-    res.send(results);
-  });
-})
-
 module.exports = router;
