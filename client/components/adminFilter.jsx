@@ -23,11 +23,11 @@ const AdminFilter = ({filterTickets, ticketCategoryList}) => (
       <div className="col-xs-3">
         <label htmlFor="time-window">Time Window</label>
         <select className="form-control" id="time-window">
+          <option value="All">All</option>
           <option value="1">Today</option>
           <option value="7">Last Week</option>
           <option value="30">Last Month</option>
           <option value="365">Last Year</option>
-          <option value="All">All</option>
         </select>
       </div>
       <div className="col-xs-3">

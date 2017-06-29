@@ -27,8 +27,7 @@ const findTickets = (req, res) => {
     include: [ { model: db.User } ]
   })
     .then(result => {
-      // console.log(result);
-      // if (result.length < 1) { throw result; }
+      if (!result) { throw result; }
       res.send(result);
     })
     .catch(() => { res.sendStatus(404); });
@@ -52,7 +51,7 @@ const updateTickets = (req, res) => {
 
 const createUser = (req, res) => {
   console.log(req.body);
-  db.User.create(req.body)  
+  db.User.create(req.body)
     .then(result => {
       console.log('RESULT: ', result);
       if (!result) { throw result; }

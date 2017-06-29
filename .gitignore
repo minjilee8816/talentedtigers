@@ -38,3 +38,6 @@ bower_components/
 
 # Environment File
 .env
+
+
+.eslintignore

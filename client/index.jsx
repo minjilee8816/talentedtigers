@@ -50,6 +50,7 @@ class App extends React.Component {
       }
     });
     socket.on('statistic', data => {
+      console.log('socket: ', data);
       this.setState({ statistic: data });
     });
   }
@@ -85,7 +86,10 @@ class App extends React.Component {
       data: ticket,
       success: (response) => {
         console.log(`Successfully sent ${ticket} to apt/tickets via POST`);
-        this.getTickets();
+        this.getTickets({
+          id: this.state.user.id,
+          role: this.state.user.role
+        });
         document.getElementById('ticket_submission_description').value = '';
       },
       error: () => {
@@ -122,8 +126,9 @@ class App extends React.Component {
 
     let createdAt = timeWindow === 'All' ? { $lte: new Date().toISOString() }
       : { $gte: new Date(new Date() - timeWindow * 24 * 60 * 60 * 1000).toISOString() };
-    if (category === 'All') { category = { $ne: null }; }
-    if (status === 'All') { status = { $ne: null }; }
+    if (category === 'All') { category = { $not: null }; }
+    if (status === 'All') { status = { $not: null }; }
+    console.log(createdAt);
     let option = {
       id: this.state.user.id,
       role: this.state.user.role,
@@ -149,7 +154,7 @@ class App extends React.Component {
     }
     return (
       <div>
-        <Nav waitTime={this.state.waitTime} user={this.state.user}/>
+        <Nav statistic={this.state.statistic} user={this.state.user}/>
         <div className="col-md-8">
           {render}
           <TicketList user={this.state.user} ticketList={this.state.ticketList} updateTickets={this.updateTickets.bind(this)} />
