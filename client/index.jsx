@@ -48,12 +48,11 @@ class App extends React.Component {
         role: this.state.user.role
       }
     });
-    // socket.emit('userInfo', { userInfo: this.state.user });
   }
 
   getTickets() {
     $.ajax({
-      url: '/api/tickets/',
+      url: '/api/tickets',
       type: 'GET',
       data: {
         id: this.state.user.id,
@@ -63,7 +62,7 @@ class App extends React.Component {
         this.setState({ ticketList: tickets });
       },
       error: () => {
-        console.log('err');
+        console.log('failed to get all tickets');
       }
     });
   }
@@ -79,7 +78,7 @@ class App extends React.Component {
     };
     console.log(`Sending Descrip: ${ticket.description}, Category: ${ticket.category} to api/tickets via POST`);
     $.ajax({
-      url: 'api/tickets',
+      url: '/api/tickets',
       type: 'POST',
       data: ticket,
       success: (response) => {
@@ -98,7 +97,7 @@ class App extends React.Component {
       data.claimedBy = this.state.user.id;
     }
     $.ajax({
-      url: `api/tickets/${data.id}`,
+      url: `/api/tickets/${data.id}`,
       type: 'PUT',
       data: data,
       success: (response) => {
@@ -123,7 +122,7 @@ class App extends React.Component {
     };
 
     $.ajax({
-      url: '/api/tickets/',
+      url: '/api/tickets',
       type: 'GET',
       data: option,
       success: (tickets) => {
@@ -131,7 +130,7 @@ class App extends React.Component {
         this.setState({ ticketList: tickets });
       },
       error: () => {
-        console.log('err');
+        console.log('failed to filter tickets');
       }
     });
   }

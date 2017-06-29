@@ -24,11 +24,11 @@ const findTickets = (req, res) => {
   }
   db.Ticket.findAll({
     where: option,
-    include: [ { model: db.User } ],
-    order: []
+    include: [ { model: db.User } ]
   })
     .then(result => {
-      if (result.length) { throw result; }
+      console.log(result);
+      // if (result.length < 1) { throw result; }
       res.send(result);
     })
     .catch(() => { res.sendStatus(404); });
