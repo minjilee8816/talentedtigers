@@ -18,7 +18,7 @@ class App extends React.Component {
       hasClaimed: false
     };
   }
- 
+
   componentWillMount() {
     $.ajax({
       url: '/api/users/:id',
@@ -106,7 +106,7 @@ class App extends React.Component {
     if (data.status === 'Claimed') {
       data.claimedBy = this.state.user.id;
     }
-    
+
     $.ajax({
       url: `/api/tickets/${data.id}`,
       type: 'PUT',
