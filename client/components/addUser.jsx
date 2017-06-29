@@ -2,9 +2,29 @@ import React from 'react';
 import ReactDom from 'react-dom';
 
 const AddUser = () => {
-  const addNewUser = () => {
+  const addNewUser = (e) => {
+    e.preventDefault();
+    let user = {
+      firstName: document.getElementById('first-name').value,
+      lastName: document.getElementById('last-name').value,
+      username: document.getElementById('user-name').value,
+      role: document.getElementById('role-dropdown').value
+      // cohort: document.getElementById('cohort-name').value,
+    }
+    console.log(`Sending new user ${user.userName} to api/users via POST`);
+    $.ajax({
+      url: 'api/users',
+      type: 'POST',
+      data: user,
+      success: (response) => {
+        console.log(`Successfully sent ${user} to api/users via POST`);
+      },
+      error: () => {
+        console.log('Error submitting ticket to api/users via POST')
+      }
+    });
+  }
 
-  };
 
   return (
     <div>
@@ -28,9 +48,9 @@ const AddUser = () => {
         <div className="form-group">
           <label htmlFor="role-dropdown">Role</label>
           <select className="form-control" id="role-dropdown">
-            <option>Admin</option>
-            <option>Mentor</option>
-            <option>Student</option>
+            <option value="admin">Admin</option>
+            <option value="mentor">Mentor</option>
+            <option value="student">Student</option>
           </select>
         </div>
         <button onClick={addNewUser} type="submit" id="add-user-button" className="btn btn-default">Add User</button>

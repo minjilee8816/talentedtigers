@@ -54,14 +54,14 @@ const updateTickets = (req, res) => {
 };
 
 const createUser = (req, res) => {
-  db.User.create(req.body)
+  console.log(req.body);
+  db.User.create(req.body)  
     .then(result => {
+      console.log('RESULT: ', result);
       if (!result) { throw result; }
-      res.sendStatus(200);
+      res.sendStatus(201);
     })
-    .catch(() => {
-      res.sendStatus(500);
-    });
+    .catch(() => { res.sendStatus(500); });
 };
 
 module.exports = {
