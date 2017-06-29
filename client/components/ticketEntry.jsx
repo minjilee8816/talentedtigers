@@ -6,8 +6,21 @@ const TicketEntry = ({user, ticket, updateTickets}) => {
 
   let claimButton = null;
   let closeButton = null;
+  let className = null;
+  let time = null;
 
   if (ticket.status === 'Opened') {
+    className = 'alert-success';
+    time = `opened at ${util.timefromNow(ticket.createdAt)}`;
+  } else if (ticket.status === 'Claimed') {
+    className = 'alert-primary';
+    time = `claimed at ${util.timefromNow(ticket.claimedAt)}`;
+  } else {
+    className = 'alert-default';
+    time = `closed at ${util.timefromNow(ticket.closedAt)}`;
+  }
+
+  if (ticket.status === 'Opened' && ticket.userId !== user.id) {
     claimButton = <button onClick={() => updateTickets({ id: ticket.id, status: 'Claimed' })} type="button" className="btn btn-xs btn-primary">Claim</button>;
   }
 
@@ -16,24 +29,18 @@ const TicketEntry = ({user, ticket, updateTickets}) => {
   }
 
   return (
-    <div className={`ticket_list_entry category_${ticket.category} clearfix`}>
-      <div className="media-left">
-        <img src="http://placehold.it/60x60" />
+    <div className={`ticket_list_entry alert ${className} clearfix`}>
+      <div className="ticket_list_entry_meta clearfix">
+        <div className="ticket_list_entry_name">{ticket.user.firstName} {ticket.user.lastName} ({ticket.location})</div>
+        <div className="ticket_list_entry_time">- opened {util.timefromNow(ticket.createdAt)}</div>
       </div>
-      <div className="media-body">
-        <div className="ticket_list_entry_owner">
-          {ticket.user.firstName} {ticket.user.lastName} <span className={`label label-success status_${ticket.status}`}>{ticket.status}</span>
-        </div>
-        <div className="ticket_list_entry_meta">
-          <span className="location"><strong>Created: </strong>{util.timeToNow(ticket.createdAt)}</span>&nbsp;&nbsp;
-          <span className="category"><strong>Category: </strong>{ticket.category}</span>&nbsp;&nbsp;
-          <span className="time"><strong>Location: </strong>{ticket.location}</span>
-        </div>
-        <div className="ticket_list_entry_description">
-          {ticket.description}
-        </div>
+      <div className="ticket_list_entry_buttons">
+        <span className="btn btn-xs btn-default">{ticket.category}</span>
         {claimButton}
         {closeButton}
+      </div>
+      <div className="ticket_list_entry_description">
+        {ticket.description}
       </div>
     </div>
   );
