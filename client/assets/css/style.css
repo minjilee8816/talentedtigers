@@ -59,6 +59,16 @@ body {
   margin-right: 5px;
 }
 
+.admin_dashboard_span {
+  float: right;
+  padding-right: 0 20px 0 0;
+}
+
+.admin_dashboard_title {
+  float: right;
+  padding: 0 0 15px 0;
+}
+
 .add_user_form {
   border-bottom: 2px solid #ccc;
   margin: 0 0 40px 0;
