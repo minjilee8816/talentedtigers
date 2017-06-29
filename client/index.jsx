@@ -5,9 +5,7 @@ import TicketList from './components/ticketList.jsx';
 import TicketSubmission from './components/ticketSubmission.jsx';
 import Login from './components/login.jsx';
 import Nav from './components/nav.jsx';
-import AddUser from './components/addUser.jsx';
 import AdminDashboard from './components/adminDashboard.jsx';
-import AdminFilter from './components/adminFilter.jsx';
 
 class App extends React.Component {
   constructor() {
@@ -16,7 +14,7 @@ class App extends React.Component {
       ticketList: [],
       ticketCategoryList: ['React', 'Socket.IO', 'Recursion', 'Postgres'],
       user: null,
-      waitTime: '1mins'
+      statistic: {}
     };
   }
 
@@ -36,7 +34,10 @@ class App extends React.Component {
 
   componentDidMount () {
     if (this.state.user) {
-      this.getTickets();
+      this.getTickets({
+        id: this.state.user.id,
+        role: this.state.user.role
+      });
       this.broadcastMsg();
     }
   }
@@ -48,17 +49,18 @@ class App extends React.Component {
         role: this.state.user.role
       }
     });
+    socket.on('statistic', data => {
+      this.setState({ statistic: data });
+    });
   }
 
-  getTickets() {
+  getTickets(option) {
     $.ajax({
       url: '/api/tickets',
       type: 'GET',
-      data: {
-        id: this.state.user.id,
-        role: this.state.user.role
-      },
+      data: option,
       success: (tickets) => {
+        console.log('Receieved: ', tickets);
         this.setState({ ticketList: tickets });
       },
       error: () => {
@@ -101,7 +103,10 @@ class App extends React.Component {
       type: 'PUT',
       data: data,
       success: (response) => {
-        this.getTickets();
+        this.getTickets({
+          id: this.state.user.id,
+          role: this.state.user.role
+        });
       },
       error: (err) => {
         console.log('failed to update ticket');
@@ -111,28 +116,23 @@ class App extends React.Component {
 
   filterTickets(e) {
     e.preventDefault();
-    let day = document.getElementById('time-window').value;
-    let startDay = new Date(new Date() - day * 24 * 60 * 60 * 1000);
+    let timeWindow = document.getElementById('time-window').value;
+    let category = document.getElementById('select-category').value;
+    let status = document.getElementById('ticket-status').value;
+
+    let createdAt = timeWindow === 'All' ? { $lte: new Date().toISOString() }
+      : { $gte: new Date(new Date() - timeWindow * 24 * 60 * 60 * 1000).toISOString() };
+    if (category === 'All') { category = { $ne: null }; }
+    if (status === 'All') { status = { $ne: null }; }
     let option = {
       id: this.state.user.id,
       role: this.state.user.role,
-      category: document.getElementById('select-category').value,
-      status: document.getElementById('ticket-status').value,
-      createdAt: { $gt: startDay.toISOString() }
+      category: category,
+      status: status,
+      createdAt: createdAt
     };
 
-    $.ajax({
-      url: '/api/tickets',
-      type: 'GET',
-      data: option,
-      success: (tickets) => {
-        console.log('filterTickets: ', tickets);
-        this.setState({ ticketList: tickets });
-      },
-      error: () => {
-        console.log('failed to filter tickets');
-      }
-    });
+    this.getTickets(option);
   }
 
   render() {
@@ -145,12 +145,7 @@ class App extends React.Component {
     } else if (user.role === 'mentor') {
       // render HIR view
     } else if (user.role === 'admin') {
-      render =
-      <div id="admin-view">
-        <AdminDashboard />
-        <AddUser />
-        <AdminFilter filterTickets={this.filterTickets.bind(this)} ticketCategoryList={this.state.ticketCategoryList}/>
-      </div>;
+      render = <AdminDashboard filterTickets={this.filterTickets.bind(this)} statistic={this.state.statistic} ticketCategoryList={this.state.ticketCategoryList}/>;
     }
     return (
       <div>

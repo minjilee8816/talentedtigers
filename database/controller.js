@@ -27,7 +27,7 @@ const findTickets = (req, res) => {
     include: [ { model: db.User } ]
   })
     .then(result => {
-      console.log(result);
+      // console.log(result);
       // if (result.length < 1) { throw result; }
       res.send(result);
     })

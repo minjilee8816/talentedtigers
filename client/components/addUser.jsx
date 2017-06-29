@@ -10,7 +10,7 @@ const AddUser = () => {
       username: document.getElementById('user-name').value,
       role: document.getElementById('role-dropdown').value
       // cohort: document.getElementById('cohort-name').value,
-    }
+    };
     console.log(`Sending new user ${user.userName} to api/users via POST`);
     $.ajax({
       url: 'api/users',
@@ -20,10 +20,10 @@ const AddUser = () => {
         console.log(`Successfully sent ${user} to api/users via POST`);
       },
       error: () => {
-        console.log('Error submitting ticket to api/users via POST')
+        console.log('Error submitting ticket to api/users via POST');
       }
     });
-  }
+  };
 
 
   return (

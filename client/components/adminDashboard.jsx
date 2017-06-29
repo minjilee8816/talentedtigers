@@ -1,11 +1,15 @@
 import React from 'react';
 import ReactDom from 'react-dom';
+import AddUser from './addUser.jsx';
+import AdminFilter from './adminFilter.jsx';
 
-const AdminDashboard = (props) => (
-  <div>
-    <h4>{props.studentCount} + StudentCount Placeholder</h4>
-    <h4>{props.mentorCount} + MentorCount Placeholder</h4>
-    <h4>{props.avgWaitTime} + Average Wait Placeholder</h4>
+const AdminDashboard = ({filterTickets, statistic, ticketCategoryList}) => (
+  <div id="admin-dashboard">
+    <h4>{statistic.studentNum} + StudentCount Placeholder</h4>
+    <h4>{statistic.mentorNum} + MentorCount Placeholder</h4>
+    <h4>{statistic.currAveWait} + Average Wait Placeholder</h4>
+    <AddUser />
+    <AdminFilter filterTickets={filterTickets} ticketCategoryList={ticketCategoryList}/>
   </div>
 );
 
