@@ -18,10 +18,14 @@ const findTickets = (req, res) => {
   if (query.role === 'student') {
     option = { userId: query.id };
   } else if (query.role === 'mentor') {
-    option = { status: { $or: ['Opened', 'Closed'] } };
+    option = {
+      status: ['Opened', 'Claimed'],
+      $or: [{ claimedBy: query.id }, { claimedBy: null }]
+    };
   } else if (query.role === 'admin') {
     option = _.omit(query, ['id', 'role']);
   }
+  
   db.Ticket.findAll({
     where: option,
     include: [ { model: db.User } ]

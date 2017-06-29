@@ -79,7 +79,9 @@ class App extends React.Component {
       location: document.getElementById('ticket_submission_location').value,
       status: 'Opened'
     };
+
     console.log(`Sending Descrip: ${ticket.description}, Category: ${ticket.category} to api/tickets via POST`);
+
     $.ajax({
       url: '/api/tickets',
       type: 'POST',
@@ -102,6 +104,7 @@ class App extends React.Component {
     if (data.status === 'Claimed') {
       data.claimedBy = this.state.user.id;
     }
+    
     $.ajax({
       url: `/api/tickets/${data.id}`,
       type: 'PUT',
