@@ -17,6 +17,7 @@ class App extends React.Component {
       statistic: {},
       hasClaimed: false
     };
+    this.socket = null;
   }
 
   componentWillMount() {
@@ -33,42 +34,23 @@ class App extends React.Component {
     });
   }
 
-  componentDidMount () {
+  componentDidMount() {
     if (this.state.user) {
-      this.getTickets({
+      let option = {
         id: this.state.user.id,
         role: this.state.user.role
-      });
-      this.broadcastMsg();
+      };
+      this.socket = io({ query: option });
+      this.getTickets(option);
     }
   }
 
-  broadcastMsg() {
-    let socket = io({
-      query: {
-        id: this.state.user.id,
-        role: this.state.user.role
-      }
-    });
-    socket.on('statistic', data => {
-      console.log('socket: ', data);
-      this.setState({ statistic: data });
-    });
-  }
-
   getTickets(option) {
-    $.ajax({
-      url: '/api/tickets',
-      type: 'GET',
-      data: option,
-      success: (tickets) => {
-        console.log('Receieved: ', tickets);
-        this.setState({ ticketList: tickets });
-        this.hasClaimed();
-      },
-      error: () => {
-        console.log('failed to get all tickets');
-      }
+    $.get('/api/tickets', () => {
+      this.socket.emit('get tickets', option);
+      this.socket.on('reply', data => {
+        this.setState({ ticketList: data.ticketList });
+      });
     });
   }
 

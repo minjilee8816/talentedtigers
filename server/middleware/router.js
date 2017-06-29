@@ -18,7 +18,9 @@ if (process.env.URL !== 'http://127.0.0.1:3000') {
   router.use(isAuthenticated);
 }
 
-router.get('/api/tickets', db.findTickets);
+router.get('/api/tickets', (req, res) => {
+  res.sendStatus(200);
+});
 
 router.get('/api/users/:id', (req, res) => {
   res.send(req.session.passport);

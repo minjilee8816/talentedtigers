@@ -12,9 +12,8 @@ const createTicket = (req, res) => {
     });
 };
 
-const findTickets = (req, res) => {
+const findTickets = (query) => {
   let option = {};
-  let query = req.query;
   if (query.role === 'student') {
     option = { userId: query.id };
   } else if (query.role === 'mentor') {

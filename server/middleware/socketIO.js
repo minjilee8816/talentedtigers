@@ -1,4 +1,4 @@
-const db = require ('../../database/');
+const db = require ('../../database/controller');
 const util = require('../helpers/util');
 
 module.exports = server => {
@@ -16,20 +16,18 @@ module.exports = server => {
       !mentors[id] ? mentors[id] = [socket] : mentors[id].push(socket);
     }
 
-    db.Ticket.findAll({
-      where: {
-        status: 'Closed',
-        claimedAt: { $not: null }
-      }
-    }).then(tickets => {
-      socket.emit('statistic', {
-        studentNum: Object.keys(students).length,
-        mentorNum: Object.keys(mentors).length,
-        currAveWait: util.computeAvgWaitTime(tickets)
+    socket.on('get tickets', option => {
+      db.findTickets(option).then(result => {
+        io.emit('reply', {
+          studentNum: Object.keys(students),
+          mentorNum: Object.keys(mentors),
+          ticketList: result
+        });
       });
-      console.log(`${Object.keys(students).length} connected`);
-      console.log(`${Object.keys(mentors).length} connected`);
     });
+
+    console.log(`${Object.keys(students).length} connected`);
+    console.log(`${Object.keys(mentors).length} connected`);
 
     socket.on('disconnect', data => {
       if (role === 'student') {
