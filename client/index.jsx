@@ -17,7 +17,7 @@ class App extends React.Component {
       statistic: {}
     };
   }
-
+ 
   componentWillMount() {
     $.ajax({
       url: '/api/users/:id',

@@ -7,7 +7,7 @@ const Nav = ({statistic, user}) => (
     <div className="container-fluid">
       <a className="navbar-brand" href="#">Help Reactor</a>
 
-      {user ? <WaitTime statistic={statistic}/> : null}
+      { user && user.role !== 'admin' ? <WaitTime statistic={statistic}/> : null }
 
       <div className="dropdown navbar-right">
         <div className="dropdown-toggle navbar-profile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
