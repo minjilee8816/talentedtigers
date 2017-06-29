@@ -1,4 +1,5 @@
 const db = require('./index');
+const _ = require('underscore');
 
 const createTicket = (req, res) => {
   db.Ticket.create(req.body)
@@ -14,14 +15,14 @@ const createTicket = (req, res) => {
 const findTickets = (req, res) => {
   let option = {};
   let query = req.query;
+  console.log('query: ', query);
   if (query.role === 'student') {
     option = { userId: query.id };
   } else if (query.role === 'mentor') {
     option = { status: 'Opened' };
-  } else {
-    for (let key in query) {
-      option[key] = query[key];
-    }
+  } else if (query.role === 'admin') {
+    option = _.omit(query, ['id', 'role']);
+    console.log('admin option: ', option);
   }
   db.Ticket.findAll({
     where: option,

@@ -46,29 +46,6 @@ User.hasMany(Ticket, {
   constraints: false
 });
 
-// const select = (category, status, dateStart) => {
-//   Ticket.findAll({
-//     where:
-//     {
-//       category: category,
-//       status: status,
-//       createdAt: {
-//         gt: dateStart
-//       }
-//     }
-//   })
-//     .then(ticket => {
-//       return ticket;
-//     });
-// };
-//
-// const selectAll = () => {
-//   Ticket.findAll()
-//     .then(ticket => {
-//       return ticket;
-//     });
-// };
-
 module.exports = {
   db: db,
   Ticket: Ticket,
