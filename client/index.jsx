@@ -119,7 +119,7 @@ class App extends React.Component {
       role: this.state.user.role,
       category: document.getElementById('select-category').value,
       status: document.getElementById('ticket-status').value,
-      createdAt: { gt: startDay.toISOString() }
+      createdAt: { $gt: startDay.toISOString() }
     };
 
     $.ajax({

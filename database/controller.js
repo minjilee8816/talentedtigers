@@ -15,21 +15,20 @@ const createTicket = (req, res) => {
 const findTickets = (req, res) => {
   let option = {};
   let query = req.query;
-  console.log('query: ', query);
   if (query.role === 'student') {
     option = { userId: query.id };
   } else if (query.role === 'mentor') {
-    option = { status: 'Opened' };
+    option = { status: { $or: ['Opened', 'Closed'] } };
   } else if (query.role === 'admin') {
     option = _.omit(query, ['id', 'role']);
-    console.log('admin option: ', option);
   }
   db.Ticket.findAll({
     where: option,
-    include: [ { model: db.User } ]
+    include: [ { model: db.User } ],
+    order: []
   })
     .then(result => {
-      if (!result) { throw result; }
+      if (result.length) { throw result; }
       res.send(result);
     })
     .catch(() => { res.sendStatus(404); });
@@ -38,11 +37,9 @@ const findTickets = (req, res) => {
 const updateTickets = (req, res) => {
   if (req.body.status === 'Claimed') {
     req.body.claimedAt = new Date();
-    console.log('claimedAt: ', req.body.claimedAt);
   }
   if (req.body.status === 'Closed') {
     req.body.closedAt = new Date();
-    console.log('closedAt: ', req.body.claimedAt);
   }
   db.Ticket.update(req.body, { where: { id: req.params.id } })
     .then(ticket => {
