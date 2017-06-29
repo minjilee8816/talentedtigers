@@ -1,7 +1,8 @@
 const computeAvgWaitTime = (tickets) => {
-  return tickets.reduce((acc, curr) => {
+  let sum = tickets.reduce((acc, curr) => {
     return acc + (Date.parse(curr.claimedAt) - Date.parse(curr.createdAt));
-  }, 0) / tickets.length;
+  }, 0);
+  return sum / tickets.length;
 };
 
 module.exports = {

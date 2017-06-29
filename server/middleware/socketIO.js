@@ -14,15 +14,22 @@ module.exports = server => {
       !students[id] ? students[id] = [socket] : students[id].push(socket);
     } else if (role === 'mentor') {
       !mentors[id] ? mentors[id] = [socket] : mentors[id].push(socket);
-    } else if (role === 'admin') {
-      socket.emit('stat', {
+    }
+
+    db.Ticket.findAll({
+      where: {
+        status: 'Closed',
+        claimedAt: { $not: null }
+      }
+    }).then(tickets => {
+      socket.emit('statistic', {
         studentNum: Object.keys(students).length,
         mentorNum: Object.keys(mentors).length,
-        currAveWait: '14mins'
+        currAveWait: util.computeAvgWaitTime(tickets)
       });
-    }
-    console.log(`${Object.keys(students).length} connected`);
-    console.log(`${Object.keys(mentors).length} connected`);
+      console.log(`${Object.keys(students).length} connected`);
+      console.log(`${Object.keys(mentors).length} connected`);
+    });
 
     socket.on('disconnect', data => {
       if (role === 'student') {

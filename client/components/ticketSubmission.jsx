@@ -8,14 +8,14 @@ const TicketSubmission = ({submitTickets, ticketCategoryList}) => (
     </div>
     <div className="form-group row">
       <div className="col-xs-4">
-        <label for="ticket_submission_category">Category</label>
+        <label htmlFor="ticket_submission_category">Category</label>
         <select className="form-control" id="ticket_submission_category">
           {ticketCategoryList.map((category, index) => <option key={index}>{category}</option>)}
         </select>
       </div>
       <div className="col-xs-4">
-        <label for="ticket_submission_location">Location</label>
-        <input type="text" id="ticket_submission_location" className="form-control" placeholder="Your station number" />
+        <label htmlFor="ticket_submission_location">Location</label>
+        <input type="text" id="ticket_submission_location" className="form-control" placeholder="Your station number"/>
       </div>
     </div>
     <div className="row">

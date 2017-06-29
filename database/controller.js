@@ -15,15 +15,17 @@ const createTicket = (req, res) => {
 const findTickets = (req, res) => {
   let option = {};
   let query = req.query;
-  console.log('query: ', query);
   if (query.role === 'student') {
     option = { userId: query.id };
   } else if (query.role === 'mentor') {
-    option = { status: 'Opened' };
+    option = {
+      status: ['Opened', 'Claimed'],
+      $or: [{ claimedBy: query.id }, { claimedBy: null }]
+    };
   } else if (query.role === 'admin') {
     option = _.omit(query, ['id', 'role']);
-    console.log('admin option: ', option);
   }
+  
   db.Ticket.findAll({
     where: option,
     include: [ { model: db.User } ]
@@ -38,11 +40,9 @@ const findTickets = (req, res) => {
 const updateTickets = (req, res) => {
   if (req.body.status === 'Claimed') {
     req.body.claimedAt = new Date();
-    console.log('claimedAt: ', req.body.claimedAt);
   }
   if (req.body.status === 'Closed') {
     req.body.closedAt = new Date();
-    console.log('closedAt: ', req.body.claimedAt);
   }
   db.Ticket.update(req.body, { where: { id: req.params.id } })
     .then(ticket => {
@@ -55,7 +55,7 @@ const updateTickets = (req, res) => {
 
 const createUser = (req, res) => {
   console.log(req.body);
-  db.User.create(req.body)  
+  db.User.create(req.body)
     .then(result => {
       console.log('RESULT: ', result);
       if (!result) { throw result; }

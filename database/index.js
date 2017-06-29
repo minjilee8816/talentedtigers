@@ -21,7 +21,7 @@ const Ticket = db.define('ticket', {
   status: Sequelize.STRING,
   location: Sequelize.STRING,
   claimedBy: Sequelize.INTEGER,
-  createdAt: { type: Sequelize.DATE, indexes: true },
+  createdAt: Sequelize.DATE,
   claimedAt: Sequelize.DATE,
   closedAt: Sequelize.DATE
 });

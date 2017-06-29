@@ -3,7 +3,6 @@ const router = express.Router();
 const util = require('../helpers/util');
 const db = require ('../../database/controller');
 const { isAuthenticated, githubAuth } = require('./auth');
-// const pad = require('../helpers/util.js').pad;
 
 router.use(githubAuth.initialize());
 router.use(githubAuth.session());

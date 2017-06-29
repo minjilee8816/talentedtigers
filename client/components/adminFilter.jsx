@@ -7,24 +7,27 @@ const AdminFilter = ({filterTickets, ticketCategoryList}) => (
       <div className="col-xs-3">
         <label htmlFor="select-category">Select Category</label>
         <select className="form-control" id="select-category">
+          <option value="All">All</option>
           {ticketCategoryList.map((category, index) => <option key={index}>{category}</option>)}
         </select>
       </div>
       <div className="col-xs-3">
         <label htmlFor="ticket-status">Ticket Status</label>
         <select className="form-control" id="ticket-status">
-          <option>Opened</option>
-          <option>Closed</option>
+          <option value="All">All</option>
+          <option value="Opened">Opened</option>
+          <option value="Claimed">Claimed</option>
+          <option value="Closed">Closed</option>
         </select>
       </div>
       <div className="col-xs-3">
         <label htmlFor="time-window">Time Window</label>
         <select className="form-control" id="time-window">
+          <option value="All">All</option>
           <option value="1">Today</option>
           <option value="7">Last Week</option>
           <option value="30">Last Month</option>
           <option value="365">Last Year</option>
-          <option value="3650">All</option>
         </select>
       </div>
       <div className="col-xs-3">
