@@ -37,6 +37,6 @@ const TicketEntry = ({user, ticket, updateTickets}) => {
       </div>
     </div>
   );
-}
+};
 
 export default TicketEntry;

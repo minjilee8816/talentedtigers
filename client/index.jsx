@@ -53,9 +53,14 @@ class App extends React.Component {
 
   getTickets() {
     $.ajax({
-      url: `/api/tickets/${this.state.user.id}`,
+      url: '/api/tickets/',
       type: 'GET',
+      data: {
+        id: this.state.user.id,
+        role: this.state.user.role
+      },
       success: (tickets) => {
+        console.log('get: ', tickets);
         this.setState({ ticketList: tickets });
       },
       error: () => {

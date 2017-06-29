@@ -3,7 +3,7 @@ module.exports.users = [
     "firstName":"Eric",
     "lastName":"Mai",
     "username":"enmai1988",
-    "role":"mentor",
+    "role":"admin",
     "cohort":"HRSF-77"
   },
   {
@@ -27,210 +27,210 @@ module.exports.users = [
     "role":"student",
     "cohort":"HRSF-77"
   },
-  {  
+  {
     "firstName":"Jeffrey",
     "lastName":"Filippello",
     "username":"jeffrey_filippello",
     "role":"student",
     "cohort":"HRSF-78"
   },
-  {  
+  {
     "firstName":"Helenelizabeth",
     "lastName":"Bedson",
     "username":"helenelizabeth_bedson",
     "role":"student",
     "cohort":"HRSF-78"
   },
-  {  
+  {
     "firstName":"Melisenda",
     "lastName":"Kloisner",
     "username":"melisenda_kloisner",
     "role":"student",
     "cohort":"HRSF-77"
   },
-  {  
+  {
     "firstName":"Kaylee",
     "lastName":"Gurden",
     "username":"kaylee_gurden",
     "role":"student",
     "cohort":"HRSF-78"
   },
-  {  
+  {
     "firstName":"Nessi",
     "lastName":"Milson",
     "username":"nessi_milson",
     "role":"student",
     "cohort":"HRSF-78"
   },
-  {  
+  {
     "firstName":"Hakim",
     "lastName":"Kinder",
     "username":"hakim_kinder",
     "role":"student",
     "cohort":"HRSF-77"
   },
-  {  
+  {
     "firstName":"Shandra",
     "lastName":"Southam",
     "username":"shandra_southam",
     "role":"student",
     "cohort":"HRSF-78"
   },
-  {  
+  {
     "firstName":"Sebastian",
     "lastName":"Curryer",
     "username":"sebastian_curryer",
     "role":"student",
     "cohort":"HRSF-78"
   },
-  {  
+  {
     "firstName":"Margaretha",
     "lastName":"Cheverell",
     "username":"margaretha_cheverell",
     "role":"student",
     "cohort":"HRSF-78"
   },
-  {  
+  {
     "firstName":"Aylmer",
     "lastName":"Titmarsh",
     "username":"aylmer_titmarsh",
     "role":"student",
     "cohort":"HRSF-77"
   },
-  {  
+  {
     "firstName":"Venus",
     "lastName":"Blackmuir",
     "username":"venus_blackmuir",
     "role":"student",
     "cohort":"HRSF-78"
   },
-  {  
+  {
     "firstName":"Boothe",
     "lastName":"Nast",
     "username":"boothe_nast",
     "role":"student",
     "cohort":"HRSF-78"
   },
-  {  
+  {
     "firstName":"Franklin",
     "lastName":"Branscomb",
     "username":"franklin_branscomb",
     "role":"student",
     "cohort":"HRSF-77"
   },
-  {  
+  {
     "firstName":"Shawna",
     "lastName":"Rudkin",
     "username":"shawna_rudkin",
     "role":"student",
     "cohort":"HRSF-78"
   },
-  {  
+  {
     "firstName":"Port",
     "lastName":"Wallege",
     "username":"port_wallege",
     "role":"student",
     "cohort":"HRSF-77"
   },
-  {  
+  {
     "firstName":"Graehme",
     "lastName":"Ghelerdini",
     "username":"graehme_ghelerdini",
     "role":"student",
     "cohort":"HRSF-78"
   },
-  {  
+  {
     "firstName":"Ange",
     "lastName":"Derkes",
     "username":"ange_derkes",
     "role":"student",
     "cohort":"HRSF-78"
   },
-  {  
+  {
     "firstName":"Ameline",
     "lastName":"Bennoe",
     "username":"ameline_bennoe",
     "role":"student",
     "cohort":"HRSF-78"
   },
-  {  
+  {
     "firstName":"Shannen",
     "lastName":"Drayton",
     "username":"shannen_drayton",
     "role":"student",
     "cohort":"HRSF-77"
   },
-  {  
+  {
     "firstName":"Elfreda",
     "lastName":"Osant",
     "username":"elfreda_osant",
     "role":"student",
     "cohort":"HRSF-77"
   },
-  {  
+  {
     "firstName":"Eliot",
     "lastName":"Tidgewell",
     "username":"eliot_tidgewell",
     "role":"student",
     "cohort":"HRSF-77"
   },
-  {  
+  {
     "firstName":"Jayne",
     "lastName":"Bortolotti",
     "username":"jayne_bortolotti",
     "role":"student",
     "cohort":"HRSF-77"
   },
-  {  
+  {
     "firstName":"Glen",
     "lastName":"Yakov",
     "username":"glen_yakov",
     "role":"student",
     "cohort":"HRSF-77"
   },
-  {  
+  {
     "firstName":"Aline",
     "lastName":"Champ",
     "username":"aline_champ",
     "role":"student",
     "cohort":"HRSF-78"
   },
-  {  
+  {
     "firstName":"Luisa",
     "lastName":"Sharpe",
     "username":"luisa_sharpe",
     "role":"student",
     "cohort":"HRSF-78"
   },
-  {  
+  {
     "firstName":"Ellette",
     "lastName":"Balmer",
     "username":"ellette_balmer",
     "role":"student",
     "cohort":"HRSF-78"
   },
-  {  
+  {
     "firstName":"Tim",
     "lastName":"Gianettini",
     "username":"tim_gianettini",
     "role":"student",
     "cohort":"HRSF-77"
   },
-  {  
+  {
     "firstName":"Freddi",
     "lastName":"Munday",
     "username":"freddi_munday",
     "role":"student",
     "cohort":"HRSF-77"
   },
-  {  
+  {
     "firstName":"Esmaria",
     "lastName":"Chattoe",
     "username":"esmaria_chattoe",
     "role":"student",
     "cohort":"HRSF-77"
   },
-  {  
+  {
     "firstName":"Felice",
     "lastName":"Tewes",
     "username":"felice_tewes",
@@ -2439,5 +2439,5 @@ module.exports.tickets = [
     "closedAt":null,
     "status":"Opened",
     "userId":14
-  }  
+  }
 ];
