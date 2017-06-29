@@ -59,32 +59,24 @@ body {
   margin-right: 5px;
 }
 
+.ticket_submission_form {
+  border-bottom: 2px solid #ccc;
+  margin: 0 0 20px 0;
+  padding: 0 0 20px 0;
+}
+
 #ticket_submission_description {
-  float: left;
-  width: 450px;
   height: 34px;
   resize: none;
   transition: all 0.5s ease;
 }
 
 #ticket_submission_description:focus {
-  float: left;
-  width: 450px;
-  height: 250px;
-}
-
-#ticket_submission_button {
-  float: left;
-  margin-left: 10px;
+  height: 102px;
 }
 
 #ticket_submission_area {
   margin-top: 10px;
-}
-
-#ticket_option_dropdown {
-  float: left;
-  width: 100px;
 }
 
 #wait_time {

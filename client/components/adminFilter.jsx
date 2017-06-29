@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 
-const AdminFilter = ({filterTickets, ticketOptionList}) => (
+const AdminFilter = ({filterTickets, ticketCategoryList}) => (
   <div>
     <form className="form-horizontal">
       <div className="form-group">
         <label htmlFor="select-category">Select Category</label>
         <select className="form-control" id="select-category">
-          {ticketOptionList.map((ticketOption, index) => <option key={index}>{ticketOption}</option>)}
+          {ticketCategoryList.map((category, index) => <option key={index}>{category}</option>)}
         </select>
       </div>
       <div className="form-group">
