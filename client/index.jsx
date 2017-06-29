@@ -14,7 +14,7 @@ class App extends React.Component {
     super();
     this.state = {
       ticketList: [],
-      ticketOptionList: ['React', 'Socket.IO', 'Recursion', 'Postgres'],
+      ticketCategoryList: ['React', 'Socket.IO', 'Recursion', 'Postgres'],
       user: null,
       waitTime: '1mins'
     };
@@ -73,7 +73,8 @@ class App extends React.Component {
     let ticket = {
       userId: this.state.user.id,
       description: document.getElementById('ticket_submission_description').value,
-      category: document.getElementById('ticket_option_dropdown').value,
+      category: document.getElementById('ticket_submission_category').value,
+      location: document.getElementById('ticket_submission_location').value,
       status: 'Opened'
     };
     console.log(`Sending Descrip: ${ticket.description}, Category: ${ticket.category} to api/tickets via POST`);
@@ -141,7 +142,7 @@ class App extends React.Component {
     if (!user) {
       render = <Login />;
     } else if (user.role === 'student') {
-      render = <TicketSubmission submitTickets={this.submitTickets.bind(this)} ticketOptionList={this.state.ticketOptionList}/>;
+      render = <TicketSubmission submitTickets={this.submitTickets.bind(this)} ticketCategoryList={this.state.ticketCategoryList}/>;
     } else if (user.role === 'mentor') {
       // render HIR view
     } else if (user.role === 'admin') {
@@ -149,7 +150,7 @@ class App extends React.Component {
       <div id="admin-view">
         <AdminDashboard />
         <AddUser />
-        <AdminFilter filterTickets={this.filterTickets.bind(this)} ticketOptionList={this.state.ticketOptionList}/>
+        <AdminFilter filterTickets={this.filterTickets.bind(this)} ticketCategoryList={this.state.ticketCategoryList}/>
       </div>;
     }
     return (

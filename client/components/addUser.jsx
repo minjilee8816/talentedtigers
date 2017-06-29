@@ -27,25 +27,30 @@ const AddUser = () => {
 
 
   return (
-    <div>
-      <form className="form-horizontal">
-        <div className="form-group">
+    <form className="add_user_form">
+      <div className="form-group row">
+        <div className="col-xs-12"><h2>Add a user</h2></div>
+      </div>
+      <div className="form-group row">
+        <div className="col-xs-4">
           <label htmlFor="first-name">First Name</label>
-          <input className="form-control" id="first-name" placeholder="First Name"/>
+          <input className="form-control" id="first-name" placeholder="First Name" />
         </div>
-        <div className="form-group">
+        <div className="col-xs-4">
           <label htmlFor="last-name">Last Name</label>
-          <input className="form-control" id="last-name" placeholder="Last Name"/>
+          <input className="form-control" id="last-name" placeholder="Last Name" />
         </div>
-        <div className="form-group">
+        <div className="col-xs-4">
           <label htmlFor="user-name">Username</label>
-          <input className="form-control" id="user-name" placeholder="Username"/>
+          <input className="form-control" id="user-name" placeholder="Username" />
         </div>
-        <div className="form-group">
+      </div>
+      <div className="row">
+        <div className="col-xs-4">
           <label htmlFor="cohort-name">Cohort</label>
-          <input className="form-control" id="cohort-name" placeholder="Cohort Name"/>
+          <input className="form-control" id="cohort-name" placeholder="Cohort Name" />
         </div>
-        <div className="form-group">
+        <div className="col-xs-4">
           <label htmlFor="role-dropdown">Role</label>
           <select className="form-control" id="role-dropdown">
             <option value="admin">Admin</option>
@@ -53,9 +58,13 @@ const AddUser = () => {
             <option value="student">Student</option>
           </select>
         </div>
-        <button onClick={addNewUser} type="submit" id="add-user-button" className="btn btn-default">Add User</button>
-      </form>
-    </div>
+        <div className="col-xs-4">
+          <label>&nbsp;</label>
+          <br />
+          <button onClick={addNewUser} type="submit" id="add-user-button" className="btn btn-primary">Add User</button>
+        </div>
+      </div>
+    </form>
   );
 };
 
