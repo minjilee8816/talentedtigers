@@ -59,6 +59,12 @@ body {
   margin-right: 5px;
 }
 
+.add_user_form {
+  border-bottom: 2px solid #ccc;
+  margin: 0 0 40px 0;
+  padding: 0 0 40px 0;
+}
+
 .ticket_submission_form {
   border-bottom: 2px solid #ccc;
   margin: 0 0 20px 0;
