@@ -49,7 +49,7 @@ class App extends React.Component {
 
   getTickets(option) {
     $.get('/api/tickets', () => {
-      this.socket.emit('get tickets', option);
+      this.socket.to(option.id).emit('get tickets', option);
       this.socket.on('reply', data => {
         this.setState({ ticketList: data.ticketList });
       });
