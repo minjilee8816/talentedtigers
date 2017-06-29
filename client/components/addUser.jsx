@@ -48,9 +48,9 @@ const AddUser = () => {
         <div className="form-group">
           <label htmlFor="role-dropdown">Role</label>
           <select className="form-control" id="role-dropdown">
-            <option>Admin</option>
-            <option>Mentor</option>
-            <option>Student</option>
+            <option value="admin">Admin</option>
+            <option value="mentor">Mentor</option>
+            <option value="student">Student</option>
           </select>
         </div>
         <button onClick={addNewUser} type="submit" id="add-user-button" className="btn btn-default">Add User</button>
