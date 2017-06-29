@@ -14,7 +14,9 @@ module.exports = server => {
       !students[id] ? students[id] = [socket] : students[id].push(socket);
     } else if (role === 'mentor') {
       !mentors[id] ? mentors[id] = [socket] : mentors[id].push(socket);
+      socket.join('mentor');
     }
+    socket.join(id);
 
     socket.on('get tickets', option => {
       db.findTickets(option).then(result => {
