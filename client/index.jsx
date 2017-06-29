@@ -60,7 +60,6 @@ class App extends React.Component {
         role: this.state.user.role
       },
       success: (tickets) => {
-        console.log('get: ', tickets);
         this.setState({ ticketList: tickets });
       },
       error: () => {
@@ -110,8 +109,30 @@ class App extends React.Component {
     });
   }
 
-  filterTickets() {
+  filterTickets(e) {
+    e.preventDefault();
+    let day = document.getElementById('time-window').value;
+    let startDay = new Date(new Date() - day * 24 * 60 * 60 * 1000);
+    let option = {
+      id: this.state.user.id,
+      role: this.state.user.role,
+      category: document.getElementById('select-category').value,
+      status: document.getElementById('ticket-status').value,
+      createdAt: { gt: startDay.toISOString() }
+    };
 
+    $.ajax({
+      url: '/api/tickets/',
+      type: 'GET',
+      data: option,
+      success: (tickets) => {
+        console.log('filterTickets: ', tickets);
+        this.setState({ ticketList: tickets });
+      },
+      error: () => {
+        console.log('err');
+      }
+    });
   }
 
   render() {
