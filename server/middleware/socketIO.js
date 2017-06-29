@@ -1,4 +1,5 @@
 const db = require ('../../database/');
+const util = require('../helpers/util');
 
 module.exports = server => {
   const io = require('socket.io')(server, { cookie: true });
@@ -13,6 +14,12 @@ module.exports = server => {
       !students[id] ? students[id] = [socket] : students[id].push(socket);
     } else if (role === 'mentor') {
       !mentors[id] ? mentors[id] = [socket] : mentors[id].push(socket);
+    } else if (role === 'admin') {
+      socket.emit('stat', {
+        studentNum: Object.keys(students).length,
+        mentorNum: Object.keys(mentors).length,
+        currAveWait: '14mins'
+      });
     }
     console.log(`${Object.keys(students).length} connected`);
     console.log(`${Object.keys(mentors).length} connected`);

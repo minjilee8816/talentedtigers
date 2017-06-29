@@ -33,7 +33,7 @@ const isAuthenticated = function(req, res, next) {
   if (req.isAuthenticated()) {
     next();
   } else {
-    res.redirect('/api/auth/github');
+    res.redirect('/');
   }
 };
 
