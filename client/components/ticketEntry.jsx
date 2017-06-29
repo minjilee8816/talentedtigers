@@ -13,10 +13,10 @@ const TicketEntry = ({user, ticket, updateTickets}) => {
     className = 'alert-success';
     time = `opened ${util.timefromNow(ticket.createdAt)}`;
   } else if (ticket.status === 'Claimed') {
-    className = 'alert-primary';
+    className = 'alert-info';
     time = `claimed ${util.timefromNow(ticket.claimedAt)}`;
   } else {
-    className = 'alert-default';
+    className = 'alert-danger';
     time = `closed ${util.timefromNow(ticket.closedAt)}`;
   }
 
