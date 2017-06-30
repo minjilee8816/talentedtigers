@@ -58,26 +58,35 @@ class App extends React.Component {
   }
 
   submitTickets(e) {
-    e.preventDefault();
-    let ticket = {
-      userId: this.state.user.id,
-      description: document.getElementById('ticket_submission_description').value,
-      category: document.getElementById('ticket_submission_category').value,
-      location: document.getElementById('ticket_submission_location').value,
-      status: 'Opened'
-    };
-
-    $.ajax({
-      url: '/api/tickets',
-      type: 'POST',
-      data: ticket,
-      success: (response) => {
-        this.socket.emit('refresh');
-        document.getElementById('ticket_submission_description').value = '';
+    $('.ticket_submission_form').validate({
+      rules: {
+        category: 'required',
+        location: 'required',
+        description: 'required'
       },
-      error: () => {
-        console.log('Error submitting ticket');
-      }
+      submitHandler: (form) => {
+        let ticket = {
+          userId: this.state.user.id,
+          category: document.getElementById('ticket_submission_category').value,
+          location: document.getElementById('ticket_submission_location').value,
+          description: document.getElementById('ticket_submission_description').value,
+          status: 'Opened'
+        };
+        $.ajax({
+          url: '/api/tickets',
+          type: 'POST',
+          data: ticket,
+          success: (response) => {
+            this.socket.emit('refresh');
+            document.getElementById('ticket_submission_location').value = '';
+            document.getElementById('ticket_submission_description').value = '';
+          },
+          error: () => {
+            console.log('Error submitting ticket');
+          }
+        });
+      },
+      errorPlacement: function(error, element) {} // Do not show error messages
     });
   }
 
