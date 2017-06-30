@@ -10,8 +10,6 @@ const Nav = ({statistic, user}) => (
           <img src="http://placehold.it/40x40" />
         </div>
         <ul className="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
-          <li><a href="#">Dashboard</a></li>
-          <li><a href="#">Profile</a></li>
           <li><a href="/api/logout">Logout</a></li>
         </ul>
       </div>
