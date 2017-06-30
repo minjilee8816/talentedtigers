@@ -50,7 +50,7 @@ module.exports = server => {
       }).then(result => {
         currAveGap = util.computeAveTicketOpeningTime(result);
         console.log('gap: ', currAveGap / 3600000);
-        result.forEach((ticket, index) => {
+        result.forEach((ticket, index) =>{
           let response = { waitTime: 0 };
           if (index > Object.keys(mentors).length - 1) {
             response.waitTime = util.computeCurrWaitTime(totalAveWait, currAveGap, index);
