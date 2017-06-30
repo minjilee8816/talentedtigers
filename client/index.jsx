@@ -48,11 +48,8 @@ class App extends React.Component {
   }
 
   getTickets(option) {
-    $.get('/api/tickets', () => {
-      this.socket.emit('get tickets', option);
-      this.socket.on('reply', data => {
-        this.setState({ ticketList: data.ticketList });
-      });
+    $.get('/api/tickets', option, (tickets) => {
+      this.setState({ ticketList: tickets });
     });
   }
 
@@ -66,19 +63,16 @@ class App extends React.Component {
       status: 'Opened'
     };
 
-    console.log(`Sending Descrip: ${ticket.description}, Category: ${ticket.category} to api/tickets via POST`);
-
     $.ajax({
       url: '/api/tickets',
       type: 'POST',
       data: ticket,
       success: (response) => {
-        console.log(`Successfully sent ${ticket} to apt/tickets via POST`);
         this.socket.emit('refresh');
         document.getElementById('ticket_submission_description').value = '';
       },
       error: () => {
-        console.log('Error submitting ticket to api/tickets via POST');
+        console.log('Error submitting ticket');
       }
     });
   }
@@ -111,7 +105,6 @@ class App extends React.Component {
       : { $gte: new Date(new Date() - timeWindow * 24 * 60 * 60 * 1000).toISOString() };
     if (category === 'All') { category = { $not: null }; }
     if (status === 'All') { status = { $not: null }; }
-    console.log(createdAt);
     let option = {
       id: this.state.user.id,
       role: this.state.user.role,
