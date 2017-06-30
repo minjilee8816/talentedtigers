@@ -11,7 +11,7 @@ const AddUser = () => {
       role: document.getElementById('role-dropdown').value
       // cohort: document.getElementById('cohort-name').value,
     };
-    console.log(`Sending new user ${user.userName} to api/users via POST`);
+    console.log(`Sending new user ${user.username} to api/users via POST`);
     $.ajax({
       url: 'api/users',
       type: 'POST',
