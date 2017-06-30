@@ -6,6 +6,7 @@ import TicketSubmission from './components/ticketSubmission.jsx';
 import Login from './components/login.jsx';
 import Nav from './components/nav.jsx';
 import AdminDashboard from './components/adminDashboard.jsx';
+import _ from 'underscore';
 
 class App extends React.Component {
   constructor() {
@@ -49,7 +50,7 @@ class App extends React.Component {
 
   getTickets(option) {
     $.get('/api/tickets', option, (tickets) => {
-      this.setState({ ticketList: tickets });
+      this.setState({ ticketList: tickets.tickets, statistic: _.extend(this.state.statistic, tickets.adminStatistics) });
       this.socket.emit('get wait time');
       this.socket.on('student wait time', data => this.setState({ statistic: data }));
     });

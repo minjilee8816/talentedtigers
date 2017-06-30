@@ -1,5 +1,7 @@
 const { db, Ticket, User } = require('../database/');
 const _ = require('underscore');
+const util = require('../helpers/util');
+
 
 const createTicket = (req, res) => {
   Ticket.create(req.body).then(result => {
@@ -41,7 +43,12 @@ const findTickets = (req, res) => {
     ]
   }).then(result => {
     if (!result) { res.sendStatus(404); }
-    res.send(result);
+    var resultObj = {tickets: result};
+    if(query.role === 'admin') {
+      resultObj.adminStatistics = util.adminStats(result)
+      console.log(resultObj.adminStatistics);
+    }
+    res.send(resultObj);
   });
 };
 
