@@ -103,7 +103,7 @@ class App extends React.Component {
     let category = document.getElementById('select-category').value;
     let status = document.getElementById('ticket-status').value;
 
-    let createdAt = timeWindow === 'All' ? { $lte: new Date().toISOString() }
+    let createdAt = timeWindow === 'All' ? { $not: null }
       : { $gte: new Date(new Date() - timeWindow * 24 * 60 * 60 * 1000).toISOString() };
     if (category === 'All') { category = { $not: null }; }
     if (status === 'All') { status = { $not: null }; }
