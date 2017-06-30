@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const db = require ('../../database/controller');
+const db = require ('../../models');
 const { isAuthenticated, githubAuth } = require('./auth');
 
 router.use(githubAuth.initialize());
@@ -17,12 +17,7 @@ if (process.env.URL !== 'http://127.0.0.1:3000') {
   router.use(isAuthenticated);
 }
 
-router.get('/api/tickets', (req, res) => {
-  db.findTickets(req.query).then(tickets => {
-    if (!tickets) { return res.sendStatus(404); }
-    res.send(tickets);
-  });
-});
+router.get('/api/tickets', db.findTickets);
 
 router.get('/api/users/:id', (req, res) => {
   res.send(req.session.passport);
@@ -37,25 +32,10 @@ router.get('/api/logout', (req, res) => {
   res.redirect('/');
 });
 
-router.post('/api/tickets', (req, res) => {
-  db.createTicket(req.body).then(ticket => {
-    if (!ticket) { return res.sendStatus(500); }
-    res.sendStatus(201);
-  });
-});
+router.post('/api/tickets', db.createTicket);
 
-router.put('/api/tickets/:id', (req, res) => {
-  db.updateTickets(req.body, req.params.id).then(result => {
-    if (!result) { return res.sendStatus(500); }
-    res.sendStatus(200);
-  });
-});
+router.post('/api/users', db.createUser);
 
-router.post('/api/users', (req, res) => {
-  db.createUser(req.body).then(result => {
-    if (!result) { return res.sendStatus(500); }
-    res.sendStatus(201);
-  });
-});
+router.put('/api/tickets/:id', db.updateTickets);
 
 module.exports = router;

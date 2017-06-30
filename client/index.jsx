@@ -50,6 +50,8 @@ class App extends React.Component {
   getTickets(option) {
     $.get('/api/tickets', option, (tickets) => {
       this.setState({ ticketList: tickets });
+      this.socket.emit('get wait time');
+      this.socket.on('student wait time', data => this.setState({ statistic: data }));
     });
   }
 
