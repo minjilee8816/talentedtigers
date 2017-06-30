@@ -13,7 +13,7 @@ const computeAveTicketOpeningTime = (tickets) => {
   for (let i = 0; i < tickets.length - 1; i++) {
     diff.push(Date.parse(tickets[i + 1].createdAt) - Date.parse(tickets[i].createdAt));
   }
-  return diff.reduce((a, b) => a + b) / diff.length;
+  return diff.reduce((a, b) => { return a + b; }) / diff.length;
 };
 
 const computeCurrWaitTime = (totalAveWait, gap, index) => {
@@ -21,7 +21,7 @@ const computeCurrWaitTime = (totalAveWait, gap, index) => {
   return (totalAveWait - gap) * index;
 };
 
-const timefromNow = function(timestamp) { return moment(timestamp).fromNow(); };
+const timefromNow = (timestamp) => { return moment(timestamp).fromNow(); };
 
 module.exports = {
   timefromNow: timefromNow,
