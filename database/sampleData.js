@@ -1,10 +1,10 @@
 module.exports.users = [
   {
-    "firstName": "Eric",
-    "lastName": "Mai",
-    "username": "enmai1988",
-    "role": "mentor",
-    "cohort": "HRSF-77"
+    "firstName":"Eric",
+    "lastName":"Mai",
+    "username":"enmai1988",
+    "role":"admin",
+    "cohort":"HRSF-77"
   },
   {
     "firstName": "David",
