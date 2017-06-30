@@ -17,7 +17,7 @@ class App extends React.Component {
       statistic: {},
       hasClaimed: false
     };
-    this.socket = null;
+    this.socket = {};
   }
 
   componentWillMount() {
@@ -35,22 +35,21 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    if (this.state.user) {
-      let option = {
-        id: this.state.user.id,
-        role: this.state.user.role
-      };
-      this.socket = io({ query: option });
-      this.getTickets(option);
-    }
+    if (!this.state.user) { return; }
+    let option = {
+      id: this.state.user.id,
+      role: this.state.user.role
+    };
+    this.socket = io({ query: option });
+    this.socket.on('update or submit ticket', () => {
+      return option.role === 'admin' ? this.filterTickets() : this.getTickets(option);
+    });
+    this.getTickets(option);
   }
 
   getTickets(option) {
-    $.get('/api/tickets', () => {
-      this.socket.emit('get tickets', option);
-      this.socket.on('reply', data => {
-        this.setState({ ticketList: data.ticketList });
-      });
+    $.get('/api/tickets', option, (tickets) => {
+      this.setState({ ticketList: tickets });
     });
   }
 
@@ -72,10 +71,7 @@ class App extends React.Component {
       data: ticket,
       success: (response) => {
         console.log(`Successfully sent ${ticket} to apt/tickets via POST`);
-        this.getTickets({
-          id: this.state.user.id,
-          role: this.state.user.role
-        });
+        this.socket.emit('refresh');
         document.getElementById('ticket_submission_description').value = '';
       },
       error: () => {
@@ -94,10 +90,7 @@ class App extends React.Component {
       type: 'PUT',
       data: data,
       success: (response) => {
-        this.getTickets({
-          id: this.state.user.id,
-          role: this.state.user.role
-        });
+        this.socket.emit('refresh');
       },
       error: (err) => {
         console.log('failed to update ticket');
@@ -106,7 +99,7 @@ class App extends React.Component {
   }
 
   filterTickets(e) {
-    e.preventDefault();
+    if (e) { e.preventDefault(); }
     let timeWindow = document.getElementById('time-window').value;
     let category = document.getElementById('select-category').value;
     let status = document.getElementById('ticket-status').value;
@@ -127,15 +120,15 @@ class App extends React.Component {
     this.getTickets(option);
   }
 
-  hasClaimed() {
-    const ticketList = this.state.ticketList;
-    for (let i = 0; i < ticketList.length; i++) {
-      if (ticketList[i].claimedBy === this.state.user.id) {
-        return this.setState({ hasClaimed: true });
-      }
-    }
-    this.setState({ hasClaimed: false });
-  }
+  // hasClaimed() {
+  //   const ticketList = this.state.ticketList;
+  //   for (let i = 0; i < ticketList.length; i++) {
+  //     if (ticketList[i].claimedBy === this.state.user.id) {
+  //       return this.setState({ hasClaimed: true });
+  //     }
+  //   }
+  //   this.setState({ hasClaimed: false });
+  // }
 
   render() {
     let user = this.state.user;
