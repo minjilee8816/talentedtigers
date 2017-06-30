@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import util from '../helpers/util';
+import util from '../../helpers/util';
 
 const TicketEntry = ({user, ticket, updateTickets, hasClaimed}) => {
 

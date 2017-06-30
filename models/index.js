@@ -1,12 +1,16 @@
-const { db, Ticket, User } = require('./index');
+const { db, Ticket, User } = require('../database/');
 const _ = require('underscore');
 
-const createTicket = (ticket) => {
-  return Ticket.create(ticket);
+const createTicket = (req, res) => {
+  Ticket.create(req.body).then(result => {
+    if (!result) { res.sendStatus(500); }
+    res.sendStatus(201);
+  });
 };
 
-const findTickets = (query) => {
+const findTickets = (req, res) => {
   let option = {};
+  let query = req.query;
   if (query.role === 'student') {
     option = { userId: query.id };
   } else if (query.role === 'mentor') {
@@ -23,7 +27,7 @@ const findTickets = (query) => {
     return status;
   };
 
-  return Ticket.findAll({
+  Ticket.findAll({
     where: option,
     include: [ { model: User } ],
     order: [
@@ -35,21 +39,32 @@ const findTickets = (query) => {
       )],
       ['updatedAt', 'DESC']
     ]
+  })
+    .then(result => {
+      if (!result) { res.sendStatus(404); }
+      res.send(result);
+    });
+};
+
+const updateTickets = (req, res) => {
+  if (req.body.status === 'Claimed') {
+    req.body.claimedAt = new Date();
+  }
+  if (req.body.status === 'Closed') {
+    req.body.closedAt = new Date();
+  }
+  Ticket.update(req.body, { where: { id: req.params.id } })
+    .then(result => {
+      if (!result) { res.sendStatus(500); }
+      res.sendStatus(200);
+    });
+};
+
+const createUser = (req, res) => {
+  User.create(req.body).then(result => {
+    if (!result) { res.sendStatus(500); }
+    res.sendStatus(201);
   });
-};
-
-const updateTickets = (body, id) => {
-  if (body.status === 'Claimed') {
-    body.claimedAt = new Date();
-  }
-  if (body.status === 'Closed') {
-    body.closedAt = new Date();
-  }
-  return Ticket.update(body, { where: { id: id } });
-};
-
-const createUser = (user) => {
-  return User.create(user);
 };
 
 module.exports = {
