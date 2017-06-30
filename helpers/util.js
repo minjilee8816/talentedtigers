@@ -22,7 +22,6 @@ const computeCurrWaitTime = (totalAveWait, gap, index) => {
 
 
 module.exports = {
-  timefromNow: timefromNow,
   computeAvgWaitTime: computeAvgWaitTime,
   computeAveTicketOpeningTime: computeAveTicketOpeningTime,
   computeCurrWaitTime: computeCurrWaitTime
