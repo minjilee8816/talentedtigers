@@ -1,4 +1,3 @@
-const moment = require('moment');
 
 const computeAvgWaitTime = (tickets) => {
   let sum = tickets.reduce((a, b) => {
@@ -21,7 +20,6 @@ const computeCurrWaitTime = (totalAveWait, gap, index) => {
   return (totalAveWait - gap) * index;
 };
 
-const timefromNow = (timestamp) => { return moment(timestamp).fromNow(); };
 
 module.exports = {
   timefromNow: timefromNow,
