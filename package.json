@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "engines": {
-    "node": ">=6.11.0"
+    "node": "6.11.0"
   },
   "scripts": {
     "react-dev": "webpack -d --watch",
@@ -45,7 +45,6 @@
     "socket.io": "^2.0.3",
     "socket.io-client": "^2.0.3",
     "underscore": "^1.8.3",
-    "watson-developer-cloud": "^2.32.1",
     "webpack": "^3.0.0"
   },
   "devDependencies": {}
