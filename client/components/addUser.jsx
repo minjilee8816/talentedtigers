@@ -25,7 +25,6 @@ const AddUser = () => {
     });
   };
 
-
   return (
     <form className="add_user_form">
       <div className="form-group row">
