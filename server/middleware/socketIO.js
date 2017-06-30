@@ -27,8 +27,7 @@ module.exports = server => {
     socket.on('refresh', () => io.emit('update or submit ticket'));
 
     socket.on('get wait time', () => {
-      let totalAveWait = 0;
-      let currAveGap = 0;
+      let totalAveWait = currAveGap = 0;
       Ticket.findAll({
         where: {
           status: 'Closed',
@@ -49,14 +48,14 @@ module.exports = server => {
           order: [['createdAt', 'ASC']]
         });
       }).then(result => {
-        console.log(result.map(el => el.createdAt));
         currAveGap = util.computeAveTicketOpeningTime(result);
         console.log('gap: ', currAveGap / 3600000);
         result.forEach((ticket, index) =>{
-          let obj = {
-            waitTime: util.computeCurrWaitTime(totalAveWait, currAveGap, index)
-          };
-          io.to(ticket.userId).emit('student wait time', obj);
+          let response = { waitTime: 0 };
+          if (index > Object.keys(mentors).length - 1) {
+            response.waitTime = util.computeCurrWaitTime(totalAveWait, currAveGap, index);
+          }
+          io.to(ticket.userId).emit('student wait time', response);
         });
       });
     });
