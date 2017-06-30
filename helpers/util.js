@@ -21,7 +21,7 @@ const computeCurrWaitTime = (totalAveWait, gap, index) => {
   return (totalAveWait - gap) * index;
 };
 
-const timefromNow = timestamp => moment(timestamp).fromNow();
+const timefromNow = timestamp => { return moment(timestamp).fromNow(); };
 
 module.exports = {
   timefromNow: timefromNow,
