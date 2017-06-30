@@ -118,15 +118,15 @@ class App extends React.Component {
     this.getTickets(option);
   }
 
-  hasClaimed() {
-    const ticketList = this.state.ticketList;
-    for (let i = 0; i < ticketList.length; i++) {
-      if (ticketList[i].claimedBy === this.state.user.id) {
-        return this.setState({ hasClaimed: true });
-      }
-    }
-    this.setState({ hasClaimed: false });
-  }
+  // hasClaimed() {
+  //   const ticketList = this.state.ticketList;
+  //   for (let i = 0; i < ticketList.length; i++) {
+  //     if (ticketList[i].claimedBy === this.state.user.id) {
+  //       return this.setState({ hasClaimed: true });
+  //     }
+  //   }
+  //   this.setState({ hasClaimed: false });
+  // }
 
   render() {
     let user = this.state.user;
@@ -145,7 +145,8 @@ class App extends React.Component {
         <Nav statistic={this.state.statistic} user={this.state.user}/>
         <div className="col-md-8">
           {render}
-          <TicketList user={this.state.user} ticketList={this.state.ticketList} updateTickets={this.updateTickets.bind(this)} hasClaimed={this.state.hasClaimed} />
+          {/* <TicketList user={this.state.user} ticketList={this.state.ticketList} updateTickets={this.updateTickets.bind(this)} hasClaimed={this.state.hasClaimed} /> */}
+          <TicketList user={this.state.user} ticketList={this.state.ticketList} updateTickets={this.updateTickets.bind(this)} />
         </div>
       </div>
     );
