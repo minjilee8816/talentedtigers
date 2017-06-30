@@ -114,7 +114,7 @@ class App extends React.Component {
       status: status,
       createdAt: createdAt
     };
-
+    console.log('filering tickets...');
     this.getTickets(option);
   }
 
