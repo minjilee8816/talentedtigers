@@ -19,7 +19,7 @@ if (process.env.URL !== 'http://127.0.0.1:3000') {
 
 router.get('/api/tickets', (req, res) => {
   db.findTickets(req.query).then(tickets => {
-    if (!tickets.length) { return res.sendStatus(404); }
+    if (!tickets) { return res.sendStatus(404); }
     res.send(tickets);
   });
 });
