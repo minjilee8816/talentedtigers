@@ -39,11 +39,10 @@ const findTickets = (req, res) => {
       )],
       ['updatedAt', 'DESC']
     ]
-  })
-    .then(result => {
-      if (!result) { res.sendStatus(404); }
-      res.send(result);
-    });
+  }).then(result => {
+    if (!result) { res.sendStatus(404); }
+    res.send(result);
+  });
 };
 
 const updateTickets = (req, res) => {

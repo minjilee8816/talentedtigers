@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import util from '../../helpers/util';
+import moment from 'moment';
 
 const TicketEntry = ({user, ticket, updateTickets, hasClaimed}) => {
 
@@ -11,13 +11,13 @@ const TicketEntry = ({user, ticket, updateTickets, hasClaimed}) => {
 
   if (ticket.status === 'Opened') {
     className = 'alert-success';
-    time = `opened ${util.timefromNow(ticket.createdAt)}`;
+    time = `opened ${moment(ticket.createdAt).fromNow()}`;
   } else if (ticket.status === 'Claimed') {
     className = 'alert-info';
-    time = `claimed ${util.timefromNow(ticket.claimedAt)}`;
+    time = `claimed ${moment(ticket.claimedAt).fromNow()}`;
   } else {
     className = 'alert-danger';
-    time = `closed ${util.timefromNow(ticket.closedAt)}`;
+    time = `closed ${moment(ticket.closedAt).fromNow()}`;
   }
 
   if (ticket.status === 'Opened' && ticket.userId !== user.id) {
