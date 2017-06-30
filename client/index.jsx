@@ -26,8 +26,6 @@ class App extends React.Component {
       async: false,
       success: (response) => {
         return response ? this.setState({ user: response.user }) : null;
-        this.hasClaimed();
-        console.log(this.state.hasClaimed);
       },
       error: () => {
         console.log('failed');
