@@ -48,7 +48,6 @@ module.exports = server => {
           order: [['createdAt', 'ASC']]
         });
       }).then(result => {
-        currAveGap = util.computeAveTicketOpeningTime(result);
         console.log('gap: ', currAveGap / 3600000);
         result.forEach((ticket, index) =>{
           let response = { waitTime: 0 };

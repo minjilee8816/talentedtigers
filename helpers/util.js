@@ -7,10 +7,10 @@ const computeAvgWaitTime = (tickets, mentors, userId) => {
   let sum = tickets.reduce((acc, curr) => {
     let date = Date.parse(curr.claimedAt);
     let wait = date - Date.parse(curr.createdAt);
-    if (reducedToDay(date) && curr.claimedAt) { 
+    if (reducedToDay(date) && curr.claimedAt) {
       storage.push(curr);
-      return acc + wait; 
-    } 
+      return acc + wait;
+    }
     return acc;
   }, 0);
   let queuePos = tickets.filter((ticket) => { return ticket.status === 'Opened'; }).sort((ticket1, ticket2) => Date.parse(ticket1.createdAt) - Date.parse(ticket2.createdAt)).findIndex((ticket) => ticket.userId === userId ) + 1;
@@ -34,7 +34,7 @@ const computeAvgWaitTime = (tickets, mentors, userId) => {
       }
     }
   }
-  
+
   return Math.floor(estimate);
 };
 
@@ -45,23 +45,23 @@ const computeCurrWaitTime = (totalAveWait, gap, index) => {
 
 const adminStats = function(ticketArr) {
   var dashboardStats = {
-    open: 0, 
+    open: 0,
     closed: 0,
-    popularCategory: '', 
+    popularCategory: '',
     popularCategoryCount: 0
   };
   var categories = {};
   for (var i = 0; i < ticketArr.length; i++) {
     if (Date.parse(ticketArr[i].dataValues.createdAt) > new Date() - 1 * 24 * 60 * 60 * 1000) {
-      console.log('YOU ARE HERE!');    
+      console.log('YOU ARE HERE!');
       ticketArr[i].status === 'Closed' ? dashboardStats.closed++ : dashboardStats.open++;
-      
+
       if (categories[ticketArr[i].category] !== undefined) {
-        categories[ticketArr[i].category]++; 
+        categories[ticketArr[i].category]++;
       } else {
         categories[ticketArr[i].category] = 1;
-      } 
-      
+      }
+
       if (categories[ticketArr[i].category] > dashboardStats.popularCategoryCount) {
         dashboardStats.popularCategory = ticketArr[i].category;
         dashboardStats.popularCategoryCount = categories[ticketArr[i].category];
@@ -72,7 +72,6 @@ const adminStats = function(ticketArr) {
 };
 
 module.exports = {
-  computeAvgWaitTime: computeAvgWaitTime,
   computeCurrWaitTime: computeCurrWaitTime,
   adminStats: adminStats,
   computeAvgWaitTime: computeAvgWaitTime
