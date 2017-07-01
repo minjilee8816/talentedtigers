@@ -7,7 +7,7 @@ const Nav = ({statistic, user}) => (
       <a className="navbar-brand" href="#">Help Reactor</a>
       <div className="dropdown navbar-right">
         <div className="dropdown-toggle navbar-profile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-          <img src="http://placehold.it/40x40" />
+          <img src={user.avatarUrl} />
         </div>
         <ul className="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
           <li><a href="/api/logout">Logout</a></li>
