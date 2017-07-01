@@ -25,7 +25,7 @@ const Header = ({onlineUsers, statistic, user}) => {
   if (user && user.role === 'student') {
     welcome =
       <h4>
-        The estimated wait time is <span>{waitTime} minutes</span>.
+        The estimated wait time is <span>{onlineUsers.waitTime} minutes</span>.
       </h4>;
   }
 
