@@ -175,6 +175,16 @@ h6:last-child {
   padding: 7px 7px 7px 10px;
 }
 
+.alert-main {
+  border-radius: 0;
+  position: fixed;
+  text-align: center;
+  top: -36px;
+  transition: all 0.5s ease;
+  width: 100%;
+  z-index: 1;
+}
+
 .alert-default {
   background-color: #fff;
   border: 1px solid #ddd;
