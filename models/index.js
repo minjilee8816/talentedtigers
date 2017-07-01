@@ -43,9 +43,9 @@ const findTickets = (req, res) => {
     ]
   }).then(result => {
     if (!result) { res.sendStatus(404); }
-    var resultObj = {tickets: result};
-    if(query.role === 'admin') {
-      resultObj.adminStatistics = util.adminStats(result)
+    const resultObj = { tickets: result };
+    if (query.role === 'admin') {
+      resultObj.adminStatistics = util.adminStats(result);
       console.log(resultObj.adminStatistics);
     }
     res.send(resultObj);

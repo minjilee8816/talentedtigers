@@ -17,6 +17,7 @@ class App extends React.Component {
       ticketList: [],
       ticketCategoryList: ['React', 'Socket.IO', 'Recursion', 'Postgres'],
       user: null,
+      onlineUsers: {},
       statistic: {},
       hasClaimed: false
     };
@@ -47,6 +48,10 @@ class App extends React.Component {
     this.socket.on('update or submit ticket', () => {
       return option.role === 'admin' ? this.filterTickets() : this.getTickets(option);
     });
+    // on new connection, change statistic state
+    this.socket.on('user connect', data => this.setState({ onlineUsers: data }));
+    // on disconnect, change statistic state
+    this.socket.on('user disconnect', data => this.setState({ onlineUsers: data }));
     this.getTickets(option);
   }
 
@@ -55,6 +60,7 @@ class App extends React.Component {
       this.setState({ ticketList: tickets.tickets, statistic: _.extend(this.state.statistic, tickets.adminStatistics) });
       this.socket.emit('get wait time');
       this.socket.on('student wait time', data => this.setState({ statistic: data }));
+      this.hasClaimed(this.state.user.id);
     });
   }
 
@@ -130,14 +136,16 @@ class App extends React.Component {
     this.getTickets(option);
   }
 
-  hasClaimed() {
+  hasClaimed(id) {
+    // need to fix this
     const ticketList = this.state.ticketList;
     for (let i = 0; i < ticketList.length; i++) {
-      if (ticketList[i].claimedBy === this.state.user.id) {
-        return this.setState({ hasClaimed: true });
+      if (ticketList[i].status !== 'Claimed') { break; }
+      if (ticketList[i].status === 'Claimed' && ticketList[i].claimedBy === id) {
+        return $('.claim_btn').prop('disabled', true);
       }
     }
-    this.setState({ hasClaimed: false });
+    return $('.claim_btn').prop('disabled', false);
   }
 
   render() {
@@ -147,7 +155,7 @@ class App extends React.Component {
     let main = null;
     if (user) {
       nav = <Nav statistic={this.state.statistic} user={this.state.user} />;
-      header = <Header statistic={this.state.statistic} user={this.state.user} />;
+      header = <Header onlineUsers={this.state.onlineUsers} user={this.state.user} />;
     }
     if (!user) {
       main = <Login />;
@@ -156,7 +164,7 @@ class App extends React.Component {
     } else if (user.role === 'mentor') {
       // render HIR view
     } else if (user.role === 'admin') {
-      main = <AdminDashboard filterTickets={this.filterTickets.bind(this)} statistic={this.state.statistic} ticketCategoryList={this.state.ticketCategoryList}/>;
+      main = <AdminDashboard filterTickets={this.filterTickets.bind(this)} onlineUsers={this.state.onlineUsers} ticketCategoryList={this.state.ticketCategoryList}/>;
     }
     return (
       <div>
