@@ -1,6 +1,6 @@
 # Help Reactor
 
-> Pithy project description
+A help desk application used by Hack Reactor students.
 
 ## Team
 
@@ -19,10 +19,6 @@
 1. [Roadmap](#roadmap)
 1. [Contributing](#contributing)
 
-## Usage
-
-> Some usage instructions
-
 ## Requirements
 
 - Node 6.4.x
@@ -32,10 +28,62 @@
 
 ### Installing Dependencies
 
-From within the root directory:
-
 ```sh
 npm install
+```
+
+### Setup Database
+
+#### Install Postgres
+
+```sh
+$ brew install postgresql
+```
+
+#### Create Database
+
+```sh
+npm run db-create
+```
+
+#### Start Database
+
+```sh
+npm run db-start
+```
+
+#### Migrate and Seed Database
+
+The below script will drop, create, and seed the database tables with sample data found in `database/sampleData.js`.
+
+```sh
+npm run db-migrate
+```
+
+#### Access Database
+
+To access your database from within terminal use the below command.
+
+```sh
+psql helpReactor
+```
+
+Once you are connected to the database you can you the below query to update a users role.
+
+```sh
+UPDATE users SET role='admin' WHERE id=1;
+```
+
+### Start Node Server
+
+```sh
+npm run server-dev
+```
+
+### Start Webpack
+
+```sh
+npm run react-dev
 ```
 
 ### Roadmap
