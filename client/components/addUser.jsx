@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDom from 'react-dom';
+import util from '../../helpers/util';
 
 const AddUser = () => {
 
@@ -25,18 +26,18 @@ const AddUser = () => {
           type: 'POST',
           data: user,
           success: (response) => {
-            console.log('new user? ', response);
-            document.getElementById('first-name').value = '';
-            document.getElementById('last-name').value = '';
-            document.getElementById('user-name').value = '';
-            document.getElementById('cohort-name').value = '';
-            document.getElementById('alert_add_user').style.top = '0';
-            setTimeout(() => {
-              document.getElementById('alert_add_user').style.top = '-36px';
-            }, 3000);
+            if (response) {
+              document.getElementById('first-name').value = '';
+              document.getElementById('last-name').value = '';
+              document.getElementById('user-name').value = '';
+              document.getElementById('cohort-name').value = '';
+              util.displayAlert('User has been successfully added', 'success');
+            } else {
+              util.displayAlert('Username already exists', 'danger');
+            }
           },
           error: () => {
-            console.log('Error submitting ticket to api/users via POST');
+            util.displayAlert('An error occured when trying to create user', 'danger');
           }
         });
       },

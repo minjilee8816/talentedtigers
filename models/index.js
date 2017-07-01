@@ -68,9 +68,13 @@ const updateTickets = (req, res) => {
 };
 
 const createUser = (req, res) => {
-  User.findOrCreate({ where: req.body }).spread((user, created) => {
-    created ? res.send(true) : res.send(false);
-  });
+  User.findOrCreate({ where: req.body })
+    .then((user) => {
+      res.send(true);
+    })
+    .catch(err => {
+      res.send(false);
+    });
 };
 
 module.exports = {

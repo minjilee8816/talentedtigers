@@ -177,6 +177,7 @@ h6:last-child {
 
 .alert-main {
   border-radius: 0;
+  font-weight: 700;
   position: fixed;
   text-align: center;
   top: -36px;
