@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-const Header = ({onlineUsers, user}) => {
+const Header = ({onlineUsers, statistic, user}) => {
 
   let waitTime = null;
   let welcome = null;
@@ -16,7 +16,9 @@ const Header = ({onlineUsers, user}) => {
         There are currently
         <span> {onlineUsers.mentor} mentors</span> and
         <span> {onlineUsers.student} students</span> online,
-        and the estimated wait time is <span>{waitTime} minutes</span>.
+        and the estimated wait time is <span>{waitTime} minutes</span>.<br />
+        There are currently <span>{statistic.open} open tickets </span>
+        and <span>{statistic.closed} tickets closed today</span>.
       </h4>;
   }
 

@@ -157,19 +157,22 @@ class App extends React.Component {
     let nav = null;
     let header = null;
     let main = null;
+
     if (user) {
-      nav = <Nav statistic={this.state.statistic} user={this.state.user} />;
-      header = <Header onlineUsers={this.state.onlineUsers} user={this.state.user} />;
+      nav = <Nav user={this.state.user} />;
+      header = <Header statistic={this.state.statistic} onlineUsers={this.state.onlineUsers} user={this.state.user} />;
     }
+
     if (!user) {
       main = <Login />;
     } else if (user.role === 'student') {
-      main = <TicketSubmission submitTickets={this.submitTickets.bind(this)} ticketCategoryList={this.state.ticketCategoryList}/>;
+      main = <TicketSubmission submitTickets={this.submitTickets.bind(this)} ticketCategoryList={this.state.ticketCategoryList} />;
     } else if (user.role === 'mentor') {
       // render HIR view
     } else if (user.role === 'admin') {
-      main = <AdminDashboard filterTickets={this.filterTickets.bind(this)} onlineUsers={this.state.onlineUsers} adminStats={this.state.statistic} ticketCategoryList={this.state.ticketCategoryList}/>;
+      main = <AdminDashboard filterTickets={this.filterTickets.bind(this)} onlineUsers={this.state.onlineUsers} adminStats={this.state.statistic} ticketCategoryList={this.state.ticketCategoryList} />;
     }
+
     return (
       <div>
         <Alert />

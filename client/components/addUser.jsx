@@ -48,7 +48,7 @@ const AddUser = () => {
   return (
     <form className="add_user_form">
       <div className="form-group row">
-        <div className="col-xs-12"><h2>Add a user</h2></div>
+        <div className="col-xs-12"><h3>Add a user</h3></div>
       </div>
       <div className="form-group row">
         <div className="col-xs-4">
