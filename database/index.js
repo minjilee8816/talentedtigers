@@ -36,7 +36,8 @@ const User = db.define('user', {
   firstName: Sequelize.STRING,
   lastName: Sequelize.STRING,
   username: { type: Sequelize.STRING, allowNull: false, unique: true },
-  role: { type: Sequelize.ENUM('student', 'mentor', 'admin'), allowNull: false }
+  role: { type: Sequelize.ENUM('student', 'mentor', 'admin'), allowNull: false },
+  cohort: Sequelize.STRING
 });
 
 Ticket.belongsTo(User);
