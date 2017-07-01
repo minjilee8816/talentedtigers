@@ -70,6 +70,11 @@ h6:last-child {
   padding: 15px;
 }
 
+.navbar-profile img {
+  height: 40px;
+  border-radius: 4px;
+}
+
 .navbar-profile:hover {
   cursor: pointer;
 }
@@ -156,6 +161,13 @@ h6:last-child {
   float: left;
   font-size: 11px;
   font-weight: 700;
+  margin: 0 3px 0 0;
+}
+
+.ticket_list_entry_claimed {
+  float: left;
+  font-size: 11px;
+  font-weight: 700;
 }
 
 .ticket_list_entry_buttons {
@@ -177,6 +189,7 @@ h6:last-child {
 
 .alert-main {
   border-radius: 0;
+  font-weight: 700;
   position: fixed;
   text-align: center;
   top: -36px;

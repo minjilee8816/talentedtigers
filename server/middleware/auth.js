@@ -12,6 +12,7 @@ passport.use(new Strategy({
     where: { username: profile.username }
   }).then(user => {
     if (!user) { return callback('Can\'t find user in database'); }
+    user.dataValues.avatarUrl = profile.photos[0].value;
     return callback(null, user.dataValues);
   });
 }));
