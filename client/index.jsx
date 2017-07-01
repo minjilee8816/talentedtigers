@@ -45,6 +45,8 @@ class App extends React.Component {
       role: this.state.user.role
     };
     this.socket = io({ query: option });
+    this.socket.emit('update adminStats');
+    this.socket.emit('get wait time');
 
     this.socket.on('update or submit ticket', () => {
       return option.role === 'admin' ? this.filterTickets() : this.getTickets(option);
@@ -67,8 +69,7 @@ class App extends React.Component {
   getTickets(option) {
     $.get('/api/tickets', option, (tickets) => {
       this.setState({ ticketList: tickets });
-      this.socket.emit('update adminStats');
-      this.socket.emit('get wait time');
+
       this.hasClaimed(this.state.user.id);
     });
   }
@@ -94,6 +95,8 @@ class App extends React.Component {
           data: ticket,
           success: (response) => {
             this.socket.emit('refresh');
+            this.socket.emit('update adminStats');
+            this.socket.emit('get wait time');
             document.getElementById('ticket_submission_location').value = '';
             document.getElementById('ticket_submission_description').value = '';
           },
@@ -117,6 +120,8 @@ class App extends React.Component {
       data: data,
       success: (response) => {
         this.socket.emit('refresh');
+        this.socket.emit('update adminStats');
+        this.socket.emit('get wait time');
       },
       error: (err) => {
         console.log('failed to update ticket');
