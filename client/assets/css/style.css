@@ -38,8 +38,12 @@ h6:last-child {
 }
 
 .navbar-brand {
-  height: 70px;
-  padding: 25px 15px;
+  border: 1px solid #fff;
+  font-weight: 300;
+  height: auto;
+  margin: 19px 0 !important;
+  padding: 5px;
+  text-transform: uppercase;
 }
 
 .dropdown-menu {
