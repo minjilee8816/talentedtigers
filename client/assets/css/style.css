@@ -98,12 +98,27 @@ h6:last-child {
   color: #337ab7;
 }
 
-.login_area {
-  margin-top: 10px;
+.login {
+  background-color: #fff;
+  border-radius: 5px;
+  margin: 100px auto;
+  padding: 20px;
+  text-align: center;
+  width: 400px;
 }
 
-.octicon {
-  margin-right: 5px;
+.login_title {
+  font-weight: 300;
+  margin: 0 0 20px 0;
+}
+
+.login_github {
+  font-weight: 700;
+}
+
+.login_github .octicon {
+  display: block;
+  margin: 0 auto 10px auto;
 }
 
 .admin_dashboard_span {

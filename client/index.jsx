@@ -164,6 +164,7 @@ class App extends React.Component {
     }
 
     if (!user) {
+      document.querySelector('BODY').style.backgroundColor = '#2b3d51';
       main = <Login />;
     } else if (user.role === 'student') {
       main = <TicketSubmission submitTickets={this.submitTickets.bind(this)} ticketCategoryList={this.state.ticketCategoryList} />;
