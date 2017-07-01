@@ -20,7 +20,6 @@ const Ticket = db.define('ticket', {
   category: Sequelize.STRING,
   status: Sequelize.STRING,
   location: Sequelize.STRING,
-  claimedBy: Sequelize.INTEGER,
   createdAt: Sequelize.DATE,
   claimedAt: Sequelize.DATE,
   closedAt: Sequelize.DATE
@@ -40,11 +39,16 @@ const User = db.define('user', {
   cohort: Sequelize.STRING
 });
 
-Ticket.belongsTo(User);
+User.hasMany(Ticket);
 
-User.hasMany(Ticket, {
-  foreignKey: 'userId',
-  constraints: false
+Ticket.belongsTo(User, {
+  as: 'user',
+  foreignKey: 'userId'
+});
+
+Ticket.belongsTo(User, {
+  as: 'userClaimed',
+  foreignKey: 'claimedBy'
 });
 
 module.exports = {

@@ -31,7 +31,7 @@ const findTickets = (req, res) => {
 
   Ticket.findAll({
     where: option,
-    include: [ { model: User } ],
+    include: [ { model: User, as: 'user' }, { model: User, as: 'userClaimed' } ],
     order: [
       [db.literal(`CASE
         WHEN status = 'Claimed' THEN 1

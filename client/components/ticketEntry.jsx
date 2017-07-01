@@ -6,6 +6,7 @@ const TicketEntry = ({user, ticket, updateTickets, hasClaimed}) => {
 
   let claimButton = null;
   let closeButton = null;
+  let claimed = null;
   let className = null;
   let time = null;
 
@@ -13,6 +14,7 @@ const TicketEntry = ({user, ticket, updateTickets, hasClaimed}) => {
     className = 'alert-success';
     time = `opened ${moment(ticket.createdAt).fromNow()}`;
   } else if (ticket.status === 'Claimed') {
+    claimed = <div className="ticket_list_entry_claimed">by {ticket.userClaimed.firstName} {ticket.userClaimed.lastName}</div>;
     className = 'alert-info';
     time = `claimed ${moment(ticket.claimedAt).fromNow()}`;
   } else {
@@ -33,6 +35,7 @@ const TicketEntry = ({user, ticket, updateTickets, hasClaimed}) => {
       <div className="ticket_list_entry_meta clearfix">
         <div className="ticket_list_entry_name">{ticket.user.firstName} {ticket.user.lastName} ({ticket.location})</div>
         <div className="ticket_list_entry_time">- {time}</div>
+        {claimed}
       </div>
       <div className="ticket_list_entry_buttons">
         <span className="btn btn-xs btn-default">{ticket.category}</span>
