@@ -45,20 +45,24 @@ class App extends React.Component {
       role: this.state.user.role
     };
     this.socket = io({ query: option });
+
     this.socket.on('update or submit ticket', () => {
       return option.role === 'admin' ? this.filterTickets() : this.getTickets(option);
     });
-    // on new connection, change statistic state
+
+    this.socket.on('new adminStats', data => this.setState({ statistic: data }));
+
     this.socket.on('user connect', data => this.setState({ onlineUsers: data }));
-    // on disconnect, change statistic state
+
     this.socket.on('user disconnect', data => this.setState({ onlineUsers: data }));
+
     this.getTickets(option);
   }
 
   getTickets(option) {
     $.get('/api/tickets', option, (tickets) => {
       this.setState({ ticketList: tickets.tickets, statistic: _.extend(this.state.statistic, tickets.adminStatistics) });
-      this.socket.emit('get wait time');
+      this.socket.emit('update adminStats');
       this.socket.on('student wait time', data => this.setState({ statistic: data }));
       this.hasClaimed(this.state.user.id);
     });
@@ -164,7 +168,7 @@ class App extends React.Component {
     } else if (user.role === 'mentor') {
       // render HIR view
     } else if (user.role === 'admin') {
-      main = <AdminDashboard filterTickets={this.filterTickets.bind(this)} onlineUsers={this.state.onlineUsers} ticketCategoryList={this.state.ticketCategoryList}/>;
+      main = <AdminDashboard filterTickets={this.filterTickets.bind(this)} onlineUsers={this.state.onlineUsers} adminStats={this.state.statistic} ticketCategoryList={this.state.ticketCategoryList}/>;
     }
     return (
       <div>

@@ -68,9 +68,8 @@ const updateTickets = (req, res) => {
 };
 
 const createUser = (req, res) => {
-  User.create(req.body).then(result => {
-    if (!result) { res.sendStatus(500); }
-    res.sendStatus(201);
+  User.findOrCreate({ where: req.body }).spread((user, created) => {
+    created ? res.send(true) : res.send(false);
   });
 };
 

@@ -64,6 +64,27 @@ module.exports = server => {
       });
     });
 
+    socket.on('update adminStats', () => {
+      let openedTickets = closedTickets = 0;
+      Ticket.count({ where: { status: 'Opened' } })
+        .then(numOpenTickets => {
+          openedTickets = numOpenTickets;
+          return Ticket.count({
+            where: {
+              status: 'Closed',
+              createdAt: { $gte: Date.now() - 24 * 3600 * 1000 }
+            }
+          });
+        })
+        .then(numCloseTickets => {
+          closedTickets = numCloseTickets;
+          io.emit('new adminStats', {
+            open: openedTickets,
+            closed: closedTickets
+          });
+        });
+    });
+
     socket.on('disconnect', socket => {
       if (role === 'student') {
         students[id].length <= 1 ? delete students[id] : students[id].splice(students[id].indexOf(socket), 1);

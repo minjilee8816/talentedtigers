@@ -9,7 +9,6 @@ const AddUser = () => {
         firstName: 'required',
         lastName: 'required',
         username: 'required',
-        cohortName: 'required',
         role: 'required'
       },
       submitHandler: (form) => {
@@ -25,6 +24,7 @@ const AddUser = () => {
           type: 'POST',
           data: user,
           success: (response) => {
+            console.log('new user? ', response);
             document.getElementById('first-name').value = '';
             document.getElementById('last-name').value = '';
             document.getElementById('user-name').value = '';
@@ -40,7 +40,7 @@ const AddUser = () => {
         });
       },
       errorPlacement: function(error, element) {} // Do not show error messages
-    });   
+    });
   };
 
   return (
