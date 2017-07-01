@@ -29,9 +29,9 @@ const AddUser = () => {
             document.getElementById('last-name').value = '';
             document.getElementById('user-name').value = '';
             document.getElementById('cohort-name').value = '';
-            document.getElementById('alert_add_user').style.marginTop = '0';
+            document.getElementById('alert_add_user').style.top = '0';
             setTimeout(() => {
-              document.getElementById('alert_add_user').style.marginTop = '-36px';
+              document.getElementById('alert_add_user').style.top = '-36px';
             }, 3000);
           },
           error: () => {
