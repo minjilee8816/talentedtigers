@@ -29,6 +29,10 @@ const AddUser = () => {
             document.getElementById('last-name').value = '';
             document.getElementById('user-name').value = '';
             document.getElementById('cohort-name').value = '';
+            document.getElementById('alert_add_user').style.marginTop = '0';
+            setTimeout(() => {
+              document.getElementById('alert_add_user').style.marginTop = '-36px';
+            }, 3000);
           },
           error: () => {
             console.log('Error submitting ticket to api/users via POST');

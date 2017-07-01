@@ -4,6 +4,7 @@ import io from 'socket.io-client';
 import TicketList from './components/ticketList.jsx';
 import TicketSubmission from './components/ticketSubmission.jsx';
 import Login from './components/login.jsx';
+import Alert from './components/alert.jsx';
 import Nav from './components/nav.jsx';
 import Header from './components/header.jsx';
 import AdminDashboard from './components/adminDashboard.jsx';
@@ -159,6 +160,7 @@ class App extends React.Component {
     }
     return (
       <div>
+        <Alert />
         {nav}
         {header}
         <div className="container">
