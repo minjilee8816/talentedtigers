@@ -71,8 +71,18 @@ const adminStats = function(ticketArr) {
   return dashboardStats;
 };
 
+const connectionCount = (students, mentors, admins) => {
+  let res = {
+    student: Object.keys(students).length,
+    mentor: Object.keys(mentors).length,
+    admin: Object.keys(admins).length
+  };
+  return res;
+};
+
 module.exports = {
   computeCurrWaitTime: computeCurrWaitTime,
   adminStats: adminStats,
-  computeAvgWaitTime: computeAvgWaitTime
+  computeAvgWaitTime: computeAvgWaitTime,
+  connectionCount: connectionCount
 };

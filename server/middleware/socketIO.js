@@ -21,6 +21,11 @@ module.exports = server => {
 
     socket.join(id);
 
+
+
+    // emit new student/menttor count to client
+    io.emit('user connect', util.connectionCount(students, mentors, admins));
+
     console.log(`${Object.keys(students).length} students connected`);
     console.log(`${Object.keys(mentors).length} mentors connected`);
 
@@ -67,6 +72,10 @@ module.exports = server => {
       } else if (role === 'admin') {
         admins[id].length <= 1 ? delete admins[id] : admins[id].splice(admins[id].indexOf(socket), 1);
       }
+
+      // emit new student/mentor count to client
+      io.emit('user disconnect', util.connectionCount(students, mentors, admins));
+
       console.log(`Disconnected, now ${Object.keys(students).length} students connected`);
       console.log(`Disconnected, now ${Object.keys(mentors).length} mentors connected`);
     });
