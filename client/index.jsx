@@ -132,7 +132,7 @@ class App extends React.Component {
     let status = document.getElementById('ticket-status').value;
     let type = 'createdAt';
 
-    let timeWindow = day === 'All' ? { $lte: new Date() + 5000 }
+    let timeWindow = day === 'All' ? { $not: 0 }
       : { $gte: new Date(new Date() - day * 24 * 60 * 60 * 1000) };
     if (category === 'All') { category = { $not: null }; }
     if (status === 'All') {
