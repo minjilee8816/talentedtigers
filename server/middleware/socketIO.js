@@ -3,6 +3,7 @@ const util = require('../../helpers/util');
 
 module.exports = server => {
   const io = require('socket.io')(server, { cookie: true });
+
   const students = {};
   const mentors = {};
   const admins = {};
@@ -80,7 +81,6 @@ module.exports = server => {
         admins[id].length <= 1 ? delete admins[id] : admins[id].splice(admins[id].indexOf(socket), 1);
       }
 
-      // emit new student/mentor count to client
       io.emit('user disconnect', util.connectionCount(students, mentors, admins));
 
       console.log(`Disconnected, now ${Object.keys(students).length} students connected`);
