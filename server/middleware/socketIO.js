@@ -37,9 +37,9 @@ module.exports = server => {
           claimedAt: { $not: null },
           createdAt: { $gt: new Date(new Date() - 24 * 60 * 60 * 1000) }
         }
-      }).then(tickets => {
-        let response = { waitTime: util.computeAvgWaitTime(tickets) };
-        io.emit('new wait time', response);
+      }).then(ticketsFromToday => {
+        let avgWait = util.computeAvgWaitTime(ticketsFromToday);
+        io.emit('new wait time', { waitTime: avgWait });
       });
     });
 

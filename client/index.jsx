@@ -20,7 +20,6 @@ class App extends React.Component {
       statistic: {},
       waitTime: 0
     };
-    this.socket = {};
   }
 
   componentWillMount() {
@@ -45,7 +44,9 @@ class App extends React.Component {
     };
     this.socket = io({ query: option });
     this.socket.emit('update adminStats');
-    this.socket.emit('get wait time');
+    if (option.role === 'student') {
+      this.socket.emit('get wait time');
+    }
 
     this.socket.on('update or submit ticket', () => {
       return option.role === 'admin' ? this.filterTickets() : this.getTickets(option);
@@ -65,7 +66,6 @@ class App extends React.Component {
   getTickets(option) {
     $.get('/api/tickets', option, (tickets) => {
       this.setState({ ticketList: tickets });
-
       this.hasClaimed(this.state.user.id);
     });
   }

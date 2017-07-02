@@ -14,10 +14,9 @@ var computeAvgWaitTime = function computeAvgWaitTime(tickets) {
     return 0;
   }
   var sum = tickets.reduce(function (a, b) {
-    console.log(new Date(b.claimedAt), ' //  ', new Date(b.createdAt));
-    return a + Math.abs(new Date(b.claimedAt) - new Date(b.createdAt));
+    return a + Math.abs(Date.parse(b.claimedAt) - Date.parse(b.createdAt));
   }, 0);
-  return Math.floor(sum / tickets.length / 3600 / 1000);
+  return Math.floor(sum / tickets.length / 60 / 1000);
 };
 
 var connectionCount = function connectionCount(students, mentors, admins) {
