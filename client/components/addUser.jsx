@@ -10,8 +10,7 @@ const AddUser = () => {
         firstName: 'required',
         lastName: 'required',
         username: 'required',
-        role: 'required',
-        cohortName: 'required'
+        role: 'required'
       },
       submitHandler: (form) => {
         let user = {
