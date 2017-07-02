@@ -1,14 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-const Header = ({onlineUsers, statistic, user}) => {
-
-  let waitTime = null;
+const Header = ({onlineUsers, statistic, user, waitTime}) => {
   let welcome = null;
-
-  if (user) {
-    waitTime = Math.floor((onlineUsers.waitTime) / 1000 / 60);
-  }
 
   if (user && (user.role === 'admin' || user.role === 'mentor')) {
     welcome =
@@ -25,7 +19,7 @@ const Header = ({onlineUsers, statistic, user}) => {
   if (user && user.role === 'student') {
     welcome =
       <h4>
-        The estimated wait time is <span>{onlineUsers.waitTime} minutes</span>.
+        The estimated wait time is <span>{waitTime} minutes</span>.
       </h4>;
   }
 

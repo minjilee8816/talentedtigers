@@ -8,7 +8,6 @@ import Alert from './components/alert.jsx';
 import Nav from './components/nav.jsx';
 import Header from './components/header.jsx';
 import AdminDashboard from './components/adminDashboard.jsx';
-import _ from 'underscore';
 
 class App extends React.Component {
   constructor() {
@@ -19,7 +18,7 @@ class App extends React.Component {
       user: null,
       onlineUsers: {},
       statistic: {},
-      hasClaimed: false
+      waitTime: 0
     };
     this.socket = {};
   }
@@ -54,10 +53,7 @@ class App extends React.Component {
 
     this.socket.on('new adminStats', data => this.setState({ statistic: data }));
 
-    this.socket.on('new wait time', data => {
-      let newStats = _.defaults(this.state.onlineUsers, data);
-      this.setState({ onlineUsers: newStats });
-    });
+    this.socket.on('new wait time', data => this.setState({ waitTime: data.waitTime }));
 
     this.socket.on('user connect', data => this.setState({ onlineUsers: data }));
 
@@ -177,7 +173,7 @@ class App extends React.Component {
 
     if (user) {
       nav = <Nav user={this.state.user} />;
-      header = <Header statistic={this.state.statistic} onlineUsers={this.state.onlineUsers} user={this.state.user} />;
+      header = <Header statistic={this.state.statistic} onlineUsers={this.state.onlineUsers} user={this.state.user} waitTime={this.state.waitTime}/>;
     }
 
     if (!user) {
