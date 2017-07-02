@@ -8,7 +8,6 @@ import Alert from './components/alert.jsx';
 import Nav from './components/nav.jsx';
 import Header from './components/header.jsx';
 import AdminDashboard from './components/adminDashboard.jsx';
-import _ from 'underscore';
 
 class App extends React.Component {
   constructor() {
@@ -19,7 +18,7 @@ class App extends React.Component {
       user: null,
       onlineUsers: {},
       statistic: {},
-      hasClaimed: false
+      waitTime: 0
     };
     this.socket = {};
   }
@@ -45,12 +44,16 @@ class App extends React.Component {
       role: this.state.user.role
     };
     this.socket = io({ query: option });
+    this.socket.emit('update adminStats');
+    this.socket.emit('get wait time');
 
     this.socket.on('update or submit ticket', () => {
       return option.role === 'admin' ? this.filterTickets() : this.getTickets(option);
     });
 
     this.socket.on('new adminStats', data => this.setState({ statistic: data }));
+
+    this.socket.on('new wait time', data => this.setState({ waitTime: data.waitTime }));
 
     this.socket.on('user connect', data => this.setState({ onlineUsers: data }));
 
@@ -61,9 +64,8 @@ class App extends React.Component {
 
   getTickets(option) {
     $.get('/api/tickets', option, (tickets) => {
-      this.setState({ ticketList: tickets.tickets, statistic: _.extend(this.state.statistic, tickets.adminStatistics) });
-      this.socket.emit('update adminStats');
-      this.socket.on('student wait time', data => this.setState({ statistic: data }));
+      this.setState({ ticketList: tickets });
+
       this.hasClaimed(this.state.user.id);
     });
   }
@@ -89,6 +91,8 @@ class App extends React.Component {
           data: ticket,
           success: (response) => {
             this.socket.emit('refresh');
+            this.socket.emit('update adminStats');
+            this.socket.emit('get wait time');
             document.getElementById('ticket_submission_location').value = '';
             document.getElementById('ticket_submission_description').value = '';
           },
@@ -112,6 +116,8 @@ class App extends React.Component {
       data: data,
       success: (response) => {
         this.socket.emit('refresh');
+        this.socket.emit('update adminStats');
+        this.socket.emit('get wait time');
       },
       error: (err) => {
         console.log('failed to update ticket');
@@ -121,22 +127,29 @@ class App extends React.Component {
 
   filterTickets(e) {
     if (e) { e.preventDefault(); }
-    let timeWindow = document.getElementById('time-window').value;
+    let day = document.getElementById('time-window').value;
     let category = document.getElementById('select-category').value;
     let status = document.getElementById('ticket-status').value;
+    let type = 'createdAt';
 
-    let createdAt = timeWindow === 'All' ? { $lte: new Date().toISOString() }
-      : { $gte: new Date(new Date() - timeWindow * 24 * 60 * 60 * 1000).toISOString() };
+    let timeWindow = day === 'All' ? { $not: 0 }
+      : { $gte: new Date(new Date() - day * 24 * 60 * 60 * 1000) };
     if (category === 'All') { category = { $not: null }; }
-    if (status === 'All') { status = { $not: null }; }
+    if (status === 'All') {
+      status = { $not: null };
+    } else if (status === 'Closed') {
+      type = 'closedAt';
+    } else if (status === 'Claimed') {
+      type = 'claimedAt';
+    }
     let option = {
       id: this.state.user.id,
       role: this.state.user.role,
       category: category,
       status: status,
-      createdAt: createdAt
+      [type]: timeWindow
     };
-    console.log('filering tickets...');
+
     this.getTickets(option);
   }
 
@@ -160,7 +173,7 @@ class App extends React.Component {
 
     if (user) {
       nav = <Nav user={this.state.user} />;
-      header = <Header statistic={this.state.statistic} onlineUsers={this.state.onlineUsers} user={this.state.user} />;
+      header = <Header statistic={this.state.statistic} onlineUsers={this.state.onlineUsers} user={this.state.user} waitTime={this.state.waitTime}/>;
     }
 
     if (!user) {
