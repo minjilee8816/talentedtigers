@@ -1,5 +1,5 @@
-const redis = require('redis');
 const express = require('express');
+const redis = require('redis');
 const url = require('url');
 const bodyParser = require('body-parser');
 const session = require('express-session');
@@ -15,7 +15,6 @@ if (process.env.REDISTOGO_URL) {
 } else {
   client = redis.createClient();
 }
-
 
 const app = express();
 const server = require('http').Server(app);
