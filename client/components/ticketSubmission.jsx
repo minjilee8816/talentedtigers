@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 const TicketSubmission = ({submitTickets, ticketCategoryList}) => (
   <form className="ticket_submission_form">
     <div className="form-group row">
-      <div className="col-xs-12"><h2>Create a ticket</h2></div>
+      <div className="col-xs-12"><h3>Create a ticket</h3></div>
     </div>
     <div className="form-group row">
       <div className="col-xs-4">
