@@ -12,17 +12,21 @@ A help desk application used by Hack Reactor students.
 ## Table of Contents
 
 1. [Usage](#Usage)
-1. [Requirements](#requirements)
-1. [Development](#development)
+2. [Requirements](#requirements)
+3. [Development](#development)
     1. [Installing Dependencies](#installing-dependencies)
-    1. [Tasks](#tasks)
-1. [Roadmap](#roadmap)
-1. [Contributing](#contributing)
+    2. [Setup Database](#setup-redis)
+    3. [Setup Redis](#setup-redis)
+    4. [Start Node Server](#start-node-server)
+    5. [Start Webpack](#start-webpack)
+4. [Roadmap](#roadmap)
+5. [Contributing](#contributing)
 
 ## Requirements
 
-- Node 6.4.x
+- Node 6.11.x
 - Postgresql 9.1.x
+- Redis 3.2.x
 
 ## Development
 
@@ -33,12 +37,6 @@ npm install
 ```
 
 ### Setup Database
-
-#### Install Postgres
-
-```sh
-$ brew install postgresql
-```
 
 #### Create Database
 
@@ -72,6 +70,28 @@ Once you are connected to the database you can you the below query to update a u
 
 ```sh
 UPDATE users SET role='admin' WHERE id=1;
+```
+
+#### Create Database
+
+```sh
+npm run db-create
+```
+
+### Setup Redis
+
+Redis is an open source, in-memory data structure store, used as a database, cache and message broker.
+
+#### Install Redis
+
+```sh
+brew install redis
+```
+
+#### Start Redis
+
+```sh
+redis-server
 ```
 
 ### Start Node Server
