@@ -2,51 +2,63 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import moment from 'moment';
 
-const TicketEntry = ({user, ticket, updateTickets, hasClaimed}) => {
-
-  let claimButton = null;
-  let closeButton = null;
-  let claimed = null;
-  let className = null;
-  let time = null;
-
-  if (ticket.status === 'Opened') {
-    className = 'alert-success';
-    time = `opened ${moment(ticket.createdAt).fromNow()}`;
-  } else if (ticket.status === 'Claimed') {
-    claimed = <div className="ticket_list_entry_claimed">by {ticket.userClaimed.firstName} {ticket.userClaimed.lastName}</div>;
-    className = 'alert-info';
-    time = `claimed ${moment(ticket.claimedAt).fromNow()}`;
-  } else {
-    className = 'alert-danger';
-    time = `closed ${moment(ticket.closedAt).fromNow()}`;
+class TicketEntry extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { now: new Date() };
+  }
+  componentDidMount() {
+    this.timer = setInterval(() => this.setState({ now: new Date() }), 1000);
   }
 
-  if (ticket.status === 'Opened' && ticket.userId !== user.id) {
-    claimButton = <button onClick={() => updateTickets({ id: ticket.id, status: 'Claimed' })} type="button" className="btn btn-xs btn-primary claim_btn">Claim</button>;
+  componentWillUnmount() {
+    clearInterval(this.timer);
   }
 
-  if (ticket.status !== 'Closed' && (ticket.claimedBy === user.id || ticket.userId === user.id || user.role === 'admin')) {
-    closeButton = <button onClick={() => updateTickets({ id: ticket.id, status: 'Closed' })} type="button" className="btn btn-xs btn-danger">Close</button>;
-  }
+  render() {
+    let claimButton = null;
+    let closeButton = null;
+    let claimed = null;
+    let className = null;
+    let time = null;
+    if (this.props.ticket.status === 'Opened') {
+      className = 'alert-success';
+      time = `opened ${moment(this.props.ticket.createdAt).from(this.state.now)}`;
+    } else if (this.props.ticket.status === 'Claimed') {
+      claimed = <div className="ticket_list_entry_claimed">by {this.props.ticket.userClaimed.firstName} {this.props.ticket.userClaimed.lastName}</div>;
+      className = 'alert-info';
+      time = `claimed ${moment(this.props.ticket.claimedAt).from(this.state.now)}`;
+    } else {
+      className = 'alert-danger';
+      time = `closed ${moment(this.props.ticket.closedAt).from(this.state.now)}`;
+    }
 
-  return (
-    <div className={`ticket_list_entry alert ${className} clearfix`}>
-      <div className="ticket_list_entry_meta clearfix">
-        <div className="ticket_list_entry_name">{ticket.user.firstName} {ticket.user.lastName} ({ticket.location})</div>
-        <div className="ticket_list_entry_time">- {time}</div>
-        {claimed}
+    if (this.props.ticket.status === 'Opened' && this.props.ticket.userId !== this.props.user.id) {
+      claimButton = <button onClick={() => this.props.updateTickets({ id: this.props.ticket.id, status: 'Claimed' })} type="button" className="btn btn-xs btn-primary claim_btn">Claim</button>;
+    }
+
+    if (this.props.ticket.status !== 'Closed' && (this.props.ticket.claimedBy === this.props.user.id || this.props.ticket.userId === this.props.user.id || this.props.user.role === 'admin')) {
+      closeButton = <button onClick={() => this.props.updateTickets({ id: this.props.ticket.id, status: 'Closed' })} type="button" className="btn btn-xs btn-danger">Close</button>;
+    }
+
+    return (
+      <div className={`ticket_list_entry alert ${className} clearfix`}>
+        <div className="ticket_list_entry_meta clearfix">
+          <div className="ticket_list_entry_name">{this.props.ticket.user.firstName} {this.props.ticket.user.lastName} ({this.props.ticket.location})</div>
+          <div className="ticket_list_entry_time">- {time}</div>
+          {claimed}
+        </div>
+        <div className="ticket_list_entry_buttons">
+          <span className="btn btn-xs btn-default">{this.props.ticket.category}</span>
+          {claimButton}
+          {closeButton}
+        </div>
+        <div className="ticket_list_entry_description">
+          {this.props.ticket.description}
+        </div>
       </div>
-      <div className="ticket_list_entry_buttons">
-        <span className="btn btn-xs btn-default">{ticket.category}</span>
-        {claimButton}
-        {closeButton}
-      </div>
-      <div className="ticket_list_entry_description">
-        {ticket.description}
-      </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 export default TicketEntry;
