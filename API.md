@@ -2,8 +2,6 @@
 
 ## Table of Contents
 
-- **[Authentication]($authentication)**
-  - [`POST /api/auth/login`](#login)
 - **[Tickets](#tickets)**
   - [`GET /api/tickets/:id`](#get-tickets)
   - [`POST /api/tickets`](#create-ticket)
@@ -11,14 +9,6 @@
 - **[Users](#users)**
   - [`GET /api/users/:id`](#get-user)
   - [`POST /api/users`](#create-user)
-  - [`PUT /api/users/:id`](#update-user)
-  - [`DELETE /api/users/:id`](#delete-user)
-
-## Authentication
-
-### Login
-
-`POST` `api/auth/login`
 
 ## Tickets
 
@@ -26,11 +16,24 @@
 
 `GET` `api/tickets`
 
-Returns JSON data for a all tickets.
+Returns JSON data for all tickets.
   
 #### Parameters:
 
-None
+* ##### Required:
+ 
+  `id={integer}` - The users id
+  
+  `role={string}` - The users role
+  
+* ##### Optional:
+ 
+  `category={string}`
+  
+  `status={string}`
+  
+  `timeWindow={timestamp}`
+  
 
 #### Data:
 
@@ -47,17 +50,31 @@ Content-Type: application/json
 [
   {
     "id": 1,
-    "username": "davidvassett",
-    "firstName": "David",
-    "lastName": "Vassett",
-    "role": "admin"
+    "description": "Ticket description goes here",
+    "category": "React",
+    "status": "Opened",
+    "location": "HR8-01",
+    "claimedBy": "2",
+    "createdAt": "2017-07-01 18:00:00.000",
+    "claimedAt": "2017-07-01 18:15:00.000",
+    "closedAt": "2017-07-01 18:30:00.000",
+    "updatedAt": "2017-07-01 18:30:00.000",
+    "user": {},
+    "userClaimed": {}
   },
   {
     "id": 2,
-    "username": "ericmai",
-    "firstName": "Eric",
-    "lastName": "Mai",
-    "role": "admin"
+    "description": "Ticket description goes here",
+    "category": "MySQL",
+    "status": "Claimed",
+    "location": "HR8-02",
+    "claimedBy": "3",
+    "createdAt": "2017-07-01 18:00:00.000",
+    "claimedAt": "2017-07-01 18:15:00.000",
+    "closedAt": null,
+    "updatedAt": "2017-07-01 18:15:00.000",
+    "user": {},
+    "userClaimed": {}
   }
 ]
 ```
@@ -68,6 +85,12 @@ Content-Type: application/json
 $.ajax({
   url: 'api/tickets',
   type: 'GET',
+  data: {
+  	id: 1,
+  	role: 'admin',
+  	category: 'React',
+  	status: 'Closed'
+  }
   success: function(data) {
     console.log(data);
   }
@@ -91,7 +114,8 @@ None
   "user_id": 1,
   "description": "Ticket description goes here.",
   "category": "Node",
-  "status": "Opened"
+  "status": "Opened",
+  "location": "HR8-01"
 }
 ```
 
@@ -111,7 +135,8 @@ $.ajax({
     user_id: 1,
     description: 'Ticket description goes here.',
     category: 'Node',
-    status: 'Opened'
+    status: 'Opened',
+    location: 'HR8-01'
   },
   success: function(data) {
     console.log(data);
@@ -138,7 +163,8 @@ Updates a single ticket.
   "user_id": 1,
   "description": "Ticket description goes here.",
   "category": "Node",
-  "status": "Closed"
+  "status": "Closed",
+  "location": "HR8-01"
 }
 ```
 
@@ -158,7 +184,8 @@ $.ajax({
     user_id: 1,
     description: 'Ticket description goes here.',
     category: 'Node',
-    status: 'Closed'
+    status: 'Closed',
+    location: 'HR8-01'
   },
   success: function(data) {
     console.log(data);
@@ -172,17 +199,15 @@ $.ajax({
 
 `GET` `api/users/:id`
 
-Returns JSON data for a single user.
+Returns JSON data for the logged in user.
   
 #### Parameters:
 
-* ##### Required:
- 
-  `id={integer}`
+None
 
 #### Data:
 
-  None
+None
 
 #### Response:
 
@@ -207,7 +232,7 @@ Content-Type: application/json
 
 ```js
 $.ajax({
-  url: 'api/users/1',
+  url: 'api/users',
   type: 'GET',
   success: function(data) {
     console.log(data);
@@ -233,7 +258,8 @@ None
   "password": "password",
   "firstName": "David",
   "lastName": "Vassett",
-  "role": "admin"
+  "role": "admin",
+  "cohort": "HRSF77"
 }
 ```
 
@@ -254,91 +280,9 @@ $.ajax({
     password: 'password',
     firstName: 'David',
     lastName: 'Vassett',
-    role: 'admin'
+    role: 'admin',
+    cohort: 'HRSF77'
   },
-  success: function(data) {
-    console.log(data);
-  }
-});
-```
-
-### Update User
-
-Updates a single user.
-
-`PUT` `api/users/:id`
-  
-#### Parameters:
-
-* ##### Required:
- 
-  `id={integer}`
-
-#### Data:
-
-```json
-{
-  "username": "davidvassett",
-  "password": "password",
-  "firstName": "David",
-  "lastName": "Vassett",
-  "role": "admin"
-}
-```
-
-#### Response:
-
-```
-Status Code: 200 OK
-```
-
-#### Example:
-
-```js
-$.ajax({
-  url: 'api/users/1',
-  type: 'PUT',
-  data: {
-    username: 'davidvassett',
-    password: 'password',
-    firstName: 'David',
-    lastName: 'Vassett',
-    role: 'admin'
-  },
-  success: function(data) {
-    console.log(data);
-  }
-});
-```
-
-### Delete User
-
-Deletes a single user.
-
-`DELETE` `api/users/:id`
-  
-#### Parameters:
-
-* ##### Required:
- 
-  `id={integer}`
-
-#### Data:
-
-None
-
-#### Response:
-
-```
-Status Code: 200 OK
-```
-
-#### Example:
-
-```js
-$.ajax({
-  url: 'api/users/1',
-  type: 'DELETE',
   success: function(data) {
     console.log(data);
   }
