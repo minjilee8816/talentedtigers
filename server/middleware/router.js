@@ -13,19 +13,11 @@ router.get('/api/auth/github/callback', githubAuth.authenticate('github', { fail
   res.redirect('/');
 });
 
-if (process.env.URL !== 'http://127.0.0.1:3000') {
-  router.use(isAuthenticated);
-}
+router.use(isAuthenticated);
 
 router.get('/api/tickets', db.findTickets);
 
-router.get('/api/users/:id', (req, res) => {
-  res.send(req.session.passport);
-});
-
-router.get('/api/tickets/:id', (req, res) => {
-
-});
+router.get('/api/users/:id', (req, res) => res.send(req.session.passport));
 
 router.get('/api/logout', (req, res) => {
   req.logout();

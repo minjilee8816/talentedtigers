@@ -11,7 +11,7 @@ passport.use(new Strategy({
   User.find({
     where: { username: profile.username }
   }).then(user => {
-    if (!user) { return callback('Can\'t find user in database'); }
+    if (!user) { return callback(null, false); }
     user.dataValues.avatarUrl = profile.photos[0].value;
     return callback(null, user.dataValues);
   });
@@ -25,12 +25,12 @@ passport.deserializeUser((user, callback) => {
   User.find({
     where: { username: user.username }
   }).then(user => {
-    if (!user) { return callback('failed'); }
+    if (!user) { return callback(null, false); }
     callback(null, user.dataValues);
   });
 });
 
-const isAuthenticated = function(req, res, next) {
+const isAuthenticated = (req, res, next) => {
   if (req.isAuthenticated()) {
     next();
   } else {

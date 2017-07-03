@@ -16,6 +16,7 @@ class App extends React.Component {
       ticketList: [],
       ticketCategoryList: ['React', 'Socket.IO', 'Recursion', 'Postgres'],
       user: null,
+      isAuthenticated: false,
       onlineUsers: {},
       statistic: {},
       waitTime: 0
@@ -28,7 +29,14 @@ class App extends React.Component {
       type: 'GET',
       async: false,
       success: (response) => {
-        return response ? this.setState({ user: response.user }) : null;
+        if (response.user) {
+          this.setState({
+            user: response.user,
+            isAuthenticated: true
+          });
+        } else if (response) {
+          this.setState({ user: response });
+        }
       },
       error: () => {
         console.log('failed');
@@ -44,9 +52,6 @@ class App extends React.Component {
     };
     this.socket = io({ query: option });
     this.socket.emit('update adminStats');
-    if (option.role === 'student') {
-      this.socket.emit('get wait time');
-    }
 
     this.socket.on('update or submit ticket', () => {
       return option.role === 'admin' ? this.filterTickets() : this.getTickets(option);
@@ -92,7 +97,6 @@ class App extends React.Component {
           success: (response) => {
             this.socket.emit('refresh');
             this.socket.emit('update adminStats');
-            this.socket.emit('get wait time');
             document.getElementById('ticket_submission_location').value = '';
             document.getElementById('ticket_submission_description').value = '';
           },
@@ -167,23 +171,26 @@ class App extends React.Component {
 
   render() {
     let user = this.state.user;
+    let isAuthenticated = this.state.isAuthenticated;
     let nav = null;
     let header = null;
     let main = null;
+    let list = null;
 
-    if (user) {
+    if (isAuthenticated) {
       nav = <Nav user={this.state.user} />;
       header = <Header statistic={this.state.statistic} onlineUsers={this.state.onlineUsers} user={this.state.user} waitTime={this.state.waitTime}/>;
+      list = <TicketList user={this.state.user} ticketList={this.state.ticketList} updateTickets={this.updateTickets.bind(this)} hasClaimed={this.state.hasClaimed} />;
     }
 
-    if (!user) {
+    if (!isAuthenticated) {
       document.querySelector('BODY').style.backgroundColor = '#2b3d51';
       main = <Login />;
-    } else if (user.role === 'student') {
+    } else if (isAuthenticated && user.role === 'student') {
       main = <TicketSubmission submitTickets={this.submitTickets.bind(this)} ticketCategoryList={this.state.ticketCategoryList} />;
-    } else if (user.role === 'mentor') {
-      // render HIR view
-    } else if (user.role === 'admin') {
+    } else if (isAuthenticated && user.role === 'mentor') {
+      // reserved for mentor view
+    } else if (isAuthenticated && user.role === 'admin') {
       main = <AdminDashboard filterTickets={this.filterTickets.bind(this)} onlineUsers={this.state.onlineUsers} adminStats={this.state.statistic} ticketCategoryList={this.state.ticketCategoryList} />;
     }
 
@@ -194,7 +201,7 @@ class App extends React.Component {
         {header}
         <div className="container">
           {main}
-          <TicketList user={this.state.user} ticketList={this.state.ticketList} updateTickets={this.updateTickets.bind(this)} hasClaimed={this.state.hasClaimed} />
+          {list}
         </div>
       </div>
     );
