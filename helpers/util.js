@@ -63,7 +63,6 @@ var getEstimate = function(excessMentors, queuePos, estimatedInterval) {
 
 var computeAvgWaitTime = function (tickets, mentors, userId) {
   var storage = [];
-  var length = tickets.length;
   var sum = computeSimpleWaitAverage(tickets, storage);
   var queuePos = findQueuePos(tickets, userId);
   var openTickets = tickets.filter(function (ticket) {return ticket.status == 'Opened'});
