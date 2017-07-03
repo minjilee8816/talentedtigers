@@ -1,6 +1,8 @@
 'use strict';
 
-const reducedToDay = date => date % 604800000 < 86400000;
+var reducedToDay = function reducedToDay(date) {
+  return date % 604800000 < 86400000;
+};
 
 var displayAlert = function displayAlert(message, type) {
   document.querySelector('#alert_main').className = 'alert alert-main alert-' + type;
@@ -20,42 +22,54 @@ var connectionCount = function connectionCount(students, mentors, admins) {
   return res;
 };
 
-const computeAvgWaitTime = (tickets, mentors, userId) => {
-  const storage = [];
-  let length = tickets.length;
-  let count = 0;
-  let sum = tickets.reduce((acc, curr) => {
-    let date = Date.parse(curr.claimedAt);
-    let wait = date - Date.parse(curr.createdAt);
-    if(reducedToDay(date) && curr.claimedAt) { 
+var computeAvgWaitTime = function computeAvgWaitTime(tickets, mentors, userId) {
+  var storage = [];
+  var length = tickets.length;
+  var count = 0;
+  var sum = tickets.reduce(function (acc, curr) {
+    var date = Date.parse(curr.claimedAt);
+    var wait = date - Date.parse(curr.createdAt);
+    if (reducedToDay(date) && curr.claimedAt) {
       storage.push(curr);
-      return acc + wait; 
-   } 
+      return acc + wait;
+    }
     return acc;
   }, 0);
-  let queuePos = tickets.filter((ticket) => { return ticket.status === 'Opened' }).sort((ticket1, ticket2) => Date.parse(ticket1.createdAt) - Date.parse(ticket2.createdAt)).findIndex((ticket) => ticket.userId == userId ) + 1;
-  let quantityClaimedAndUnclosed = tickets.filter((ticket) => { return ticket.claimedAt && !ticket.closedAt }).length;
-  let openTickets = tickets.filter((ticket) => { return ticket.status == 'Opened' });
-  if(queuePos === 0){queuePos = openTickets.length + 1};
+  var queuePos = tickets.filter(function (ticket) {
+    return ticket.status === 'Opened';
+  }).sort(function (ticket1, ticket2) {
+    return Date.parse(ticket1.createdAt) - Date.parse(ticket2.createdAt);
+  }).findIndex(function (ticket) {
+    return ticket.userId == userId;
+  }) + 1;
+  var quantityClaimedAndUnclosed = tickets.filter(function (ticket) {
+    return ticket.claimedAt && !ticket.closedAt;
+  }).length;
+  var openTickets = tickets.filter(function (ticket) {
+    return ticket.status == 'Opened';
+  });
+  if (queuePos === 0) {
+    queuePos = openTickets.length + 1;
+  };
   // keep this line for realtime data and delete line 21 with the hard code:
   // let excessMentors = mentors - quantityClaimedAndUnclosed;
-  const excessMentors = 2;
-  const estimatedInterval = new Date(sum / storage.length).getUTCMinutes();
-  let estimate = 0;
-  let countAvail = excessMentors;
-  queuePos == 0 ? queuePos = quantityClaimedAndUnclosed.length: queuePos = queuePos;
+  var excessMentors = 2;
+  var estimatedInterval = new Date(sum / storage.length).getUTCMinutes();
+  var estimate = 0;
+  var countAvail = excessMentors;
+  queuePos == 0 ? queuePos = quantityClaimedAndUnclosed.length : queuePos = queuePos;
   if (queuePos >= 0) {
-    for(let i = 0; i < queuePos; i++) {
-      if(i+1 < countAvail && countAvail) {
-        estimate += estimatedInterval / (excessMentors*excessMentors);
+    for (var i = 0; i < queuePos; i++) {
+      if (i + 1 < countAvail && countAvail) {
+        estimate += estimatedInterval / (excessMentors * excessMentors);
       } else {
 
         estimate += estimatedInterval / excessMentors;
       }
-    } 
+    }
     return estimate;
   }
-}
+};
 
 module.exports = {
   displayAlert: displayAlert,
