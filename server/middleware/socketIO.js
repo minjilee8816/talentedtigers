@@ -20,8 +20,6 @@ module.exports = server => {
       !admins[id] ? admins[id] = [socket] : admins[id].push(socket);
     }
 
-    socket.join(id);
-
     io.emit('user connect', util.connectionCount(students, mentors, admins));
 
     console.log(`${Object.keys(students).length} students connected`);
