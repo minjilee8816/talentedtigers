@@ -20,7 +20,7 @@ var connectionCount = function (students, mentors, admins) {
     admin: Object.keys(admins).length
   };
   return res;
-};
+}; 
 
 var findQueuePos = function(tickets, userId) {
   return tickets.filter(function (ticket) {
