@@ -167,15 +167,6 @@ h6:last-child {
 
 }
 
-@keyframes slidein {
-  from {
-    margin-left: 100%;
-  }
-  to {
-    margin-left: 0%;
-  }
-}
-
 .ticket_list_entry_meta {
   float: left;
 }
