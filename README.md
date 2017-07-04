@@ -38,16 +38,14 @@ npm install
 
 ### Setup Database
 
-#### Create Database
+#### Create and Start Database
+
+The `npm db-create` and `create helpReactor` commands only need to be run once.
 
 ```sh
 npm run db-create
-```
-
-#### Start Database
-
-```sh
 npm run db-start
+createdb helpReator
 ```
 
 #### Migrate and Seed Database
