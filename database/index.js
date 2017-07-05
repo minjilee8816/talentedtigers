@@ -39,7 +39,20 @@ const User = db.define('user', {
   cohort: Sequelize.STRING
 });
 
+const Feedback = db.define('feedback', {
+  id: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+    allowNull: false
+  },
+  rating: Sequelize.INTEGER,
+  feedback: Sequelize.TEXT
+});
+
 User.hasMany(Ticket);
+
+User.hasMany(Feedback);
 
 Ticket.belongsTo(User, {
   as: 'user',
@@ -51,8 +64,19 @@ Ticket.belongsTo(User, {
   foreignKey: 'claimedBy'
 });
 
+Feedback.belongsTo(User, {
+  as: 'student',
+  foreignKey: 'userId'
+});
+
+Feedback.belongsTo(User, {
+  as: 'mentor',
+  foreignKey: 'claimedBy'
+});
+
 module.exports = {
   db: db,
   Ticket: Ticket,
-  User: User
+  User: User,
+  Feedback: Feedback
 };
