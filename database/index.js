@@ -36,7 +36,8 @@ const User = db.define('user', {
   lastName: Sequelize.STRING,
   username: { type: Sequelize.STRING, allowNull: false, unique: true },
   role: { type: Sequelize.ENUM('student', 'mentor', 'admin'), allowNull: false },
-  cohort: Sequelize.STRING
+  cohort: Sequelize.STRING,
+  rating: Sequelize.INTEGER
 });
 
 const Feedback = db.define('feedback', {
