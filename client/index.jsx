@@ -75,6 +75,8 @@ class App extends React.Component {
     });
   }
 
+
+
   submitTickets(e) {
     $('.ticket_submission_form').validate({
       rules: {
@@ -109,10 +111,14 @@ class App extends React.Component {
     });
   }
 
+
+
+
   updateTickets(data) {
     if (data.status === 'Claimed') {
       data.claimedBy = this.state.user.id;
     }
+    {console.log('DATA:?', data)};
 
     $.ajax({
       url: `/api/tickets/${data.id}`,
@@ -128,6 +134,8 @@ class App extends React.Component {
       }
     });
   }
+
+
 
   filterTickets(e) {
     if (e) { e.preventDefault(); }
@@ -153,7 +161,6 @@ class App extends React.Component {
       status: status,
       [type]: timeWindow
     };
-
     this.getTickets(option);
   }
 
@@ -168,6 +175,7 @@ class App extends React.Component {
     }
     return $('.claim_btn').prop('disabled', false);
   }
+
 
   render() {
     let user = this.state.user;
@@ -186,13 +194,18 @@ class App extends React.Component {
     if (!isAuthenticated) {
       document.querySelector('BODY').style.backgroundColor = '#2b3d51';
       main = <Login />;
+    
     } else if (isAuthenticated && user.role === 'student') {
       main = <TicketSubmission submitTickets={this.submitTickets.bind(this)} ticketCategoryList={this.state.ticketCategoryList} />;
+   
     } else if (isAuthenticated && user.role === 'mentor') {
       // reserved for mentor view
+
     } else if (isAuthenticated && user.role === 'admin') {
       main = <AdminDashboard filterTickets={this.filterTickets.bind(this)} onlineUsers={this.state.onlineUsers} adminStats={this.state.statistic} ticketCategoryList={this.state.ticketCategoryList} />;
+    
     }
+
 
     return (
       <div>
