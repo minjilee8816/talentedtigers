@@ -1,8 +1,8 @@
 module.exports.users = [
   {
-    "firstName":"Eric",
-    "lastName":"Mai",
-    "username":"enmai1988",
+    "firstName":"Taras",
+    "lastName":"Ignashchenko",
+    "username":"tignashchenko",
     "role":"admin",
     "cohort":"HRSF-77"
   },
