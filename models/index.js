@@ -1,4 +1,4 @@
-const { db, Ticket, User } = require('../database/');
+const { db, Feedback, Ticket, User } = require('../database/');
 const _ = require('underscore');
 const util = require('../helpers/util');
 
@@ -8,6 +8,17 @@ const createTicket = (req, res) => {
     if (!result) { res.sendStatus(500); }
     res.sendStatus(201);
   });
+};
+
+const createFeedbackForm = (req, res) => {
+  Feedback.create(req.body)
+    .then(data => {
+      if (!data) {
+        res.send('Invalid feedback form submission');
+      } else {
+        res.send('Feedback form successfully created');
+      }
+    });
 };
 
 const findTickets = (req, res) => {
@@ -74,6 +85,7 @@ const createUser = (req, res) => {
 
 module.exports = {
   createTicket: createTicket,
+  createFeedbackForm: createFeedbackForm,
   findTickets: findTickets,
   updateTickets: updateTickets,
   createUser: createUser

@@ -28,6 +28,8 @@ router.post('/api/tickets', db.createTicket);
 
 router.post('/api/users', db.createUser);
 
+router.post('/api/feedbackForm', db.createFeedbackForm);
+
 router.put('/api/tickets/:id', db.updateTickets);
 
 module.exports = router;
