@@ -153,6 +153,9 @@ h6:last-child {
   height: 102px;
 }
 
+.feedback{
+  padding: 20px;
+}
 #ticket_submission_area {
   margin-top: 10px;
 }

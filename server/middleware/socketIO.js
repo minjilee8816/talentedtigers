@@ -20,6 +20,8 @@ module.exports = server => {
       !admins[id] ? admins[id] = [socket] : admins[id].push(socket);
     }
 
+    socket.join(id);
+
     io.emit('user connect', util.connectionCount(students, mentors, admins));
 
     console.log(`${Object.keys(students).length} students connected`);
@@ -56,6 +58,16 @@ module.exports = server => {
           });
         });
     });
+
+
+    socket.on('closed ticket', (user, mentor) => {
+      console.log('USER**************', user)
+      console.log('mentormentor', mentor )
+    
+      io.to(user.id).emit('leave feedback', mentor.id);
+    });
+
+
 
     // logic has flaws
     // socket.on('update adminStats', () => {
