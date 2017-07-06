@@ -1,11 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import moment from 'moment';
+import Feedback from './feedback.jsx';
+import io from 'socket.io-client';
 
 class TicketEntry extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { now: new Date() };
+    this.state = { 
+      now: new Date()
+    };
   }
   componentDidMount() {
     this.timer = setInterval(() => this.setState({ now: new Date() }), 1000);
@@ -21,6 +25,8 @@ class TicketEntry extends React.Component {
     let claimed = null;
     let className = null;
     let time = null;
+    let feedback = null; 
+
     if (this.props.ticket.status === 'Opened') {
       className = 'alert-success';
       time = `opened ${moment(this.props.ticket.createdAt).from(this.state.now)}`;
@@ -34,12 +40,16 @@ class TicketEntry extends React.Component {
     }
 
     if (this.props.ticket.status === 'Opened' && this.props.ticket.userId !== this.props.user.id) {
-      claimButton = <button onClick={() => this.props.updateTickets({ id: this.props.ticket.id, status: 'Claimed' })} type="button" className="btn btn-xs btn-primary claim_btn">Claim</button>;
+      claimButton = <button onClick={() => this.props.updateTickets({ id: this.props.ticket.id, status: 'Claimed' }) }  type="button" className="btn btn-xs btn-primary claim_btn">Claim</button>;
     }
 
     if (this.props.ticket.status !== 'Closed' && (this.props.ticket.claimedBy === this.props.user.id || this.props.ticket.userId === this.props.user.id || this.props.user.role === 'admin')) {
-      closeButton = <button onClick={() => this.props.updateTickets({ id: this.props.ticket.id, status: 'Closed' })} type="button" className="btn btn-xs btn-danger">Close</button>;
+      closeButton = <button onClick={() => this.props.updateTickets({ id: this.props.ticket.id, status: 'Closed', user: this.props.ticket.user}) } type="button" className="btn btn-xs btn-danger">Close</button>;
     }
+
+    // if (this.props.ticket.status === 'Closed' &&  (this.props.user.role === 'mentor'  || his.props.user.role === 'admin' )) {
+    //   closeButton = <button onClick={() => this.props.updateTickets({ id: this.props.ticket.id, status: 'Closed' }) } data-toggle="modal" data-target="#myModal" type="button" className="btn btn-xs btn-danger">Close</button>;
+    // }
 
     return (
       <div className={`ticket_list_entry alert ${className} clearfix`}>
@@ -62,3 +72,7 @@ class TicketEntry extends React.Component {
 }
 
 export default TicketEntry;
+
+
+
+

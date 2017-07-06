@@ -8,6 +8,7 @@ import Alert from './components/alert.jsx';
 import Nav from './components/nav.jsx';
 import Header from './components/header.jsx';
 import AdminDashboard from './components/adminDashboard.jsx';
+import Feedback from './components/feedback.jsx';
 
 class App extends React.Component {
   constructor() {
@@ -19,7 +20,8 @@ class App extends React.Component {
       isAuthenticated: false,
       onlineUsers: {},
       statistic: {},
-      waitTime: 0
+      waitTime: 0,
+      feedback: null
     };
   }
 
@@ -57,13 +59,19 @@ class App extends React.Component {
       return option.role === 'admin' ? this.filterTickets() : this.getTickets(option);
     });
 
-    this.socket.on('new adminStats', data => this.setState({ statistic: data }));
+    this.socket.on('new adminStats', data =>
+     this.setState({ statistic: data }));
 
     this.socket.on('new wait time', data => this.setState({ waitTime: data.waitTime }));
 
     this.socket.on('user connect', data => this.setState({ onlineUsers: data }));
 
     this.socket.on('user disconnect', data => this.setState({ onlineUsers: data }));
+
+    this.socket.on('leave feedback', data => {
+      this.setState({ feedback: data });
+      $('#myModal').modal();
+    })
 
     this.getTickets(option);
   }
@@ -109,9 +117,14 @@ class App extends React.Component {
     });
   }
 
+
   updateTickets(data) {
     if (data.status === 'Claimed') {
       data.claimedBy = this.state.user.id;
+    }
+    var closedTicket = null;
+    if (data.status === 'Closed') {
+      closedTicket = this.socket.emit('closed ticket', data.user, this.state.user );
     }
 
     $.ajax({
@@ -122,12 +135,14 @@ class App extends React.Component {
         this.socket.emit('refresh');
         this.socket.emit('update adminStats');
         this.socket.emit('get wait time');
+        closedTicket; 
       },
       error: (err) => {
         console.log('failed to update ticket');
       }
     });
   }
+
 
   filterTickets(e) {
     if (e) { e.preventDefault(); }
@@ -153,7 +168,6 @@ class App extends React.Component {
       status: status,
       [type]: timeWindow
     };
-
     this.getTickets(option);
   }
 
@@ -169,6 +183,7 @@ class App extends React.Component {
     return $('.claim_btn').prop('disabled', false);
   }
 
+
   render() {
     let user = this.state.user;
     let isAuthenticated = this.state.isAuthenticated;
@@ -176,22 +191,31 @@ class App extends React.Component {
     let header = null;
     let main = null;
     let list = null;
+    let feedback = null; 
 
     if (isAuthenticated) {
       nav = <Nav user={this.state.user} />;
       header = <Header statistic={this.state.statistic} onlineUsers={this.state.onlineUsers} user={this.state.user} waitTime={this.state.waitTime}/>;
-      list = <TicketList user={this.state.user} ticketList={this.state.ticketList} updateTickets={this.updateTickets.bind(this)} hasClaimed={this.state.hasClaimed} />;
+      list = <TicketList  user={this.state.user} ticketList={this.state.ticketList} updateTickets={this.updateTickets.bind(this)} hasClaimed={this.state.hasClaimed} />;
     }
 
     if (!isAuthenticated) {
       document.querySelector('BODY').style.backgroundColor = '#2b3d51';
       main = <Login />;
+    
     } else if (isAuthenticated && user.role === 'student') {
       main = <TicketSubmission submitTickets={this.submitTickets.bind(this)} ticketCategoryList={this.state.ticketCategoryList} />;
+   
     } else if (isAuthenticated && user.role === 'mentor') {
       // reserved for mentor view
+
     } else if (isAuthenticated && user.role === 'admin') {
       main = <AdminDashboard filterTickets={this.filterTickets.bind(this)} onlineUsers={this.state.onlineUsers} adminStats={this.state.statistic} ticketCategoryList={this.state.ticketCategoryList} />;
+    
+    }
+
+    if ( this.state.feedback !== null ) {
+      feedback = <Feedback />
     }
 
     return (
@@ -203,6 +227,7 @@ class App extends React.Component {
           {main}
           {list}
         </div>
+        {feedback}
       </div>
     );
   }
