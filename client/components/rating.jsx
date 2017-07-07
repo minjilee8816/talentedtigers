@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import $ from "jquery";
 
 
 class Rating extends React.Component {
@@ -10,16 +9,13 @@ class Rating extends React.Component {
     this.state = {
       rating: props.changeRatingState
     }
-    // console.log('props?', props)
     this.ratingValue = this.ratingValue.bind(this);
   }
 
   ratingValue (e) {
     var value = e.target.innerText;
     this.props.changeRatingState(value);  
-    // console.log('checking', e.target.innerText)
   }
-
 
   render () {
     return (

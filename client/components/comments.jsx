@@ -10,7 +10,6 @@ class Comments extends React.Component {
 
   commentsInputValue(e) {
     var value = e.target.value; 
-    // console.log('props', this.props)
     this.props.changeCommentState(value);  
   }
 

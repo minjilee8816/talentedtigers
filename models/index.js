@@ -36,7 +36,6 @@ const findTickets = (req, res) => {
   }
 
   const otherfunction = function(status) {
-    console.log('test', status);
     return status;
   };
 

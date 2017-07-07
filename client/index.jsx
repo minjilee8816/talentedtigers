@@ -76,21 +76,17 @@ class App extends React.Component {
         });
       $('#myModal').modal();
     })
-
     this.getTickets(option);
   }
 
 
   submitFeedbackForm(rating, comments) {
-    console.log('rating', rating)
-    console.log('comments*******', comments)
     var feedbackForm = {
       rating: rating,
       feedback: comments,
       userId: this.state.user.id,
       claimedBy: this.state.mentorId
     }
-    console.log('feeeeeeeedback', feedbackForm);
     $.ajax({
       url: '/api/feedbackForm',
       type: 'POST',
@@ -102,35 +98,7 @@ class App extends React.Component {
         console.log('Error submitting feedback');
       }
     })
-
-   // $('.feedback_submission_form').validate({
-   //   rules: {
-   //     // rating: 'required',
-   //     feedback: 'required'
-   //   },
-   //   submitHandler: (form) => {
-   //     let feedbackForm = {
-   //       userId: this.state.user.id,
-   //       claimedBy: //mentor id,
-   //       // rating: document.getElementById('feedback_submission_form_rating').value,
-   //       feedback: document.getElementById('feedback_submission_form_feedback').value
-   //     };
-
-   //    console.log('feedbackForm.feedback', feedbackForm.feedback);
-      
-   //    $.ajax({
-   //       url: '/api/feedbackForm',
-   //       type: ‘POST’,
-   //       data: feedbackForm,
-   //       success: (response) => {
-            
-   //       }
-   //     });
-   //   }
-   // })
-
   }
-
 
   getTickets(option) {
     $.get('/api/tickets', option, (tickets) => {
@@ -258,16 +226,12 @@ class App extends React.Component {
     if (!isAuthenticated) {
       document.querySelector('BODY').style.backgroundColor = '#2b3d51';
       main = <Login />;
-    
     } else if (isAuthenticated && user.role === 'student') {
       main = <TicketSubmission submitTickets={this.submitTickets.bind(this)} ticketCategoryList={this.state.ticketCategoryList} />;
-   
     } else if (isAuthenticated && user.role === 'mentor') {
       // reserved for mentor view
-
     } else if (isAuthenticated && user.role === 'admin') {
       main = <AdminDashboard filterTickets={this.filterTickets.bind(this)} onlineUsers={this.state.onlineUsers} adminStats={this.state.statistic} ticketCategoryList={this.state.ticketCategoryList} />;
-    
     }
 
     if ( this.state.feedback !== null ) {
