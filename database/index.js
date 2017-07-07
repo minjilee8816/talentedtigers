@@ -51,6 +51,18 @@ const Feedback = db.define('feedback', {
   feedback: Sequelize.TEXT
 });
 
+
+const Testing = db.define('testing', {
+  id: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+    allowNull: false
+  },
+  rating: Sequelize.INTEGER,
+  feedback: Sequelize.STRING
+});
+
 User.hasMany(Ticket);
 
 User.hasMany(Feedback);

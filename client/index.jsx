@@ -21,7 +21,8 @@ class App extends React.Component {
       onlineUsers: {},
       statistic: {},
       waitTime: 0,
-      feedback: null
+      feedback: null,
+      mentorId: null
     };
   }
 
@@ -69,7 +70,10 @@ class App extends React.Component {
     this.socket.on('user disconnect', data => this.setState({ onlineUsers: data }));
 
     this.socket.on('leave feedback', data => {
-      this.setState({ feedback: data });
+      this.setState({ 
+        feedback: data,
+        mentorId: data
+        });
       $('#myModal').modal();
     })
 
@@ -80,6 +84,25 @@ class App extends React.Component {
   submitFeedbackForm(rating, comments) {
     console.log('rating', rating)
     console.log('comments*******', comments)
+    var feedbackForm = {
+      rating: rating,
+      feedback: comments,
+      userId: this.state.user.id,
+      claimedBy: this.state.mentorId
+    }
+    console.log('feeeeeeeedback', feedbackForm);
+    $.ajax({
+      url: '/api/feedbackForm',
+      type: 'POST',
+      data: feedbackForm,
+      success: (response) => {
+        console.log(response)
+      }, 
+      error: () => {
+        console.log('Error submitting feedback');
+      }
+    })
+
    // $('.feedback_submission_form').validate({
    //   rules: {
    //     // rating: 'required',
@@ -105,7 +128,9 @@ class App extends React.Component {
    //     });
    //   }
    // })
+
   }
+
 
   getTickets(option) {
     $.get('/api/tickets', option, (tickets) => {
