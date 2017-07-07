@@ -21,7 +21,8 @@ class App extends React.Component {
       onlineUsers: {},
       statistic: {},
       waitTime: 0,
-      feedback: null
+      feedback: null,
+      mentorId: null
     };
   }
 
@@ -69,11 +70,34 @@ class App extends React.Component {
     this.socket.on('user disconnect', data => this.setState({ onlineUsers: data }));
 
     this.socket.on('leave feedback', data => {
-      this.setState({ feedback: data });
+      this.setState({ 
+        feedback: data,
+        mentorId: data
+        });
       $('#myModal').modal();
     })
-
     this.getTickets(option);
+  }
+
+
+  submitFeedbackForm(rating, comments) {
+    var feedbackForm = {
+      rating: rating,
+      feedback: comments,
+      userId: this.state.user.id,
+      claimedBy: this.state.mentorId
+    }
+    $.ajax({
+      url: '/api/feedbackForm',
+      type: 'POST',
+      data: feedbackForm,
+      success: (response) => {
+        console.log(response)
+      }, 
+      error: () => {
+        console.log('Error submitting feedback');
+      }
+    })
   }
 
   getTickets(option) {
@@ -202,20 +226,16 @@ class App extends React.Component {
     if (!isAuthenticated) {
       document.querySelector('BODY').style.backgroundColor = '#2b3d51';
       main = <Login />;
-    
     } else if (isAuthenticated && user.role === 'student') {
       main = <TicketSubmission submitTickets={this.submitTickets.bind(this)} ticketCategoryList={this.state.ticketCategoryList} />;
-   
     } else if (isAuthenticated && user.role === 'mentor') {
       // reserved for mentor view
-
     } else if (isAuthenticated && user.role === 'admin') {
       main = <AdminDashboard filterTickets={this.filterTickets.bind(this)} onlineUsers={this.state.onlineUsers} adminStats={this.state.statistic} ticketCategoryList={this.state.ticketCategoryList} />;
-    
     }
 
     if ( this.state.feedback !== null ) {
-      feedback = <Feedback />
+      feedback = <Feedback submitFeedbackForm = {this.submitFeedbackForm.bind(this)}/>
     }
 
     return (
