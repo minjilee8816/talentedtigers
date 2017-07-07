@@ -76,6 +76,37 @@ class App extends React.Component {
     this.getTickets(option);
   }
 
+
+  submitFeedbackForm(rating, comments) {
+    console.log('rating', rating)
+    console.log('comments*******', comments)
+   // $('.feedback_submission_form').validate({
+   //   rules: {
+   //     // rating: 'required',
+   //     feedback: 'required'
+   //   },
+   //   submitHandler: (form) => {
+   //     let feedbackForm = {
+   //       userId: this.state.user.id,
+   //       claimedBy: //mentor id,
+   //       // rating: document.getElementById('feedback_submission_form_rating').value,
+   //       feedback: document.getElementById('feedback_submission_form_feedback').value
+   //     };
+
+   //    console.log('feedbackForm.feedback', feedbackForm.feedback);
+      
+   //    $.ajax({
+   //       url: '/api/feedbackForm',
+   //       type: ‘POST’,
+   //       data: feedbackForm,
+   //       success: (response) => {
+            
+   //       }
+   //     });
+   //   }
+   // })
+  }
+
   getTickets(option) {
     $.get('/api/tickets', option, (tickets) => {
       this.setState({ ticketList: tickets });
@@ -215,7 +246,7 @@ class App extends React.Component {
     }
 
     if ( this.state.feedback !== null ) {
-      feedback = <Feedback />
+      feedback = <Feedback submitFeedbackForm = {this.submitFeedbackForm.bind(this)}/>
     }
 
     return (
