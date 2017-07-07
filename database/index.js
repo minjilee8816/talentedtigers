@@ -37,7 +37,6 @@ const User = db.define('user', {
   username: { type: Sequelize.STRING, allowNull: false, unique: true },
   role: { type: Sequelize.ENUM('student', 'mentor', 'admin'), allowNull: false },
   cohort: Sequelize.STRING,
-  // rating: {type: Sequelize.INTEGER, allowNull: true}
 });
 
 const Feedback = db.define('feedback', {
@@ -52,8 +51,22 @@ const Feedback = db.define('feedback', {
 });
 
 
+const Testing = db.define('testing', {
+  id: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+    allowNull: false
+  },
+  rating: Sequelize.INTEGER,
+  feedback: Sequelize.TEXT
+});
+
+
 User.hasMany(Ticket);
 User.hasMany(Feedback);
+
+
 
 Ticket.belongsTo(User, {
   as: 'user',
@@ -74,6 +87,8 @@ Feedback.belongsTo(User, {
   as: 'mentor',
   foreignKey: 'claimedBy'
 });
+
+
 
 module.exports = {
   db: db,

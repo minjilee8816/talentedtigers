@@ -25,11 +25,14 @@ class Feedback extends React.Component {
     this.setState({
       comments: value 
     })
-
   }
 
   submitRatingCommentsValue () {
     this.props.submitFeedbackForm(this.state.rating, this.state.comments);
+    this.setState({
+      rating: '',
+      comments: ''
+    })
   }
 
   render() {
@@ -43,8 +46,8 @@ class Feedback extends React.Component {
                 <h3 className="modal-title" id="myModalLabel">Help Reactor Feedback</h3>
               </div>
               <div className="modal-body">
-                <Rating changeRatingState = { this.changeRatingState  } /> 
-                <Comments changeCommentState = {this.changeCommentState} />
+                <Rating changeRatingState = {this.changeRatingState} rating = {this.state.rating} /> 
+                <Comments changeCommentState = {this.changeCommentState} comments = {this.state.comments} />
               </div>
               <div className="modal-footer" id="feedback-footer">
                 <button onClick={this.submitRatingCommentsValue } type="button" className="btn btn-primary" data-dismiss="modal">Submit</button>
@@ -56,10 +59,5 @@ class Feedback extends React.Component {
     )
   }
 }
-// const Feedback = ({submitFeedbackForm}) => ( 
-  
-// );
 
 export default Feedback;
-
-//onClick={}
