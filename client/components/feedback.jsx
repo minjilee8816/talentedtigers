@@ -22,11 +22,11 @@ class Feedback extends React.Component {
     this.setState({
       comments: value 
     })
-    
+
   }
 
   submitRatingCommentsValue () {
-    // console.log('comments VAlue?', this.state.comments);
+    console.log('comments VAlue?', this.state.rating);
     this.props.submitFeedbackForm(this.state.rating, this.state.comments); 
   }
 

@@ -8,13 +8,18 @@ class Rating extends React.Component {
   constructor (props) {
     super(props); 
     this.state = {
-      ratingChecked : null
+      rating: props.changeRatingState
     }
-    this.ratingValue();
+    console.log('super', props.changeRatingState)
   }
 
   ratingValue (e) {
-    console.log('checking', e)
+    var value = e.target.innerText;
+    // this.props.changeRatingState(value);  
+    console.log('checking', e.target.innerText)
+
+    console.log('thisprops', this.state.rating) 
+    // console.log('name', e.target.value)
     // $.('input[rating-radio]:checked').val();
     // console.log('******', $.('input[rating-radio]:checked').val());
     // this.setState({
@@ -35,36 +40,36 @@ class Rating extends React.Component {
         <h4 className="feedback-subtitle">
         Rate your experience
         </h4>
-        <div onClick ={this.ratingValue.bind()} className="btn-group" data-toggle="buttons">
-          <label className="btn btn-primary">
-            <input onClick ={this.ratingValue.bind()} className="rating-radio" type="radio" name="options" id="option1" value="1" autoComplete="off"/> 1
+        <div className="btn-group" data-toggle="buttons">
+          <label onClick ={this.ratingValue.bind()} className="btn btn-primary" >
+            <input  className="rating-radio" type="radio" name="options" id="option1" autoComplete="off"/> 1
           </label>
-          <label className="btn btn-primary">
-            <input  onClick ={this.ratingValue.bind()} className="rating-radio" type="radio" name="options" id="option2" value="2" autoComplete="off"/> 2
+          <label onClick ={this.ratingValue.bind()} className="btn btn-primary" >
+            <input  className="rating-radio" type="radio"  name="options" id="option2" autoComplete="off"/> 2
           </label>
-          <label className="btn btn-primary">
-            <input className="rating-radio" type="radio" name="options" id="option3" value="3" autoComplete="off"/> 3
+          <label onClick ={this.ratingValue.bind()} className="btn btn-primary">
+            <input className="rating-radio" type="radio" name="options" id="option3" autoComplete="off"/> 3
           </label>
-          <label className="btn btn-primary">
-            <input className="rating-radio" type="radio" name="options" id="option4" value="4" autoComplete="off"/> 4
+          <label onClick ={this.ratingValue.bind()} className="btn btn-primary">
+            <input className="rating-radio" type="radio" name="options" id="option4" autoComplete="off"/> 4
           </label>
-          <label className="btn btn-primary">
-            <input className="rating-radio" type="radio" name="options" id="option5" value="5" autoComplete="off"/> 5
+          <label onClick ={this.ratingValue.bind()} className="btn btn-primary">
+            <input className="rating-radio" type="radio" name="options" id="option5" autoComplete="off"/> 5
           </label>
-          <label className="btn btn-primary">
-            <input className="rating-radio" type="radio" name="options" id="option6" value="6" autoComplete="off"/> 6
+          <label onClick ={this.ratingValue.bind()} className="btn btn-primary">
+            <input className="rating-radio" type="radio" name="options" id="option6" autoComplete="off"/> 6
           </label>
-          <label className="btn btn-primary">
-            <input className="rating-radio" type="radio" name="options" id="option7" value="7" autoComplete="off"/> 7
+          <label onClick ={this.ratingValue.bind()} className="btn btn-primary">
+            <input className="rating-radio" type="radio" name="options" id="option7" autoComplete="off"/> 7
           </label>
-          <label className="btn btn-primary">
-            <input className="rating-radio" type="radio" name="options" id="option8" value="8" autoComplete="off"/> 8
+          <label onClick ={this.ratingValue.bind()} className="btn btn-primary">
+            <input className="rating-radio" type="radio" name="options" id="option8" autoComplete="off"/> 8
           </label>
-          <label className="btn btn-primary">
-            <input className="rating-radio" type="radio" name="options" id="option9" value="9" autoComplete="off"/> 9
+          <label onClick ={this.ratingValue.bind()} className="btn btn-primary">
+            <input className="rating-radio" type="radio" name="options" id="option9" autoComplete="off"/> 9
           </label>
-          <label className="btn btn-primary">
-            <input className="rating-radio" type="radio" name="options" id="option10"value="10" autoComplete="off"/> 10
+          <label onClick ={this.ratingValue.bind()} className="btn btn-primary" >
+            <input className="rating-radio" type="radio" name="options" id="option10" autoComplete="off"/> 10
           </label>
         </div>
       </div>
