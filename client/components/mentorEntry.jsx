@@ -7,7 +7,7 @@ class MentorEntry extends React.Component {
   }
 
   sendMentorId() {
-    this.props.getFeedback(this.props.mentor.id);
+    this.props.getFeedback(this.props.mentor.id, this.props.mentor.firstName, this.props.mentor.lastName);
   }
 
   render() {

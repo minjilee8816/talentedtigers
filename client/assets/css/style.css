@@ -251,8 +251,12 @@ h6:last-child {
   color: #11758E;
 }
 
+#mentor-button{
+  background-color: #11758E; 
+}
 #mentor_full_name{
   margin-left: 20px;
+  color:black;
 }
 .mentor_name_button{
   float: right;
@@ -267,4 +271,9 @@ h6:last-child {
   color:black;
   font-size: 15px;
   padding: 5px;
+}
+
+.mentor_full_name{
+  margin-left: 20px;
+  margin-bottom: 20px;
 }
