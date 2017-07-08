@@ -29,7 +29,9 @@ class App extends React.Component {
       mentorId: null,
       mentorList: null,
       showMentors: false,
-      feedbackList: null
+      feedbackList: null,
+      mentorFirstName: null,
+      mentorLastName: null
     };
   }
 
@@ -237,12 +239,14 @@ class App extends React.Component {
     }); 
   }
 
-  getFeedback(mentorID) {
-    // console.log('mentorID****', mentorID);
+  getFeedback(mentorID, firstName, lastName) {
     var mentorId = {
       mentorID : mentorID
     }
-
+    this.setState({
+      mentorFirstName: firstName,
+      mentorLastName: lastName
+    })
     $.ajax({
       url: '/api/feedbacks',
       method: 'POST',
@@ -297,11 +301,9 @@ class App extends React.Component {
       feedback = <FeedbackModal submitFeedbackForm = {this.submitFeedbackForm.bind(this)}/>
     }
 
-    {console.log('feedbackList:', this.state.feedbackList)}
-
     if( isAuthenticated && user.role === 'admin' && this.state.feedbackList !== null) {
-      list = <FeedbackList feedbackList={this.state.feedbackList}/>
-  }
+      list = <FeedbackList feedbackList={this.state.feedbackList} mentorFirstName={this.state.mentorFirstName} mentorLastName={this.state.mentorLastName} />
+    }
 
     return (
       <div>

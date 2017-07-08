@@ -7,16 +7,16 @@ class MentorEntry extends React.Component {
   }
 
   sendMentorId() {
-    this.props.getFeedback(this.props.mentor.id);
+    this.props.getFeedback(this.props.mentor.id, this.props.mentor.firstName, this.props.mentor.lastName);
   }
 
   render() {
     return (
-      <div className="form-group row">
-        <table className="mentor_names">
+      <div className="alert alert-info">
+        <table className="mentor_info">
           <tbody>
             <tr>
-              <td className="mentor_name"><h3 htmlFor="ticket-statuss" id = "">{this.props.mentor.firstName} {this.props.mentor.lastName}</h3></td>
+              <td className="mentor_name"><h3 id="mentor_full_name">{this.props.mentor.firstName} {this.props.mentor.lastName}</h3></td>
               <td className="mentor_name_button"><button onClick={this.sendMentorId.bind(this)} id="feedbacks-button" className="btn btn-primary">Show Feedbacks</button></td>  
             </tr>
           </tbody>
