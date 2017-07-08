@@ -8,7 +8,8 @@ import Alert from './components/alert.jsx';
 import Nav from './components/nav.jsx';
 import Header from './components/header.jsx';
 import AdminDashboard from './components/adminDashboard.jsx';
-import Feedback from './components/feedback.jsx';
+import FeedbackModal from './components/feedbackModal.jsx';
+import MentorList from './components/mentorList.jsx';
 
 class App extends React.Component {
   constructor() {
@@ -22,7 +23,9 @@ class App extends React.Component {
       statistic: {},
       waitTime: 0,
       feedback: null,
-      mentorId: null
+      mentorId: null,
+      mentorList: [],
+      showMentors: false
     };
   }
 
@@ -170,6 +173,11 @@ class App extends React.Component {
 
   filterTickets(e) {
     if (e) { e.preventDefault(); }
+    
+    this.setState({
+      showMentors: false
+    });
+
     let day = document.getElementById('time-window').value;
     let category = document.getElementById('select-category').value;
     let status = document.getElementById('ticket-status').value;
@@ -207,6 +215,35 @@ class App extends React.Component {
     return $('.claim_btn').prop('disabled', false);
   }
 
+  getMentors() {
+    $.ajax({
+      url: '/api/mentors',
+      method: 'GET',
+      success: (data) => {
+        this.setState({
+          showMentors: true,
+          mentorList: data
+        });
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    });
+  }
+
+  getFeedback(mentorID) {
+    $.ajax({
+      url: '/api/feedback',
+      method: 'POST',
+      success: (data) => {
+
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    });
+  }
+
 
   render() {
     let user = this.state.user;
@@ -220,7 +257,7 @@ class App extends React.Component {
     if (isAuthenticated) {
       nav = <Nav user={this.state.user} />;
       header = <Header statistic={this.state.statistic} onlineUsers={this.state.onlineUsers} user={this.state.user} waitTime={this.state.waitTime}/>;
-      list = <TicketList  user={this.state.user} ticketList={this.state.ticketList} updateTickets={this.updateTickets.bind(this)} hasClaimed={this.state.hasClaimed} />;
+      //list = <TicketList  user={this.state.user} ticketList={this.state.ticketList} updateTickets={this.updateTickets.bind(this)} hasClaimed={this.state.hasClaimed} />;
     }
 
     if (!isAuthenticated) {
@@ -230,13 +267,20 @@ class App extends React.Component {
       main = <TicketSubmission submitTickets={this.submitTickets.bind(this)} ticketCategoryList={this.state.ticketCategoryList} />;
     } else if (isAuthenticated && user.role === 'mentor') {
       // reserved for mentor view
-    } else if (isAuthenticated && user.role === 'admin') {
+    } else if (isAuthenticated && user.role === 'admin' ) {
       main = <AdminDashboard filterTickets={this.filterTickets.bind(this)} onlineUsers={this.state.onlineUsers} adminStats={this.state.statistic} ticketCategoryList={this.state.ticketCategoryList} />;
     }
 
+
+    // if (isAuthenticated && user.role === 'admin' && showMentors) {
+    //   // list = <MentorList mentorList={this.state.mentorList} />
+    // }
+
     if ( this.state.feedback !== null ) {
-      feedback = <Feedback submitFeedbackForm = {this.submitFeedbackForm.bind(this)}/>
+      feedback = <FeedbackModal submitFeedbackForm = {this.submitFeedbackForm.bind(this)}/>
     }
+    //          <MentorList mentorList={this.state.mentorList} />
+
 
     return (
       <div>

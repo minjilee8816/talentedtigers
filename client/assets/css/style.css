@@ -153,15 +153,16 @@ h6:last-child {
   height: 102px;
 }
 
-.feedback{
-  padding: 20px;
-}
 #ticket_submission_area {
   margin-top: 10px;
 }
 
 #wait_time {
   color: white;
+}
+
+#mentor-button{
+  margin: 0px 0px 0px 37px;
 }
 
 .ticket_list_entry {

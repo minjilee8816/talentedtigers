@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import Rating from './rating.jsx'
 import Comments from './comments.jsx'
 
-class Feedback extends React.Component {
+class FeedbackModal extends React.Component {
   constructor (props) {  
     super(props);
     this.state = {
@@ -29,10 +29,6 @@ class Feedback extends React.Component {
 
   submitRatingCommentsValue () {
     this.props.submitFeedbackForm(this.state.rating, this.state.comments);
-    this.setState({
-      rating: '',
-      comments: ''
-    })
   }
 
   render() {
@@ -60,4 +56,4 @@ class Feedback extends React.Component {
   }
 }
 
-export default Feedback;
+export default FeedbackModal;

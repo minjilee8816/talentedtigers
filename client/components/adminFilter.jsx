@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 
-const AdminFilter = ({filterTickets, ticketCategoryList}) => (
+const AdminFilter = ({filterTickets, showMentors, ticketCategoryList, getMentors}) => (
   <form>
     <div className="form-group row">
       <div className="col-xs-3">
@@ -34,6 +34,7 @@ const AdminFilter = ({filterTickets, ticketCategoryList}) => (
         <label>&nbsp;</label>
         <br />
         <button onClick={filterTickets} type="submit" id="filter-button" className="btn btn-primary">Filter Tickets</button>
+        <button onClick={getMentors} type="submit" id="mentor-button" className="btn btn-primary">Show Mentors</button>
       </div>
     </div>
   </form>
