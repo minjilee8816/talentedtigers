@@ -1,14 +1,29 @@
 import React from 'react';
 
-const MentorEntry = ({mentor}) => {
-  return (
-    <div className='mentor_entry'>
-      <div className='mentor_name'>
-       {mentor.firstName} 
-       {mentor.lastName}
+class MentorEntry extends React.Component {
+
+  constructor(props) {
+    super(props);
+  }
+
+  sendMentorId() {
+    this.props.getFeedback(this.props.mentor.id);
+  }
+
+  render() {
+    return (
+      <div className="form-group row">
+        <table className="mentor_names">
+          <tbody>
+            <tr>
+              <td className="mentor_name"><label htmlFor="ticket-statuss">{this.props.mentor.firstName} {this.props.mentor.lastName}</label></td>
+              <td className="mentor_name_button"><button onClick={this.sendMentorId.bind(this)} id="feedbacks-button" className="btn btn-primary">Show Feedbacks</button></td>  
+            </tr>
+          </tbody>
+        </table>
       </div>
-    </div>
-  )
+    )
+  }
 }
 
 export default MentorEntry;

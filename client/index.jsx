@@ -10,6 +10,7 @@ import Header from './components/header.jsx';
 import AdminDashboard from './components/adminDashboard.jsx';
 import FeedbackModal from './components/feedbackModal.jsx';
 import MentorList from './components/mentorList.jsx';
+import FeedbackList from './components/feedbackList.jsx';
 
 
 
@@ -27,7 +28,8 @@ class App extends React.Component {
       feedback: null,
       mentorId: null,
       mentorList: null,
-      showMentors: false
+      showMentors: false,
+      feedbackList: null
     };
   }
 
@@ -234,20 +236,25 @@ class App extends React.Component {
         console.log(err);
       }
     });
-
   }
 
   getFeedback(mentorID) {
+    // console.log('mentorID****', mentorID);
+
     $.ajax({
       url: '/api/feedback',
       method: 'POST',
+      data: mentorID,
       success: (data) => {
-
+        this.setState({
+          feedbackList: data
+        })
       },
       error: (err) => {
         console.log(err);
       }
     });
+
   }
 
 
@@ -278,15 +285,22 @@ class App extends React.Component {
     }
 
 
-    if (isAuthenticated && user.role === 'admin' && this.state.showMentors) {
-      list = <MentorList mentorList={this.state.mentorList} />
+    if (isAuthenticated && user.role === 'admin' && this.state.showMentors ) {
+      list = <MentorList mentorList={this.state.mentorList} getFeedback={this.getFeedback.bind(this)}/>
     }
 
     if ( this.state.feedback !== null ) {
       feedback = <FeedbackModal submitFeedbackForm = {this.submitFeedbackForm.bind(this)}/>
     }
-    console.log('checkFAKE mentor::', this.state.mentorList);
-    console.log('checkFAKE mentor::', this.state.showMentors);
+    // console.log('checkFAKE mentor::', this.state.mentorList);
+    // console.log('checkFAKE mentor::', this.state.showMentors);
+    {console.log('feedbackList:', this.state.feedbackList)}
+
+    if( isAuthenticated && user.role === 'admin' && this.state.feedbackList !== null) {
+      list = <FeedbackList feedbackList={this.state.feedbackList}/>
+    }
+
+
 
     return (
       <div>

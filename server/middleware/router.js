@@ -72,8 +72,52 @@ var fakeMentorList = [
 
 
 
+
 router.get('/api/mentors', (req, res) => {
   res.send(fakeMentorList);
 });
+
+
+var fakeFeedbackList = [
+   {
+      id: {
+        type: "1",
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false
+      },
+      rating: 9,
+      feedback: "it was great!"
+   },
+   {
+      id: {
+        type: "1",
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false
+      },
+      rating: 3,
+      feedback: "bad"
+   },
+   {
+      id: {
+        type: "1",
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false
+      },
+      rating: 5,
+      feedback: "it was alright"
+   }
+]
+
+
+
+router.post('/api/feedback', (req, res) => {
+  console.log('body*****', req.body);
+  res.send(fakeFeedbackList);
+});
+
+
 
 module.exports = router;
