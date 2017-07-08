@@ -276,5 +276,10 @@ h6:last-child {
 .mentor_full_name{
   margin-top: 50px;
   margin-left: 20px;
-  margin-bottom: 20px;
+}
+
+.average{
+  margin-top: 10px;
+  margin-left: 20px;
+  margin-bottom: 40px;
 }

@@ -294,9 +294,7 @@ class App extends React.Component {
 
     if ( this.state.feedback !== null ) {
       feedback = <FeedbackModal submitFeedbackForm = {this.submitFeedbackForm.bind(this)}/>
-    }
-
-    // {console.log('feedbackList:', this.state.feedbackList)}
+    } 
 
     if( isAuthenticated && user.role === 'admin' && this.state.feedbackList !== null) {
       list = <FeedbackList feedbackList={this.state.feedbackList} mentorFirstName={this.state.mentorFirstName} mentorLastName={this.state.mentorLastName} />
