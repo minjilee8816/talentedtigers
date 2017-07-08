@@ -13,7 +13,6 @@ class Comments extends React.Component {
     this.props.changeCommentState(value);  
   }
 
-
   render () {
     return (
     <div className = "feedback">
