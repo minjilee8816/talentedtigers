@@ -6,13 +6,11 @@ class Comments extends React.Component {
 
   constructor (props) {
     super(props); 
-    this.state = {
-      comments: null
-    } 
   }
 
   commentsInputValue(e) {
     var value = e.target.value; 
+
     // this.setState({
     //   comments: e.target.value
     // })
@@ -25,6 +23,7 @@ class Comments extends React.Component {
   //     comments: ""
   //   })
   // }
+
 
   render () {
     return (

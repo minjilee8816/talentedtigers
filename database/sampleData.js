@@ -10,14 +10,14 @@ module.exports.users = [
     "firstName": "Minji",
     "lastName": "Lee",
     "username": "minjilee8816",
-    "role": "admin",
+    "role": "mentor",
     "cohort": "HRSF-78"
   },
   {
     "firstName": "Saikal",
     "lastName": "Kalmanbetova",
     "username": "Saikal",
-    "role": "student",
+    "role": "mentor",
     "cohort": "HRSF-77"
   },
   {

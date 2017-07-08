@@ -279,6 +279,7 @@ class App extends React.Component {
       main = <TicketSubmission submitTickets={this.submitTickets.bind(this)} ticketCategoryList={this.state.ticketCategoryList} />;
     } else if (isAuthenticated && user.role === 'mentor') {
       // reserved for mentor view
+
     } else if (isAuthenticated && user.role === 'admin' ) {
       main = <AdminDashboard getMentors={this.getMentors.bind(this)} filterTickets={this.filterTickets.bind(this)} onlineUsers={this.state.onlineUsers} adminStats={this.state.statistic} ticketCategoryList={this.state.ticketCategoryList} />;
     }
@@ -296,7 +297,7 @@ class App extends React.Component {
 
     if( isAuthenticated && user.role === 'admin' && this.state.feedbackList !== null) {
       list = <FeedbackList feedbackList={this.state.feedbackList}/>
-    }
+  }
 
     return (
       <div>

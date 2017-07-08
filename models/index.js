@@ -11,12 +11,28 @@ const createTicket = (req, res) => {
 };
 
 const createFeedbackForm = (req, res) => {
+  console.log("************* req.body: ", req.body);
   Feedback.create(req.body)
     .then(data => {
       if (!data) {
         res.send('Invalid feedback form submission');
       } else {
-        res.send('Feedback form successfully created');
+        Feedback.findAll({where: {claimedBy: req.body.claimedBy}})
+        .then(result => {
+            console.log("******* result: ", result[0]);
+            console.log("******* result[0].dataValues: ", result[0].dataValues);
+            console.log("******* result[0].dataValues.rating: ", result[0].dataValues.rating);
+
+           var ratingSum = result.reduce(function(sum, value) {
+            return sum + value.dataValues.rating;
+           }, 0);
+           var averageRate = Number((ratingSum/result.length).toFixed(2));
+           console.log("******* averageRate: ", averageRate);
+           User.update({rating: averageRate}, {where: {id: req.body.claimedBy}})
+          .then(() => {
+            res.send('Feedback form successfully created');
+          });
+        });
       }
     });
 };
@@ -82,10 +98,26 @@ const createUser = (req, res) => {
     });
 };
 
+const showMentors = (req, res) => {
+  User.findAll({where: {role: 'mentor' } })
+    .then(result => {
+      res.send(result);
+    });
+};
+
+// const showFeedbacks = (req, res) => {
+//   Feedback.findAll({where: {claimedBy: req.body.mentorID}})   //might be different mentorID naming!!!
+//     .then(result => {
+//       res.send(result);
+//     });
+// };
+
 module.exports = {
   createTicket: createTicket,
   createFeedbackForm: createFeedbackForm,
   findTickets: findTickets,
   updateTickets: updateTickets,
-  createUser: createUser
+  createUser: createUser,
+  showMentors: showMentors,
+  showFeedbacks: showFeedbacks
 };
