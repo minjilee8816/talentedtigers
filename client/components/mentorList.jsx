@@ -1,10 +1,12 @@
 import React from 'react';
 import MentorEntry from './mentorEntry.jsx';
 
-const MentorList = ({mentorList, mentorFeedback}) => {
+const MentorList = ({mentorList}) => {
   return (
     <div className="mentor_list">
-      {mentorList.map((mentor, index) => <MentorEntry mentorFeedback={mentorFeedback} key={index} /> )}
+      {mentorList.map((mentor, index) => { 
+        return <MentorEntry mentor={mentor} key={index} /> 
+      })}
     </div>
   );
 };
