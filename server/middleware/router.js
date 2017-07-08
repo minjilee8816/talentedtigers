@@ -23,6 +23,7 @@ router.get('/api/logout', (req, res) => {
   req.logout();
   res.redirect('/');
 });
+router.get('/api/mentors', db.showMentors);
 
 router.post('/api/tickets', db.createTicket);
 
@@ -31,5 +32,8 @@ router.post('/api/users', db.createUser);
 router.post('/api/feedbackForm', db.createFeedbackForm);
 
 router.put('/api/tickets/:id', db.updateTickets);
+
+router.post('/api/feedbacks', db.showFeedbacks);
+
 
 module.exports = router;
