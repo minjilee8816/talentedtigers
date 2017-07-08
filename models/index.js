@@ -105,12 +105,12 @@ const showMentors = (req, res) => {
     });
 };
 
-// const showFeedbacks = (req, res) => {
-//   Feedback.findAll({where: {claimedBy: req.body.mentorID}})   //might be different mentorID naming!!!
-//     .then(result => {
-//       res.send(result);
-//     });
-// };
+const showFeedbacks = (req, res) => {
+  Feedback.findAll({where: {claimedBy: req.body.mentorID}})   //might be different mentorID naming!!!
+    .then(result => {
+      res.send(result);
+    });
+};
 
 module.exports = {
   createTicket: createTicket,

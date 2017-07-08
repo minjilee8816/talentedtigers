@@ -234,17 +234,21 @@ class App extends React.Component {
       error: (err) => {
         console.log(err);
       }
-    });
+    }); 
   }
 
   getFeedback(mentorID) {
     // console.log('mentorID****', mentorID);
+    var mentorId = {
+      mentorID : mentorID
+    }
 
     $.ajax({
-      url: '/api/feedback',
+      url: '/api/feedbacks',
       method: 'POST',
-      data: mentorID,
+      data: mentorId,
       success: (data) => {
+        console.log('data?***', data)
         this.setState({
           feedbackList: data
         })
