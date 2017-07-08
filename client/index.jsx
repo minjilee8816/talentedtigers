@@ -12,42 +12,6 @@ import FeedbackModal from './components/feedbackModal.jsx';
 import MentorList from './components/mentorList.jsx';
 
 
-var fakeMentorList = [
-   {
-       "id": 3,
-       "firstName": "Saikal",
-       "lastName": "Kalmanbetova",
-       "username": "Saikal",
-       "role": "mentor",
-       "cohort": "HRSF-77",
-       "rating": 7,
-       "createdAt": "2017-07-06T00:50:20.333Z",
-       "updatedAt": "2017-07-06T21:10:56.466Z"
-   },
-   {
-       "id": 5,
-       "firstName": "Jeffrey",
-       "lastName": "Filippello",
-       "username": "jeffrey_filippello",
-       "role": "mentor",
-       "cohort": "HRSF-78",
-       "rating": 5,
-       "createdAt": "2017-07-06T00:50:20.333Z",
-       "updatedAt": "2017-07-07T02:05:43.686Z"
-   },
-   {
-       "id": 15,
-       "firstName": "Venus",
-       "lastName": "Blackmuir",
-       "username": "venus_blackmuir",
-       "role": "mentor",
-       "cohort": "HRSF-78",
-       "rating": 10,
-       "createdAt": "2017-07-06T00:50:20.333Z",
-       "updatedAt": "2017-07-07T02:34:40.146Z"
-   }
-]
-
 
 class App extends React.Component {
   constructor() {
@@ -62,7 +26,7 @@ class App extends React.Component {
       waitTime: 0,
       feedback: null,
       mentorId: null,
-      mentorList: fakeMentorList,
+      mentorList: null,
       showMentors: false
     };
   }
@@ -212,10 +176,11 @@ class App extends React.Component {
   filterTickets(e) {
     if (e) { e.preventDefault(); }
     // ??????????*
+    // console.log('eeeeeeeeeee', e.target)
     console.log('??????????????????????')
-    this.setState({
-      showMentors: false
-    });
+    // this.setState({
+    //   showMentors: false
+    // });
 
     let day = document.getElementById('time-window').value;
     let category = document.getElementById('select-category').value;
@@ -254,7 +219,8 @@ class App extends React.Component {
     return $('.claim_btn').prop('disabled', false);
   }
 
-  getMentors() {
+  getMentors(e) {
+    if (e) { e.preventDefault(); }
     $.ajax({
       url: '/api/mentors',
       method: 'GET',
@@ -268,6 +234,7 @@ class App extends React.Component {
         console.log(err);
       }
     });
+
   }
 
   getFeedback(mentorID) {
@@ -283,10 +250,6 @@ class App extends React.Component {
     });
   }
 
-  showMentorsButton () {
-    console.log('checking button')
-  }
-
 
   render() {
     let user = this.state.user;
@@ -300,7 +263,7 @@ class App extends React.Component {
     if (isAuthenticated) {
       nav = <Nav user={this.state.user} />;
       header = <Header statistic={this.state.statistic} onlineUsers={this.state.onlineUsers} user={this.state.user} waitTime={this.state.waitTime}/>;
-      //list = <TicketList  user={this.state.user} ticketList={this.state.ticketList} updateTickets={this.updateTickets.bind(this)} hasClaimed={this.state.hasClaimed} />;
+      list = <TicketList  user={this.state.user} ticketList={this.state.ticketList} updateTickets={this.updateTickets.bind(this)} hasClaimed={this.state.hasClaimed} />;
     }
 
     if (!isAuthenticated) {
@@ -311,7 +274,7 @@ class App extends React.Component {
     } else if (isAuthenticated && user.role === 'mentor') {
       // reserved for mentor view
     } else if (isAuthenticated && user.role === 'admin' ) {
-      main = <AdminDashboard  showMentorsButton={this.showMentorsButton.bind(this)} filterTickets={this.filterTickets.bind(this)} onlineUsers={this.state.onlineUsers} adminStats={this.state.statistic} ticketCategoryList={this.state.ticketCategoryList} />;
+      main = <AdminDashboard getMentors={this.getMentors.bind(this)} filterTickets={this.filterTickets.bind(this)} onlineUsers={this.state.onlineUsers} adminStats={this.state.statistic} ticketCategoryList={this.state.ticketCategoryList} />;
     }
 
 
@@ -322,6 +285,8 @@ class App extends React.Component {
     if ( this.state.feedback !== null ) {
       feedback = <FeedbackModal submitFeedbackForm = {this.submitFeedbackForm.bind(this)}/>
     }
+    console.log('checkFAKE mentor::', this.state.mentorList);
+    console.log('checkFAKE mentor::', this.state.showMentors);
 
     return (
       <div>
