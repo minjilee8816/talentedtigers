@@ -8,7 +8,6 @@ const FeedbackList = ({feedbackList, mentorFirstName, mentorLastName}) => {
        rating += feedbackList[i].rating;
     }
     var average = rating / feedbackList.length
-      console.log('average', average.toFixed(2))
     return average.toFixed(2);
   }
 
