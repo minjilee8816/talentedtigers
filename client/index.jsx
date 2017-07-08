@@ -177,9 +177,8 @@ class App extends React.Component {
 
   filterTickets(e) {
     if (e) { e.preventDefault(); }
-    // ??????????*
     // console.log('eeeeeeeeeee', e.target)
-    console.log('??????????????????????')
+    // console.log('??????????????????????')
     // this.setState({
     //   showMentors: false
     // });
@@ -292,15 +291,12 @@ class App extends React.Component {
     if ( this.state.feedback !== null ) {
       feedback = <FeedbackModal submitFeedbackForm = {this.submitFeedbackForm.bind(this)}/>
     }
-    // console.log('checkFAKE mentor::', this.state.mentorList);
-    // console.log('checkFAKE mentor::', this.state.showMentors);
+
     {console.log('feedbackList:', this.state.feedbackList)}
 
     if( isAuthenticated && user.role === 'admin' && this.state.feedbackList !== null) {
       list = <FeedbackList feedbackList={this.state.feedbackList}/>
     }
-
-
 
     return (
       <div>
