@@ -51,7 +51,6 @@ const Feedback = db.define('feedback', {
   feedback: Sequelize.TEXT
 });
 
-
 User.hasMany(Ticket);
 User.hasMany(Feedback);
 

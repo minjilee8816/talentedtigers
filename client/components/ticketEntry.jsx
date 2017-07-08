@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import moment from 'moment';
-import Feedback from './feedback.jsx';
+import FeedbackModal from './feedbackModal.jsx';
 import io from 'socket.io-client';
 
 class TicketEntry extends React.Component {
