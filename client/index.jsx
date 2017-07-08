@@ -234,7 +234,7 @@ class App extends React.Component {
       error: (err) => {
         console.log(err);
       }
-    });
+    }); 
   }
 
   getFeedback(mentorID) {
