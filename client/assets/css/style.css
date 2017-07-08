@@ -231,18 +231,40 @@ h6:last-child {
   box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 6px #ce8483 !important;
 }
 
-.mentor_names{
-  width: 700px;
-  height: 50px;
-  /*background-color: white;*/
-  margin-left: 20px
+
+.feedback{
+  padding: 20px;
 }
 
-/*.mentor_name{
-  width: 800px;
-  margin-left: 30px;
-}*/
+#feedback_submission_form_feedback {
+  height: 34px;
+  resize: none;
+  transition: all 0.5s ease;
+}
 
+#feedback_submission_form_feedback:focus {
+  height: 102px;
+}
+
+.mentor_name{
+  width: 1000px;
+  color: #11758E;
+}
+
+#mentor_full_name{
+  margin-left: 20px;
+}
 .mentor_name_button{
-  width: 300px;
+  float: right;
+  margin-right: 20px;
+}
+
+#feedbacks-button{
+  background-color: #11758E;
+}
+
+.feedback_content {
+  color:black;
+  font-size: 15px;
+  padding: 5px;
 }

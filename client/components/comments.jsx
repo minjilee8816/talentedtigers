@@ -10,19 +10,8 @@ class Comments extends React.Component {
 
   commentsInputValue(e) {
     var value = e.target.value; 
-
-    // this.setState({
-    //   comments: e.target.value
-    // })
     this.props.changeCommentState(value);  
-    // this.clearInputValue();
   }
-
-  // clearInputValue() {
-  //   this.setState({
-  //     comments: ""
-  //   })
-  // }
 
 
   render () {

@@ -238,7 +238,6 @@ class App extends React.Component {
   }
 
   getFeedback(mentorID) {
-    // console.log('mentorID****', mentorID);
     var mentorId = {
       mentorID : mentorID
     }
@@ -297,7 +296,7 @@ class App extends React.Component {
       feedback = <FeedbackModal submitFeedbackForm = {this.submitFeedbackForm.bind(this)}/>
     }
 
-    {console.log('feedbackList:', this.state.feedbackList)}
+    // {console.log('feedbackList:', this.state.feedbackList)}
 
     if( isAuthenticated && user.role === 'admin' && this.state.feedbackList !== null) {
       list = <FeedbackList feedbackList={this.state.feedbackList}/>
