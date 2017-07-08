@@ -51,11 +51,8 @@ const Feedback = db.define('feedback', {
   feedback: Sequelize.TEXT
 });
 
-
 User.hasMany(Ticket);
 User.hasMany(Feedback);
-
-
 
 Ticket.belongsTo(User, {
   as: 'user',
@@ -76,8 +73,6 @@ Feedback.belongsTo(User, {
   as: 'mentor',
   foreignKey: 'claimedBy'
 });
-
-
 
 module.exports = {
   db: db,
